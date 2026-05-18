@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject _bulletPrefab; 
     [SerializeField] private Transform _firePoint;
     [SerializeField] private int FireBulletPerSec = 5;
+    private PlayerAnimController _animController;
     private Rigidbody2D _rigidBody;
 
     private float _horizontalInput;
@@ -18,6 +19,7 @@ public class Player : MonoBehaviour
     void Awake()
     {
         _rigidBody = GetComponent<Rigidbody2D>();
+        _animController = GetComponent<PlayerAnimController>();
         _rigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
     }
     void Start()
@@ -29,8 +31,9 @@ public class Player : MonoBehaviour
     void Update()
     {
         PlayerMove();
-        PlayerFlip();
-        
+        PlayerFlipOnShoot();
+        //PlayerFlip();
+        AnimatePlayer();
     }
     private void PlayerMove()
     {
@@ -56,13 +59,27 @@ public class Player : MonoBehaviour
             transform.localScale = new Vector3(-1, 1, 1);
         }
     }
-    private void Shoot()
+    private void PlayerFlipOnShoot()
+    {
+        
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+        
+        if (mousePos.x > transform.position.x)
+        {
+            
+            transform.localScale = new Vector3(-1, 1, 1);
+        }
+        else if (mousePos.x < transform.position.x)
+        {
+            
+            transform.localScale = new Vector3(1, 1, 1);
+        }
+    }
+    private void Shoot()//마우스방향따라
     {
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePos.z = 0f;
-        
-        //Debug.Log($"변환된 마우스 월드 좌표 -> X: {mousePos.x}, Y: {mousePos.y}, Z: {mousePos.z}");
-
         Vector2 shootDirection = (mousePos - _firePoint.position);
 
         GameObject bulletObj = Instantiate(_bulletPrefab, _firePoint.position, Quaternion.identity);
@@ -79,6 +96,19 @@ public class Player : MonoBehaviour
         {
             yield return new WaitForSeconds(1f / (float)FireBulletPerSec);
             Shoot();
+        }
+    }
+    private void AnimatePlayer()
+    {
+        if (_animController == null) return;
+
+         if (_horizontalInput == 0 && _verticalInput == 0)
+        {
+            _animController.SetAnimState(PlayerAnimState.Shoot);
+        }
+        else
+        {
+            _animController.SetAnimState(PlayerAnimState.ShootAndWalk);
         }
     }
 }

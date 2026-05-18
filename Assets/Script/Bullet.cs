@@ -24,7 +24,6 @@ public class Bullet : MonoBehaviour
     {
        
         Vector2 normalizedDirection = direction.normalized;
-        //Debug.Log($"x:{normalizedDirection.x} y:{normalizedDirection.y}");
        
         _rigidBody.linearVelocity = normalizedDirection * _moveSpeed;
         float angle = Mathf.Atan2(normalizedDirection.y, normalizedDirection.x) * Mathf.Rad2Deg;
@@ -39,7 +38,7 @@ public class Bullet : MonoBehaviour
     {
          yield return new WaitForSeconds(_destroyTime);
         gameObject.SetActive(false);
-        //Destroy(gameObject);
+       
     }
     public void OnTriggerEnter2D(Collider2D collision)
     {
