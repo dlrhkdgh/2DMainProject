@@ -38,10 +38,7 @@ public class Monster : MonoBehaviour
         _rigidBody.linearVelocity = _moveDirection * _moveSpeed;
     }
 
-    public void SetTarget(Transform newTarget)
-    {
-        _targetTransform = newTarget;
-    }
+   
     private void MonsterFlip() {
 
         if (_moveDirection.x > 0)
@@ -71,5 +68,11 @@ public class Monster : MonoBehaviour
     
     gameObject.SetActive(false);
     
+    }
+    public void SetTargetTransform(Transform newTargetTransform) {
+
+        if(newTargetTransform != null)
+        _targetTransform= newTargetTransform;
+
     }
 }

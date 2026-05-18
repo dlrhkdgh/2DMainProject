@@ -6,7 +6,7 @@ public class Player : MonoBehaviour
     [Header("이동 설정")]
     [SerializeField] private float _moveSpeed = 4f;
     [Header("총알 발사")]
-    [SerializeField] private GameObject _bulletPrefab; // 총알 프리팹
+    [SerializeField] private GameObject _bulletPrefab; 
     [SerializeField] private Transform _firePoint;
     [SerializeField] private int FireBulletPerSec = 5;
     private Rigidbody2D _rigidBody;
@@ -61,7 +61,7 @@ public class Player : MonoBehaviour
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePos.z = 0f;
         
-        Debug.Log($"변환된 마우스 월드 좌표 -> X: {mousePos.x}, Y: {mousePos.y}, Z: {mousePos.z}");
+        //Debug.Log($"변환된 마우스 월드 좌표 -> X: {mousePos.x}, Y: {mousePos.y}, Z: {mousePos.z}");
 
         Vector2 shootDirection = (mousePos - _firePoint.position);
 
@@ -75,13 +75,9 @@ public class Player : MonoBehaviour
     }
     private IEnumerator AutoFireBulletCo()
     {
-        // 게임이 실행되는 동안 이 타이머 루프를 계속 반복합니다.
         while (true)
         {
-            // 1. 설정한 연사 속도만큼 대기 (예: 5발이면 1/5 = 0.2초 대기)
             yield return new WaitForSeconds(1f / (float)FireBulletPerSec);
-
-            // 2. 대기가 끝나면 총알 발사!
             Shoot();
         }
     }

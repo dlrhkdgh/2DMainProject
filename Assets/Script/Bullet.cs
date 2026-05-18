@@ -24,7 +24,7 @@ public class Bullet : MonoBehaviour
     {
        
         Vector2 normalizedDirection = direction.normalized;
-        Debug.Log($"x:{normalizedDirection.x} y:{normalizedDirection.y}");
+        //Debug.Log($"x:{normalizedDirection.x} y:{normalizedDirection.y}");
        
         _rigidBody.linearVelocity = normalizedDirection * _moveSpeed;
         float angle = Mathf.Atan2(normalizedDirection.y, normalizedDirection.x) * Mathf.Rad2Deg;

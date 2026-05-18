@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 3715995759435356609}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -197,6 +197,7 @@ MonoBehaviour:
   _moveSpeed: 10
   _bulletPrefab: {fileID: 0}
   _firePoint: {fileID: 454935518080540395}
+  FireBulletPerSec: 5
 --- !u!1 &6620391120097462794
 GameObject:
   m_ObjectHideFlags: 0

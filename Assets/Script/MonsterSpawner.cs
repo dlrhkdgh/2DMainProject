@@ -9,11 +9,12 @@ public class MonsterSpawner : MonoBehaviour
     [Header("스폰 설정")]
     [SerializeField] private float _minSpawnDistance = 10f;
     [SerializeField] private float _maxSpawnDistance = 15f;
-    [SerializeField] private int _spawnMonsterPerSec = 3;
+    [SerializeField] private int _spawnMonsterPerSec = 2;
     private Transform _spawnTransform;
     private Coroutine _spawnCoroutine;
     private void OnEnable()
     {
+        Debug.Log("스포너활성화");
         _spawnCoroutine = StartCoroutine(AutoSpawnMonsterCo());
     }
     private void OnDisable()
@@ -33,8 +34,8 @@ public class MonsterSpawner : MonoBehaviour
         spawnPosition.z = 0f; 
         Monster newMonster = Instantiate(_monsterPrefab, spawnPosition, Quaternion.identity);
 
-        // (선택 사항) 생성된 몬스터에게 플레이어를 타겟으로 지정해 줍니다.
-        // newMonster.SetTarget(_playerTransform);
+       
+        newMonster.SetTargetTransform(_playerTransform);
     }
     private void OnDrawGizmosSelected()
     {
@@ -53,9 +54,7 @@ public class MonsterSpawner : MonoBehaviour
         
         while (true)
         {
-           
-            yield return new WaitForSeconds(1f / (float)_spawnMonsterPerSec);
-            
+            yield return new WaitForSeconds(5f / (float)_spawnMonsterPerSec);
             SpawnMonster();
         }
     }
