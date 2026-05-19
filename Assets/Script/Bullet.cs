@@ -20,6 +20,14 @@ public class Bullet : MonoBehaviour
     {
        
     }
+    private void OnDisable()
+    {
+        if (_destroyCoroutine != null)
+        {
+            StopCoroutine(_destroyCoroutine);
+            _destroyCoroutine = null;
+        }
+    }
     public void Launch(Vector2 direction)
     {
        

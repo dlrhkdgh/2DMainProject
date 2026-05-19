@@ -6,7 +6,7 @@ public class Player : MonoBehaviour
     [Header("이동 설정")]
     [SerializeField] private float _moveSpeed = 4f;
     [Header("총알 발사")]
-    [SerializeField] private GameObject _bulletPrefab; 
+   // [SerializeField] private GameObject _bulletPrefab; 
     [SerializeField] private Transform _firePoint;
     [SerializeField] private int FireBulletPerSec = 5;
     private PlayerAnimController _animController;
@@ -80,14 +80,11 @@ public class Player : MonoBehaviour
     {
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePos.z = 0f;
-        Vector2 shootDirection = (mousePos - _firePoint.position);
-
-        GameObject bulletObj = Instantiate(_bulletPrefab, _firePoint.position, Quaternion.identity);
-
-       Bullet bullet = bulletObj.GetComponent<Bullet>();
-        if (bullet != null)
+        Vector2 shootDirection = (mousePos - _firePoint.position).normalized; 
+       
+        if (BulletManager.Inst != null)
         {
-            bullet.Launch(shootDirection);
+            BulletManager.Inst.FireBullet(_firePoint.position,shootDirection);
         }
     }
     private IEnumerator AutoFireBulletCo()
