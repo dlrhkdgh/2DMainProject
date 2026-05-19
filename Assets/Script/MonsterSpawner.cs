@@ -78,7 +78,7 @@ public class MonsterSpawner : MonoBehaviour
             monsterToSpawn.transform.position = spawnPosition;
             monsterToSpawn.SetTargetTransform(_playerTransform);
             monsterToSpawn.gameObject.SetActive(true);
-            Debug.Log($"{_currentPivot}번쨰 몬스터 소환");
+            //Debug.Log($"{_currentPivot}번쨰 몬스터 소환");
         }
         else
         {

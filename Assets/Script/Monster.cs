@@ -24,6 +24,11 @@ public class Monster : MonoBehaviour
     {
         CurrentHp = _maxHp;
         _isDying = false;
+        Collider2D col = GetComponent<Collider2D>();
+        if (col != null)
+        {
+            col.enabled = true;
+        }
     }
     void Update()
     {
@@ -117,12 +122,13 @@ public class Monster : MonoBehaviour
         {
             animLength = _animController.GetCurrentAnimLength();
         }
-
+        if (DropItemManager.Inst != null)
+        {
+            DropItemManager.Inst.DropItemInField(transform.position, "1");
+        }
         // 애니메이션 시간만큼 대기
         yield return new WaitForSeconds(animLength);
-
         
-        if (col != null) col.enabled = true;
         gameObject.SetActive(false);
     }
     

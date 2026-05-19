@@ -95,6 +95,7 @@ public class Player : MonoBehaviour
             Shoot();
         }
     }
+ 
     private void AnimatePlayer()
     {
         if (_animController == null) return;
