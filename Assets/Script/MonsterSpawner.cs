@@ -1,13 +1,16 @@
-﻿using System.Collections;
+﻿using Cysharp.Threading.Tasks;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets; 
 using UnityEngine.ResourceManagement.AsyncOperations;
 
+
 public class MonsterSpawner : MonoBehaviour
 {
     
-    [SerializeField] private AssetReference _monsterAddressableRef; 
+    [SerializeField] private AssetReference _monsterAddressableRef;
+    [SerializeField] private string _monsterAddressKey;
     [SerializeField] private Transform _playerTransform;
     [SerializeField] private int _poolSize = 100; 
 
@@ -17,41 +20,55 @@ public class MonsterSpawner : MonoBehaviour
     [SerializeField] private int _spawnMonsterPerSec = 10;
 
     private List<Monster> _monsterPool = new List<Monster>();
-    private int _currentPivot = 0; 
-    private Transform _spawnTransform;
-    private Coroutine _spawnCoroutine;
+    private int _currentPivot = 0;
+    private bool _isSpawning = false;
+
     private void Start()
     {
-        StartCoroutine(AsyncMonsterPoolCo());
+        AsyncMonsterPool().Forget();
+        
     }
-    private IEnumerator AsyncMonsterPoolCo()//비동기 오브젝트 풀링
-    {
+  
+    private async UniTaskVoid AsyncMonsterPool() {
+
         for (int i = 0; i < _poolSize; i++)
         {
-            AsyncOperationHandle<GameObject> handle = Addressables.InstantiateAsync(_monsterAddressableRef, transform);
-            yield return handle;
+            GameObject monsterResource = await ResourceManager.Inst.InstantiateAsync(_monsterAddressKey, transform);//리소스매니저에게 어드레서블을 주고 오브젝트를 받아옴
 
-            if (handle.Status == AsyncOperationStatus.Succeeded)
+            if (monsterResource != null)
             {
-                Monster monster = handle.Result.GetComponent<Monster>();
-                monster.gameObject.SetActive(false); 
+                Monster monster = monsterResource.GetComponent<Monster>();
+                monster.gameObject.SetActive(false);
                 _monsterPool.Add(monster);
             }
         }
-        StartCoroutine(AutoSpawnMonsterCo());
+        _isSpawning = true;
+        AutoSpawnMonsterAsync().Forget();
+    }
+    private async UniTaskVoid AutoSpawnMonsterAsync()
+    {
+
+        int delayMilliseconds = Mathf.RoundToInt((1f / (float)_spawnMonsterPerSec) * 1000f);
+        var cancellationToken = this.GetCancellationTokenOnDestroy();
+        while (true)
+        {
+            await UniTask.Delay(delayMilliseconds, cancellationToken: cancellationToken);
+            if (_isSpawning)
+            {
+                SpawnMonsterFromPool();
+            }
+        }
     }
     private void OnEnable()
     {
         Debug.Log("스포너활성화");
-        _spawnCoroutine = StartCoroutine(AutoSpawnMonsterCo());
+        
+        _isSpawning = true;
     }
     private void OnDisable()
     {
-        
-        if (_spawnCoroutine != null)
-        {
-            StopCoroutine(_spawnCoroutine);
-        }
+
+        _isSpawning = false;
     }
     public void SpawnMonsterFromPool() {
         if (_monsterPool.Count == 0 || _playerTransform == null)
@@ -94,18 +111,9 @@ public class MonsterSpawner : MonoBehaviour
 
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(_playerTransform.position, _maxSpawnDistance);
-
        
     }
-    private IEnumerator AutoSpawnMonsterCo()
-    {
-        
-        while (true)
-        {
-            yield return new WaitForSeconds(5f / (float)_spawnMonsterPerSec);
-            SpawnMonsterFromPool();
-        }
-    }
+  
     public Vector3 GetRandomTransformFromCircle2D(float maxSize, float minSize ,Vector3 centerPos ) {
         Vector2 randomDirection = Random.insideUnitCircle.normalized;
         float randomDistance = Random.Range(minSize, maxSize);

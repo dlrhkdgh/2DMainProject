@@ -1,4 +1,6 @@
 ﻿using System.Collections;
+using Cysharp.Threading.Tasks;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -24,7 +26,8 @@ public class Player : MonoBehaviour
     }
     void Start()
     {
-        StartCoroutine(AutoFireBulletCo());
+       
+        AutoFireBulletAsync().Forget();
     }
 
     
@@ -87,15 +90,22 @@ public class Player : MonoBehaviour
             BulletManager.Inst.FireBullet(_firePoint.position,shootDirection);
         }
     }
-    private IEnumerator AutoFireBulletCo()
+    
+    private async UniTaskVoid AutoFireBulletAsync()
     {
+        
+        int delayMilliseconds = Mathf.RoundToInt((1f / (float)FireBulletPerSec) * 1000f);
+        var cancellationToken = this.GetCancellationTokenOnDestroy();
         while (true)
         {
-            yield return new WaitForSeconds(1f / (float)FireBulletPerSec);
+          
+            await UniTask.Delay(delayMilliseconds, cancellationToken: cancellationToken);
+
+           
             Shoot();
         }
     }
- 
+
     private void AnimatePlayer()
     {
         if (_animController == null) return;
