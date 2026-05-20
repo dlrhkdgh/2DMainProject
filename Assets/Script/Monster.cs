@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class Monster : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class Monster : MonoBehaviour
     private MonsterAnimController _animController;
     private Vector2 _moveDirection;
     private bool _isDying = false;//죽는 중에 피격이나 애니메이션을 스킵
+    private int _droppedCoin;
     public int CurrentHp { get; private set; }
 
     void Awake()
@@ -124,7 +126,9 @@ public class Monster : MonoBehaviour
         }
         if (DropItemManager.Inst != null)
         {
-            DropItemManager.Inst.DropItemInField(transform.position, "1");
+            _droppedCoin = Random.Range(1, 5);
+            
+            DropItemManager.Inst.DropItemInField(transform.position, _droppedCoin.ToString());
         }
         // 애니메이션 시간만큼 대기
         yield return new WaitForSeconds(animLength);
@@ -137,5 +141,16 @@ public class Monster : MonoBehaviour
         if(newTargetTransform != null)
         _targetTransform= newTargetTransform;
 
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        
+        if (collision.TryGetComponent<Bullet>(out Bullet bullet))
+        {
+           
+            MonsterTakeDamage(bullet.BulletDamage);
+
+            bullet.DestroyBullet();
+        }
     }
 }

@@ -8,6 +8,7 @@ public class Bullet : MonoBehaviour
     [SerializeField] private float _destroyTime = 3f;
     [SerializeField] private int _bulletDamage = 50;
     // [SerializeField] private Vector2 _moveDirection;
+    public int BulletDamage => _bulletDamage;
     private Rigidbody2D _rigidBody;
     private Coroutine _destroyCoroutine;
     //public int BulletDamage { get; private set; }
@@ -45,21 +46,14 @@ public class Bullet : MonoBehaviour
     private IEnumerator DestroyAfterTimeCo()
     {
          yield return new WaitForSeconds(_destroyTime);
-        gameObject.SetActive(false);
-       
-    }
-    public void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Enemy"))
-        {
-           Monster monster = collision.GetComponent<Monster>();
-            if (monster != null)
-            {
-                
-                monster.MonsterTakeDamage(_bulletDamage);
-            }
+        DestroyBullet();
 
-            gameObject.SetActive(false);
-        }
+
+    }
+   
+    public void DestroyBullet() {
+
+        gameObject.SetActive(false);
+
     }
 }

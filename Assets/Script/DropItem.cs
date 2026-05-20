@@ -4,7 +4,8 @@ using UnityEngine;
 public class DropItem : MonoBehaviour
 {
     [SerializeField] private float _moveSpeed = 8f;
-
+    [SerializeField] private string _itemCode;
+    public string ItemCode => _itemCode;
     private Transform _targetTransform;
     private Coroutine _flyCoroutine;
 
@@ -37,12 +38,4 @@ public class DropItem : MonoBehaviour
         _targetTransform = null;
     }
 
-    
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
-        {
-            gameObject.SetActive(false); // 오브젝트 풀로 반환
-        }
-    }
 }

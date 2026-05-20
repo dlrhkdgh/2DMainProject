@@ -119,4 +119,18 @@ public class Player : MonoBehaviour
             _animController.SetAnimState(PlayerAnimState.ShootAndWalk);
         }
     }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+       
+        if (collision.TryGetComponent<DropItem>(out DropItem item))
+        {
+
+            //StageManager.Inst.AcquireItem(item.ItemCode);
+            if (collision.TryGetComponent<Coin>(out Coin coin)) {
+                GameManager.Inst.AddGold(coin.Price);
+                Debug.Log($"{GameManager.Inst.Gold}원 있음");
+            }
+            collision.gameObject.SetActive(false);
+        }
+    }
 }
