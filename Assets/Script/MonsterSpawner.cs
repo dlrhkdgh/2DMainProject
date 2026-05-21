@@ -23,6 +23,7 @@ public class MonsterSpawner : MonoBehaviour
     private List<Monster> _monsterPool = new List<Monster>();
     private int _currentPivot = 0;
     private bool _isSpawning = false;
+    MonsterData _monsterdata;
 
     private void Start()
     {
@@ -32,10 +33,10 @@ public class MonsterSpawner : MonoBehaviour
         //    Debug.LogWarning("[디버그] 데이터가 비어있어 강제 로드를 실행합니다.");
         //    DataManager.Inst.LoadFullData();
         //}
-      
-        var monsterDic = DataManager.Inst.GetMonsterData(_spawnMonsterId);
 
-        _monsterAddressKey = monsterDic.PrefabPath;
+        _monsterdata = DataManager.Inst.GetMonsterData(_spawnMonsterId);
+
+        _monsterAddressKey = _monsterdata.PrefabPath;
         Debug.Log($"<color=green>[성공] 패스 받아옴 성공: {_monsterAddressKey}</color>");
 
         AsyncMonsterPool().Forget();
@@ -107,6 +108,7 @@ public class MonsterSpawner : MonoBehaviour
 
             monsterToSpawn.transform.position = spawnPosition;
             monsterToSpawn.SetTargetTransform(_playerTransform);
+            monsterToSpawn.InitMonster(_monsterdata);
             monsterToSpawn.gameObject.SetActive(true);
             //Debug.Log($"{_currentPivot}번쨰 몬스터 소환");
         }

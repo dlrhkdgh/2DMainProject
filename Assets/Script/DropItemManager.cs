@@ -10,9 +10,11 @@ public class DropItemManager : MonoBehaviour
 {
     [SerializeField] private int _poolSize = 100;
     [SerializeField] private Coin _coinPrefab;
-    [SerializeField] private string _coinAddressKey;
+    
     [SerializeField] private AssetReference _coinAddressableRef;
     public static DropItemManager Inst { get; private set; }
+    private string _coinId = "item_coin_01";
+    private string _coinAddressKey;
     private List<Coin> _coinPool = new List<Coin>();
     private int _currentPivot = 0;
     private void Awake()
@@ -21,24 +23,12 @@ public class DropItemManager : MonoBehaviour
     }
     private void Start()
     {
+        var itemDic = DataManager.Inst.GetItemData(_coinId);
+        _coinAddressKey = itemDic.PrefabPath;
         AsyncMonsterPool().Forget();
-        //StartCoroutine(AsyncCoinPoolCo());
+        
     }
-    //private IEnumerator AsyncCoinPoolCo()//비동기 오브젝트 풀링
-    //{
-    //    for (int i = 0; i < _poolSize; i++)
-    //    {
-    //        AsyncOperationHandle<GameObject> handle = Addressables.InstantiateAsync(_coinAddressableRef, transform);
-    //        yield return handle;
-
-    //        if (handle.Status == AsyncOperationStatus.Succeeded)
-    //        {
-    //            Coin coin = handle.Result.GetComponent<Coin>();
-    //            coin.gameObject.SetActive(false);
-    //            _coinPool.Add(coin);
-    //        }
-    //    }
-    //}
+    
     private async UniTaskVoid AsyncMonsterPool()
     {
 
@@ -55,23 +45,7 @@ public class DropItemManager : MonoBehaviour
         }
       
     }
-    //public void DropItemInField(Vector3 dropPosition, string itemId)
-    //{
-
-    //    if (!int.TryParse(itemId, out int itemPrice))
-    //    {
-    //        Debug.LogError($"[DropItemManager] itemId 변환 실패: {itemId}");
-    //        return;
-    //    }
-    //    Coin spawnedCoin = Instantiate(_coinPrefab, dropPosition, Quaternion.identity, transform);
-
-    //    if (spawnedCoin != null)
-    //    {
-    //        spawnedCoin.Price = itemPrice;
-    //    }
-
-
-    //}
+    
     public void DropItemInField(Vector3 dropPosition, string itemId)
     {
         Coin cointToDrop = null;

@@ -4,16 +4,19 @@ using static UnityEditor.Progress;
 
 public class Monster : MonoBehaviour
 {
-    [SerializeField] Transform _targetTransform;
-    [SerializeField] float _moveSpeed = 4f;
-    [SerializeField] int _maxHp = 100;
+    private MonsterData _defaultData;
+    public Transform _targetTransform;
 
     private Rigidbody2D _rigidBody;
     private MonsterAnimController _animController;
     private Vector2 _moveDirection;
+
     private bool _isDying = false;//죽는 중에 피격이나 애니메이션을 스킵
     private int _droppedCoin;
-    public int CurrentHp { get; private set; }
+
+    public int CurrentHp { get; private set; } = 0;
+    public int AttackDamage { get; private set; } = 0;
+    public float MoveSpeed { get; private set; } = 0f;
 
     void Awake()
     {
@@ -24,7 +27,6 @@ public class Monster : MonoBehaviour
     }
     private void OnEnable()
     {
-        CurrentHp = _maxHp;
         _isDying = false;
         Collider2D col = GetComponent<Collider2D>();
         if (col != null)
@@ -62,7 +64,7 @@ public class Monster : MonoBehaviour
             _rigidBody.linearVelocity = Vector2.zero;
             return;
         }
-        _rigidBody.linearVelocity = _moveDirection * _moveSpeed;
+        _rigidBody.linearVelocity = _moveDirection * MoveSpeed;
     }
 
    
@@ -152,5 +154,16 @@ public class Monster : MonoBehaviour
 
             bullet.DestroyBullet();
         }
+    }
+    public void InitMonster(MonsterData monsterData) {
+
+        if (monsterData == null) return;
+
+        _defaultData = monsterData;
+
+        CurrentHp = _defaultData.MaxHp;
+        MoveSpeed = _defaultData.MoveSpeed;
+        AttackDamage = _defaultData.AttackDamage;
+        Debug.Log($"[{_defaultData.Name}] 체력 {CurrentHp}, 속도 {MoveSpeed}로 초기화 완료!");
     }
 }

@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    [SerializeField] private float _moveSpeed = 3f;
-    [SerializeField] private float _destroyTime = 3f;
-    [SerializeField] private int _bulletDamage = 50;
+    BulletData _defaultData;
     // [SerializeField] private Vector2 _moveDirection;
-    public int BulletDamage => _bulletDamage;
+    
     private Rigidbody2D _rigidBody;
     private Coroutine _destroyCoroutine;
+    public float MoveSpeed { get; set; } = 0f;
+    public float DestroyTime { get; set; } = 0f;
+   public int BulletDamage { get; set; } = 0;
     //public int BulletDamage { get; private set; }
     void Awake()
     {
@@ -34,7 +35,7 @@ public class Bullet : MonoBehaviour
        
         Vector2 normalizedDirection = direction.normalized;
        
-        _rigidBody.linearVelocity = normalizedDirection * _moveSpeed;
+        _rigidBody.linearVelocity = normalizedDirection * MoveSpeed;
         float angle = Mathf.Atan2(normalizedDirection.y, normalizedDirection.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         if (_destroyCoroutine != null)
@@ -45,7 +46,7 @@ public class Bullet : MonoBehaviour
     }
     private IEnumerator DestroyAfterTimeCo()
     {
-         yield return new WaitForSeconds(_destroyTime);
+         yield return new WaitForSeconds(DestroyTime);
         DestroyBullet();
 
 
@@ -55,5 +56,13 @@ public class Bullet : MonoBehaviour
 
         gameObject.SetActive(false);
 
+    }
+    public void InitBullet(BulletData bulletData) {
+    
+        _defaultData=bulletData;
+        BulletDamage = _defaultData.Damage;
+        MoveSpeed = _defaultData.MoveSpeed;
+        DestroyTime = _defaultData.DestroyTime;
+    
     }
 }

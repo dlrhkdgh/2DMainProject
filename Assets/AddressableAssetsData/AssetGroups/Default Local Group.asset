@@ -25,6 +25,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3c794ae257ae46a4cb15c90fd70b5db3
+    m_Address: Prefab/DroppedItem
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 60f9e6cc6dc43ab43a7acbef8386c3da
     m_Address: Prefab/Monster
     m_ReadOnly: 0

@@ -9,8 +9,10 @@ public class BulletManager : MonoBehaviour
 {
     public static BulletManager Inst { get; private set; }
     [SerializeField] private int _poolSize = 100;
-    [SerializeField] private AssetReference _bulletAddressableRef;
-    [SerializeField] private string _bulletAddressKey;
+    
+    private BulletData _bulletData;
+    private string _bulletAddressKey;
+    private string _bulletId = "bullet_normalbullet_01";
 
     private List<Bullet> _bulletPool = new List<Bullet>();
     private int _currentPivot = 0;
@@ -22,24 +24,13 @@ public class BulletManager : MonoBehaviour
     }
     private void Start()
     {
-        AsyncBulletPool().Forget();
-       // StartCoroutine(AsyncBulletPoolCo());
-    }
-    //private IEnumerator AsyncBulletPoolCo()//비동기 오브젝트 풀링
-    //{
-    //    for (int i = 0; i < _poolSize; i++)
-    //    {
-    //        AsyncOperationHandle<GameObject> handle = Addressables.InstantiateAsync(_bulletAddressableRef, transform);
-    //        yield return handle;
 
-    //        if (handle.Status == AsyncOperationStatus.Succeeded)
-    //        {
-    //            Bullet bullet = handle.Result.GetComponent<Bullet>();
-    //            bullet.gameObject.SetActive(false);
-    //            _bulletPool.Add(bullet);
-    //        }
-    //    }
-    //}
+        _bulletData = DataManager.Inst.GetBulletData(_bulletId);
+        _bulletAddressKey = _bulletData.PrefabPath;
+        AsyncBulletPool().Forget();
+       
+    }
+   
     private async UniTaskVoid AsyncBulletPool()
     {
 
@@ -72,6 +63,7 @@ public class BulletManager : MonoBehaviour
         if (bulletToSpawn != null)
         {
             bulletToSpawn.transform.position = spawnPosition;
+            bulletToSpawn.InitBullet(_bulletData);
             bulletToSpawn.gameObject.SetActive(true);
 
             bulletToSpawn.Launch(direction);

@@ -30,7 +30,7 @@ public class MonsterData : GameDataBase
     public string DropTableId;
 }
 [System.Serializable]
-public class ItamData : GameDataBase
+public class ItemData : GameDataBase
 {
     public string Name;
     public string Description;
@@ -40,6 +40,19 @@ public class ItamData : GameDataBase
     public string PrefabPath;
     public string IconPath;
     public string Grade;
+}
+[System.Serializable]
+public class BulletData : GameDataBase
+{
+    public string Name;
+    public string Description;
+    public float MoveSpeed;
+    public float DestroyTime;
+    public int Damage;
+    public int BulletLevel;
+    public string PrefabPath;
+    public string IconPath;
+    
 }
 [System.Serializable]
 public class DropTableData : GameDataBase 

@@ -23,6 +23,8 @@ public class DataManager : MonoBehaviour
         public List<T> items; // JSON 파일의 루트 키 이름이 "items"여야 함
     }
     public Dictionary<string, MonsterData> MonsterDataList { get; private set; } = new Dictionary<string, MonsterData>();
+    public Dictionary<string, ItemData> ItemDataList { get; private set; } = new Dictionary<string, ItemData>();
+    public Dictionary<string, BulletData> BulletDataList { get; private set; } = new Dictionary<string, BulletData>();
     private Dictionary<string, T> LoadData<T>(string tableName) where T : GameDataBase
     {
         // 1. 경로 설정 (확장자 .json 제외!)
@@ -64,16 +66,38 @@ public class DataManager : MonoBehaviour
     public void LoadMonsterData(string jsonPath) {
         MonsterDataList = LoadData<MonsterData>(jsonPath);
     }
+    public void LoadItemData(string jsonPath)
+    {
+        ItemDataList = LoadData<ItemData>(jsonPath);
+    }
+    public void LoadBulletData(string jsonPath)
+    {
+        BulletDataList = LoadData<BulletData>(jsonPath);
+    }
     public MonsterData GetMonsterData(string id) {
 
-        if (MonsterDataList == null || string.IsNullOrEmpty(id)) {
-            Debug.Log("겟데이터 실패");
-            return null; }
-    return MonsterDataList.TryGetValue(id, out var data) ? data : null;
+        if (MonsterDataList == null || string.IsNullOrEmpty(id)) return null; 
+        return MonsterDataList.TryGetValue(id, out var data) ? data : null;
     
+    }
+    public ItemData GetItemData(string id)
+    {
+
+        if (ItemDataList == null || string.IsNullOrEmpty(id)) return null;
+        return ItemDataList.TryGetValue(id, out var data) ? data : null;
+
+    }
+    public BulletData GetBulletData(string id)
+    {
+
+        if (BulletDataList == null || string.IsNullOrEmpty(id)) return null;
+        return BulletDataList.TryGetValue(id, out var data) ? data : null;
+
     }
     public void LoadFullData()
     {
         LoadMonsterData("MonsterData");
+        LoadItemData("ItemData");
+        LoadBulletData("BulletData");
     }
 }

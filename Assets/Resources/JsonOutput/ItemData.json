@@ -1,0 +1,24 @@
+[
+  {
+    "Id": "item_coin_01",
+    "Name": "동전",
+    "Description": "돈이다.",
+    "ItemType": "coin",
+    "MaxStackCount": 99999,
+    "SellingPrice": 1,
+    "PrefabPath": "Prefab/Coin",
+    "IconPath": null,
+    "Grade": null
+  },
+  {
+    "Id": "item_potion_01",
+    "Name": "체력 포션",
+    "Description": "체력을 회복하는 물약.",
+    "ItemType": "potion",
+    "MaxStackCount": 99,
+    "SellingPrice": 5,
+    "PrefabPath": null,
+    "IconPath": null,
+    "Grade": null
+  }
+]
