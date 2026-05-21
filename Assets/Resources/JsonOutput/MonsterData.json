@@ -1,0 +1,24 @@
+[
+  {
+    "Id": "monster_catussilme_01",
+    "Name": "카투슬라임",
+    "Description": "선인장의 모습을 한 슬라임",
+    "MaxHp": 100,
+    "AttackDamage": 10,
+    "MoveSpeed": 3,
+    "PrefabPath": "Prefab/Monster",
+    "IconPath": null,
+    "DropTableId": null
+  },
+  {
+    "Id": "monster_cowbombie_01",
+    "Name": "카우봄비",
+    "Description": "좀비가된 카우보이",
+    "MaxHp": 150,
+    "AttackDamage": 15,
+    "MoveSpeed": 2,
+    "PrefabPath": null,
+    "IconPath": null,
+    "DropTableId": null
+  }
+]

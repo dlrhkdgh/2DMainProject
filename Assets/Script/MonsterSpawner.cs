@@ -10,9 +10,10 @@ public class MonsterSpawner : MonoBehaviour
 {
     
     [SerializeField] private AssetReference _monsterAddressableRef;
-    [SerializeField] private string _monsterAddressKey;
+    private string _monsterAddressKey;
     [SerializeField] private Transform _playerTransform;
-    [SerializeField] private int _poolSize = 100; 
+    [SerializeField] private int _poolSize = 100;
+    [SerializeField] private string _spawnMonsterId = "monster_catussilme_01";
 
     [Header("스폰 설정")]
     [SerializeField] private float _minSpawnDistance = 10f;
@@ -25,12 +26,34 @@ public class MonsterSpawner : MonoBehaviour
 
     private void Start()
     {
-        AsyncMonsterPool().Forget();
-        
-    }
-  
-    private async UniTaskVoid AsyncMonsterPool() {
+        // 1. 안전장치: 데이터가 안 불려왔으면 강제 로드
+        //if (DataManager.Inst.MonsterDataList == null || DataManager.Inst.MonsterDataList.Count == 0)
+        //{
+        //    Debug.LogWarning("[디버그] 데이터가 비어있어 강제 로드를 실행합니다.");
+        //    DataManager.Inst.LoadFullData();
+        //}
+      
+        var monsterDic = DataManager.Inst.GetMonsterData(_spawnMonsterId);
 
+        _monsterAddressKey = monsterDic.PrefabPath;
+        Debug.Log($"<color=green>[성공] 패스 받아옴 성공: {_monsterAddressKey}</color>");
+
+        AsyncMonsterPool().Forget();
+
+    }
+   private void OnEnable()
+    {
+        Debug.Log("스포너활성화");
+        
+        //_isSpawning = true;
+    }
+    private void OnDisable()
+    {
+
+        _isSpawning = false;
+    }
+    private async UniTaskVoid AsyncMonsterPool() {
+        _isSpawning = false;
         for (int i = 0; i < _poolSize; i++)
         {
             GameObject monsterResource = await ResourceManager.Inst.InstantiateAsync(_monsterAddressKey, transform);//리소스매니저에게 어드레서블을 주고 오브젝트를 받아옴
@@ -59,17 +82,7 @@ public class MonsterSpawner : MonoBehaviour
             }
         }
     }
-    private void OnEnable()
-    {
-        Debug.Log("스포너활성화");
-        
-        _isSpawning = true;
-    }
-    private void OnDisable()
-    {
-
-        _isSpawning = false;
-    }
+   
     public void SpawnMonsterFromPool() {
         if (_monsterPool.Count == 0 || _playerTransform == null)
         {
