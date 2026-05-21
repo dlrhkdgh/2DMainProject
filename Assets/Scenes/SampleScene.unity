@@ -1225,6 +1225,10 @@ PrefabInstance:
       propertyPath: _coinAddressKey
       value: Prefab/Coin
       objectReference: {fileID: 0}
+    - target: {fileID: 4360351767852036916, guid: 1fc1dfff5341293428b3a61c3260ca37, type: 3}
+      propertyPath: dropItemPrefabPath
+      value: Prefab/DroppedItem
+      objectReference: {fileID: 0}
     - target: {fileID: 6618862458744472788, guid: 1fc1dfff5341293428b3a61c3260ca37, type: 3}
       propertyPath: m_Name
       value: DropItemManager

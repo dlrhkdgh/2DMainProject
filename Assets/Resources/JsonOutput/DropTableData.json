@@ -1,0 +1,13 @@
+[
+  {
+    "Id": "droptable_cactuslime_01",
+    "CoinMinAMount": 1,
+    "CoinMaxAMount": 5,
+    "DropItemId1": "item_cactuslime_slime_01",
+    "Item1DropPercent": 20,
+    "DropItemId2": "item_cactuslime_needle_01",
+    "Item2DropPercent": 1,
+    "DropItemId3": null,
+    "Item3DropPercent": null
+  }
+]

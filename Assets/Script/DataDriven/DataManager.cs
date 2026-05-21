@@ -25,6 +25,7 @@ public class DataManager : MonoBehaviour
     public Dictionary<string, MonsterData> MonsterDataList { get; private set; } = new Dictionary<string, MonsterData>();
     public Dictionary<string, ItemData> ItemDataList { get; private set; } = new Dictionary<string, ItemData>();
     public Dictionary<string, BulletData> BulletDataList { get; private set; } = new Dictionary<string, BulletData>();
+    public Dictionary<string, DropTableData> DropTableDataList { get; private set; } = new Dictionary<string, DropTableData>();
     private Dictionary<string, T> LoadData<T>(string tableName) where T : GameDataBase
     {
         // 1. 경로 설정 (확장자 .json 제외!)
@@ -74,6 +75,10 @@ public class DataManager : MonoBehaviour
     {
         BulletDataList = LoadData<BulletData>(jsonPath);
     }
+    public void LoadDropTableData(string jsonPath)
+    {
+        DropTableDataList = LoadData<DropTableData>(jsonPath);
+    }
     public MonsterData GetMonsterData(string id) {
 
         if (MonsterDataList == null || string.IsNullOrEmpty(id)) return null; 
@@ -94,10 +99,18 @@ public class DataManager : MonoBehaviour
         return BulletDataList.TryGetValue(id, out var data) ? data : null;
 
     }
+    public DropTableData GetDropTableData(string id)
+    {
+
+        if (DropTableDataList == null || string.IsNullOrEmpty(id)) return null;
+        return DropTableDataList.TryGetValue(id, out var data) ? data : null;
+
+    }
     public void LoadFullData()
     {
         LoadMonsterData("MonsterData");
         LoadItemData("ItemData");
         LoadBulletData("BulletData");
+        LoadDropTableData("DropTableData");
     }
 }

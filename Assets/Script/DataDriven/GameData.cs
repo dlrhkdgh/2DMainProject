@@ -57,7 +57,8 @@ public class BulletData : GameDataBase
 [System.Serializable]
 public class DropTableData : GameDataBase 
 {
-    public string ItemCode1; public int DropPercent1;
-    public string ItemCode2; public int DropPercent2;
-    public string ItemCode3; public int DropPercent3;
+    public int CoinMinAMount; public int CoinMaxAMount;  
+    public string DropItemId1; public int Item1DropPercent;
+    public string DropItemId2; public int Item2DropPercent;
+    public string DropItemId3; public int Item3DropPercent;
 }

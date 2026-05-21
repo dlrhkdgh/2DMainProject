@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 1707160598012660743}
   - component: {fileID: 1822515043006512587}
   - component: {fileID: 1727020939606903849}
-  - component: {fileID: -6161730415566782981}
-  m_Layer: 0
+  - component: {fileID: -825006911605547814}
+  m_Layer: 6
   m_Name: DroppedItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -157,7 +157,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &-6161730415566782981
+--- !u!114 &-825006911605547814
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -166,8 +166,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 1284625002044002317}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd7a42d4df3d8cd43ba3ed737ed80d89, type: 3}
+  m_Script: {fileID: 11500000, guid: 9b171232768cef641a4f7aff7da415c2, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Coin
+  m_EditorClassIdentifier: Assembly-CSharp::DropItem
   _moveSpeed: 8
   _itemCode: 

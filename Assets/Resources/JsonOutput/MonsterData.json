@@ -8,7 +8,7 @@
     "MoveSpeed": 3,
     "PrefabPath": "Prefab/Monster",
     "IconPath": null,
-    "DropTableId": null
+    "DropTableId": "droptable_cactuslime_01"
   },
   {
     "Id": "monster_cowbombie_01",

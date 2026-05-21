@@ -20,5 +20,27 @@
     "PrefabPath": null,
     "IconPath": null,
     "Grade": null
+  },
+  {
+    "Id": "item_cactuslime_slime_01",
+    "Name": "슬라임 점액",
+    "Description": "끈적하다.",
+    "ItemType": "dropitem",
+    "MaxStackCount": 999,
+    "SellingPrice": 1,
+    "PrefabPath": null,
+    "IconPath": null,
+    "Grade": null
+  },
+  {
+    "Id": "item_cactuslime_needle_01",
+    "Name": "선인장 가시",
+    "Description": "따갑다.",
+    "ItemType": "dropitem",
+    "MaxStackCount": 999,
+    "SellingPrice": 20,
+    "PrefabPath": null,
+    "IconPath": null,
+    "Grade": null
   }
 ]

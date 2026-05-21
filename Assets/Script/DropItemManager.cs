@@ -1,4 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
+using NUnit.Framework.Interfaces;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -9,13 +10,14 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 public class DropItemManager : MonoBehaviour
 {
     [SerializeField] private int _poolSize = 100;
-    [SerializeField] private Coin _coinPrefab;
+    [SerializeField] private DropItem _dropPrefab;
     
-    [SerializeField] private AssetReference _coinAddressableRef;
+    [SerializeField] private string dropItemPrefabPath;
     public static DropItemManager Inst { get; private set; }
     private string _coinId = "item_coin_01";
-    private string _coinAddressKey;
-    private List<Coin> _coinPool = new List<Coin>();
+    private string _dropItemAddressKey;
+    private List<DropItem> _dropItemPool = new List<DropItem>();
+    private DropTableData _dropTableData;
     private int _currentPivot = 0;
     private void Awake()
     {
@@ -23,8 +25,8 @@ public class DropItemManager : MonoBehaviour
     }
     private void Start()
     {
-        var itemDic = DataManager.Inst.GetItemData(_coinId);
-        _coinAddressKey = itemDic.PrefabPath;
+       // var itemDic = DataManager.Inst.GetItemData(_coinId);
+       // _dropItemAddressKey = itemDic.PrefabPath;
         AsyncMonsterPool().Forget();
         
     }
@@ -34,45 +36,38 @@ public class DropItemManager : MonoBehaviour
 
         for (int i = 0; i < _poolSize; i++)
         {
-            GameObject coinResource = await ResourceManager.Inst.InstantiateAsync(_coinAddressKey, transform);//리소스매니저에게 어드레서블을 주고 오브젝트를 받아옴
+            GameObject dropItemResource = await ResourceManager.Inst.InstantiateAsync(dropItemPrefabPath, transform);//리소스매니저에게 어드레서블을 주고 오브젝트를 받아옴
 
-            if (coinResource != null)
+            if (dropItemResource != null)
             {
-                Coin coin = coinResource.GetComponent<Coin>();
-                coin.gameObject.SetActive(false);
-                _coinPool.Add(coin);
+                DropItem dropItem = dropItemResource.GetComponent<DropItem>();
+                dropItem.gameObject.SetActive(false);
+                _dropItemPool.Add(dropItem);
             }
         }
       
     }
     
-    public void DropItemInField(Vector3 dropPosition, string itemId)
+    public void DropItemInField(Vector3 dropPosition, string dropTableId)
     {
-        Coin cointToDrop = null;
-
-        for (int i = 0; i < _coinPool.Count; i++)
+        DropItem dropItemtToDrop = null;
+        _dropTableData=DataManager.Inst.GetDropTableData(dropTableId);
+        for (int i = 0; i < _dropItemPool.Count; i++)
         {
-            int checkIndex = (_currentPivot + i) % _coinPool.Count;
-            if (!_coinPool[checkIndex].gameObject.activeSelf)
+            int checkIndex = (_currentPivot + i) % _dropItemPool.Count;
+            if (!_dropItemPool[checkIndex].gameObject.activeSelf)
             {
-                cointToDrop = _coinPool[checkIndex];
-                _currentPivot = (checkIndex + 1) % _coinPool.Count;
+                dropItemtToDrop = _dropItemPool[checkIndex];
+                _currentPivot = (checkIndex + 1) % _dropItemPool.Count;
                 break;
             }
         }
-        if (cointToDrop != null)
+        if (dropItemtToDrop != null)
         {
-            if (!int.TryParse(itemId, out int itemPrice))
-            {
-                Debug.LogError($"[DropItemManager] itemId 변환 실패: {itemId}");
-                return;
-            }
-
-
-            cointToDrop.Price = itemPrice;
-           
-            cointToDrop.transform.position = dropPosition;
-            cointToDrop.gameObject.SetActive(true);
+            
+            dropItemtToDrop.transform.position = dropPosition;
+            //dropItemtToDrop.InitDroppedItemAsync(dropTableId).Forget();
+            dropItemtToDrop.gameObject.SetActive(true);
 
         }
         else
