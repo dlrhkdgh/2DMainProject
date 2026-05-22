@@ -7,7 +7,7 @@
     "MaxStackCount": 99999,
     "SellingPrice": 1,
     "PrefabPath": "Prefab/Coin",
-    "IconPath": null,
+    "IconPath": "Item/Coin[cion-_0]",
     "Grade": null
   },
   {
@@ -29,7 +29,7 @@
     "MaxStackCount": 999,
     "SellingPrice": 1,
     "PrefabPath": null,
-    "IconPath": null,
+    "IconPath": "Item/Cactuslime[dropitem1-_1]",
     "Grade": null
   },
   {
@@ -40,7 +40,7 @@
     "MaxStackCount": 999,
     "SellingPrice": 20,
     "PrefabPath": null,
-    "IconPath": null,
+    "IconPath": "Item/Cactuslime[dropitem1-_0]",
     "Grade": null
   }
 ]
