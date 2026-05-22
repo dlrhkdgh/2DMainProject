@@ -42,5 +42,27 @@
     "PrefabPath": null,
     "IconPath": "Item/Cactuslime[dropitem1-_0]",
     "Grade": null
+  },
+  {
+    "Id": "item_cowbombie_hat_01",
+    "Name": "좀비 모자",
+    "Description": "낡았다.",
+    "ItemType": "dropitem",
+    "MaxStackCount": 999,
+    "SellingPrice": 1,
+    "PrefabPath": null,
+    "IconPath": "Item/Cowbombie[cowbombiedrop_0]",
+    "Grade": null
+  },
+  {
+    "Id": "item_cowbombie_badge_01",
+    "Name": "보안관 뱃지",
+    "Description": "녹슬었다.",
+    "ItemType": "dropitem",
+    "MaxStackCount": 999,
+    "SellingPrice": 25,
+    "PrefabPath": null,
+    "IconPath": "Item/Cowbombie[cowbombiedrop_1]",
+    "Grade": null
   }
 ]

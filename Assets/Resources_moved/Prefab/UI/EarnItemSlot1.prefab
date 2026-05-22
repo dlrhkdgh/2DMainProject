@@ -283,7 +283,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonBase
   Button_Base: {fileID: 0}
   Text_Base: {fileID: 4641623143624964789}
-  Image_Base: {fileID: 0}
+  Image_Base: {fileID: 4736894559137941337}
   Image_Select: {fileID: 0}
 --- !u!1 &7811483515647690319
 GameObject:

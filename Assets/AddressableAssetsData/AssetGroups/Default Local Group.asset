@@ -15,8 +15,18 @@ MonoBehaviour:
   m_GroupName: Default Local Group
   m_GUID: 70cb55b86e433cc418ed466881c03cc2
   m_SerializeEntries:
+  - m_GUID: 0e0b56da81b80fd4894740d7296a8cb6
+    m_Address: Prefab/UI/EarnItemSlot1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 1baeaaa1a522629429f9adc5fadf2022
     m_Address: Prefab/Bullet
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1cd2850fc4f4f6243ae3cc91809ccaa2
+    m_Address: Item/Cowbombie
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -37,6 +47,21 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 6a7f95b3aac81b349b816250067158bd
     m_Address: Item/Cactuslime
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 88f09f6832771d846be0aa93f62a8d71
+    m_Address: Monster/Cowbot
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a653c47d8dd1e444eb4a3c66a4d3b633
+    m_Address: Monster/Cactus
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: acf86a05216e7424ab11de0d7c87f44f
+    m_Address: Prefab/Monster_2
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

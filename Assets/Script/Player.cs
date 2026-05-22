@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public static Player Inst { get; set; }
     [Header("이동 설정")]
     [SerializeField] private float _moveSpeed = 4f;
     [Header("총알 발사")]
@@ -20,6 +21,7 @@ public class Player : MonoBehaviour
 
     void Awake()
     {
+        Inst= this;
         _rigidBody = GetComponent<Rigidbody2D>();
         _animController = GetComponent<PlayerAnimController>();
         _rigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
@@ -85,9 +87,9 @@ public class Player : MonoBehaviour
         mousePos.z = 0f;
         Vector2 shootDirection = (mousePos - _firePoint.position).normalized; 
        
-        if (BulletManager.Inst != null)
+        if (StageManager.Inst != null)
         {
-            BulletManager.Inst.FireBullet(_firePoint.position,shootDirection);
+            StageManager.Inst.StartFireBullet(_firePoint.position,shootDirection);
         }
     }
     
@@ -124,11 +126,15 @@ public class Player : MonoBehaviour
        
         if (collision.TryGetComponent<DropItem>(out DropItem item))
         {
+            if (item.ItemId != "item_coin_01")
+            {
+                //StageManager.Inst.AcquireItem(item.ItemCode);
+                GameManager.Inst.AddInventory(item.ItemId, 1);
+                GameManager.Inst.DebugPrintInventory();
+            }
+            else {
+                GameManager.Inst.Gold= GameManager.Inst.Gold + item.GoldAmount;
 
-            //StageManager.Inst.AcquireItem(item.ItemCode);
-            if (collision.TryGetComponent<Coin>(out Coin coin)) {
-                GameManager.Inst.AddGold(coin.Price);
-                Debug.Log($"{GameManager.Inst.Gold}원 있음");
             }
             collision.gameObject.SetActive(false);
         }

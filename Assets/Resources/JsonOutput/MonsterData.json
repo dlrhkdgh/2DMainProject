@@ -7,7 +7,7 @@
     "AttackDamage": 10,
     "MoveSpeed": 3,
     "PrefabPath": "Prefab/Monster",
-    "IconPath": null,
+    "IconPath": "Monster/Cactus[Catus3_0]",
     "DropTableId": "droptable_cactuslime_01"
   },
   {
@@ -17,8 +17,8 @@
     "MaxHp": 150,
     "AttackDamage": 15,
     "MoveSpeed": 2,
-    "PrefabPath": null,
-    "IconPath": null,
-    "DropTableId": null
+    "PrefabPath": "Prefab/Monster_2",
+    "IconPath": "Monster/Cowbot[cowbombie_0]",
+    "DropTableId": "droptable_cowbombie_01"
   }
 ]

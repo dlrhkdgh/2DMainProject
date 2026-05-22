@@ -9,5 +9,16 @@
     "Item2DropPercent": 1,
     "DropItemId3": null,
     "Item3DropPercent": null
+  },
+  {
+    "Id": "droptable_cowbombie_01",
+    "CoinMinAMount": 3,
+    "CoinMaxAMount": 7,
+    "DropItemId1": "item_cowbombie_hat_01",
+    "Item1DropPercent": 20,
+    "DropItemId2": "item_cowbombie_badge_01",
+    "Item2DropPercent": 1,
+    "DropItemId3": null,
+    "Item3DropPercent": null
   }
 ]

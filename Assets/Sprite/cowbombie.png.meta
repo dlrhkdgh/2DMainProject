@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 840bea35e0826904b9b4732caccd8bf4
+guid: 88f09f6832771d846be0aa93f62a8d71
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -48,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 65
+  spritePixelsToUnits: 120
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -97,13 +97,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: cowbombieanim-_0
+      name: cowbombie_0
       rect:
         serializedVersion: 2
-        x: 40
-        y: 247
-        width: 153
-        height: 199
+        x: 149
+        y: 48
+        width: 291
+        height: 357
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -112,118 +112,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d6c58675b019c044e8d9b5708e953889
-      internalID: 1043668588
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: cowbombieanim-_1
-      rect:
-        serializedVersion: 2
-        x: 212
-        y: 254
-        width: 153
-        height: 192
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a424e8dfc476ca0429437d3a6a611cf9
-      internalID: -2140493838
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: cowbombieanim-_2
-      rect:
-        serializedVersion: 2
-        x: 378
-        y: 247
-        width: 153
-        height: 199
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a96af52047c4bd74fa0ac1aa9d2ec6f5
-      internalID: -1089762668
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: cowbombieanim-_3
-      rect:
-        serializedVersion: 2
-        x: 33
-        y: 14
-        width: 133
-        height: 214
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e6e5716daac8e7d4d926f8f9d95f9fb3
-      internalID: -1885611456
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: cowbombieanim-_5
-      rect:
-        serializedVersion: 2
-        x: 210
-        y: 14
-        width: 138
-        height: 196
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 4abe9a84d486c26428e067ac94e3823a
-      internalID: 833682770
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: cowbombieanim-_6
-      rect:
-        serializedVersion: 2
-        x: 393
-        y: 14
-        width: 116
-        height: 196
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ff6c9325d75fea64bbf2da5f977ce564
-      internalID: -1658356400
+      spriteID: 01f894a583929c4439e5ba54dade997c
+      internalID: 1936121266
       vertices: []
       indices: 
       edges: []
@@ -232,7 +122,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 99859abdd2216874a94e1e29528f72c8
+    spriteID: f4bd2a1ff817f8747902447931575408
     internalID: 0
     vertices: []
     indices: 
@@ -244,13 +134,21 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      cowbombieanim-_0: 1043668588
-      cowbombieanim-_1: -2140493838
-      cowbombieanim-_2: -1089762668
-      cowbombieanim-_3: -1885611456
-      cowbombieanim-_4: 1066565776
-      cowbombieanim-_5: 833682770
-      cowbombieanim-_6: -1658356400
+      cowbombie_0: 1936121266
+      cowbombie_1: -63561697
+      cowbombie_10: 573413785
+      cowbombie_11: -1364520617
+      cowbombie_12: 1277638042
+      cowbombie_13: 1524766316
+      cowbombie_14: 1286396959
+      cowbombie_2: 1858533693
+      cowbombie_3: -1094727628
+      cowbombie_4: -1637316939
+      cowbombie_5: -191532941
+      cowbombie_6: -1686172299
+      cowbombie_7: -257859887
+      cowbombie_8: -1639770092
+      cowbombie_9: 2058200876
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

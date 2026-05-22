@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
-using static UnityEditor.Progress;
+
 
 public class Monster : MonoBehaviour
 {
@@ -128,11 +128,11 @@ public class Monster : MonoBehaviour
         {
             animLength = _animController.GetCurrentAnimLength();
         }
-        if (DropItemManager.Inst != null)
+        if (StageManager.Inst != null)
         {
             _droppedCoin = Random.Range(1, 5);
-            
-            DropItemManager.Inst.DropItemInField(transform.position, DropTableId);
+
+            StageManager.Inst.DropItemFromMonster(transform.position, DropTableId);
         }
         // 애니메이션 시간만큼 대기
         yield return new WaitForSeconds(animLength);

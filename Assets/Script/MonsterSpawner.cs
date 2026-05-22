@@ -1,9 +1,8 @@
 ﻿using Cysharp.Threading.Tasks;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AddressableAssets; 
-using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.AddressableAssets;
+using System.Threading;
 
 
 public class MonsterSpawner : MonoBehaviour
@@ -11,76 +10,82 @@ public class MonsterSpawner : MonoBehaviour
     
     [SerializeField] private AssetReference _monsterAddressableRef;
     private string _monsterAddressKey;
-    [SerializeField] private Transform _playerTransform;
+    private Transform _playerTransform;
     [SerializeField] private int _poolSize = 100;
-    [SerializeField] private string _spawnMonsterId = "monster_catussilme_01";
+    [SerializeField] private string _spawnMonsterId = "monster_cowbombie_01";
 
     [Header("스폰 설정")]
     [SerializeField] private float _minSpawnDistance = 10f;
     [SerializeField] private float _maxSpawnDistance = 15f;
-    [SerializeField] private int _spawnMonsterPerSec = 10;
+    [SerializeField] private int _spawnMonsterPerSec = 4;
 
     private List<Monster> _monsterPool = new List<Monster>();
     private int _currentPivot = 0;
     private bool _isSpawning = false;
     MonsterData _monsterdata;
 
-    private void Start()
-    {
-        // 1. 안전장치: 데이터가 안 불려왔으면 강제 로드
-        //if (DataManager.Inst.MonsterDataList == null || DataManager.Inst.MonsterDataList.Count == 0)
-        //{
-        //    Debug.LogWarning("[디버그] 데이터가 비어있어 강제 로드를 실행합니다.");
-        //    DataManager.Inst.LoadFullData();
-        //}
+    private CancellationTokenSource _spawnCts;
 
-        _monsterdata = DataManager.Inst.GetMonsterData(_spawnMonsterId);
-
-        _monsterAddressKey = _monsterdata.PrefabPath;
-        Debug.Log($"<color=green>[성공] 패스 받아옴 성공: {_monsterAddressKey}</color>");
-
-        AsyncMonsterPool().Forget();
-
-    }
+   
    private void OnEnable()
     {
         Debug.Log("스포너활성화");
         
-        //_isSpawning = true;
+        
     }
     private void OnDisable()
     {
 
         _isSpawning = false;
+        CleanUpCts(); // 스포너가 비활성화되면 스폰 무조건 종료
+       
+        foreach (var monster in _monsterPool)
+        {
+            if (monster != null && monster.gameObject.activeSelf)
+            {
+                monster.gameObject.SetActive(false);
+            }
+        }
     }
     private async UniTaskVoid AsyncMonsterPool() {
         _isSpawning = false;
-        for (int i = 0; i < _poolSize; i++)
+        if (_monsterPool.Count == 0)
         {
-            GameObject monsterResource = await ResourceManager.Inst.InstantiateAsync(_monsterAddressKey, transform);//리소스매니저에게 어드레서블을 주고 오브젝트를 받아옴
-
-            if (monsterResource != null)
+            for (int i = 0; i < _poolSize; i++)
             {
-                Monster monster = monsterResource.GetComponent<Monster>();
-                monster.gameObject.SetActive(false);
-                _monsterPool.Add(monster);
+                GameObject monsterResource = await ResourceManager.Inst.InstantiateAsync(_monsterAddressKey, transform);
+
+                if (monsterResource != null)
+                {
+                    Monster monster = monsterResource.GetComponent<Monster>();
+                    monster.gameObject.SetActive(false);
+                    _monsterPool.Add(monster);
+                }
             }
         }
         _isSpawning = true;
-        AutoSpawnMonsterAsync().Forget();
+        AutoSpawnMonsterAsync(_spawnCts.Token).Forget();
     }
-    private async UniTaskVoid AutoSpawnMonsterAsync()
+    private async UniTaskVoid AutoSpawnMonsterAsync(CancellationToken token)
     {
 
         int delayMilliseconds = Mathf.RoundToInt((1f / (float)_spawnMonsterPerSec) * 1000f);
-        var cancellationToken = this.GetCancellationTokenOnDestroy();
-        while (true)
+        try
         {
-            await UniTask.Delay(delayMilliseconds, cancellationToken: cancellationToken);
-            if (_isSpawning)
+            while (true)
             {
-                SpawnMonsterFromPool();
+                // 오브젝트가 파괴되거나(_spawnCts 취소) 구역이 바뀔 때 안전하게 탈출합니다.
+                await UniTask.Delay(delayMilliseconds, cancellationToken: token);
+
+                if (_isSpawning)
+                {
+                    SpawnMonsterFromPool();
+                }
             }
+        }
+        catch (System.OperationCanceledException)
+        {
+            Debug.Log("몬스터 스폰 루프가 안전하게 종료되었습니다.");
         }
     }
    
@@ -110,11 +115,20 @@ public class MonsterSpawner : MonoBehaviour
             monsterToSpawn.SetTargetTransform(_playerTransform);
             monsterToSpawn.InitMonster(_monsterdata);
             monsterToSpawn.gameObject.SetActive(true);
-            //Debug.Log($"{_currentPivot}번쨰 몬스터 소환");
+           
         }
         else
         {
             Debug.LogWarning("몬스터 풀이 가득 찼습니다!");
+        }
+    }
+    private void CleanUpCts()
+    {
+        if (_spawnCts != null)
+        {
+            _spawnCts.Cancel();
+            _spawnCts.Dispose();
+            _spawnCts = null;
         }
     }
     private void OnDrawGizmosSelected()
@@ -135,5 +149,16 @@ public class MonsterSpawner : MonoBehaviour
         Vector3 resultPosition = centerPos + (Vector3)(randomDirection * randomDistance);
         resultPosition.z = 0f;
         return resultPosition;
+    }
+    public void InitMonsterSpawner(Transform playerTransform) {
+        _playerTransform = playerTransform;
+        _monsterdata = DataManager.Inst.GetMonsterData(_spawnMonsterId);
+
+        _monsterAddressKey = _monsterdata.PrefabPath;
+        Debug.Log($"<color=green>[성공] 패스 받아옴 성공: {_monsterAddressKey}</color>");
+        CleanUpCts();
+        _spawnCts = new CancellationTokenSource();
+        AsyncMonsterPool().Forget();
+
     }
 }
