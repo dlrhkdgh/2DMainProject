@@ -130,9 +130,9 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.0007352829, y: -0.075120926}
-  m_Size: {x: 1.8639412, y: 2.5812168}
-  m_Direction: 0
+  m_Offset: {x: 0.026512064, y: -0.70662975}
+  m_Size: {x: 2.1688108, y: 1.3182118}
+  m_Direction: 1
 --- !u!95 &313479546931690010
 Animator:
   serializedVersion: 7
@@ -168,8 +168,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Monster
   _targetTransform: {fileID: 0}
-  _moveSpeed: 4
-  _maxHp: 100
 --- !u!50 &5924779967258136010
 Rigidbody2D:
   serializedVersion: 5

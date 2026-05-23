@@ -16,6 +16,7 @@ public enum UIType
     InFieldUI,
     MainUI,
     GameoverUI,
+    EnterStageUI,
     EarnItemPopUp,
     ExitGamePopUp,
 }
@@ -195,5 +196,9 @@ public class UIManager : MonoBehaviour
     }
     public void ExitEarnItemPopUp() {
         CloseCreatedUI(UIType.EarnItemPopUp);
+    }
+    public void ExitEnterStageUI()
+    {
+        CloseCreatedUI(UIType.EnterStageUI);
     }
 }
