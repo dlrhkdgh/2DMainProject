@@ -119,6 +119,7 @@ public class DropItemSpawner : MonoBehaviour
         dropItemObj.InitDroppedItemAsync(itemData).Forget();
         dropItemObj.gameObject.SetActive(true);
     }
+
     public void SpawnDropItemCoin(DropItem dropItemObj, Vector3 dropPosition, int goldAmount)
     {
         if (dropItemObj == null)
@@ -139,6 +140,7 @@ public class DropItemSpawner : MonoBehaviour
         dropItemObj.InitDroppedItemAsync(itemData, goldAmount).Forget();
         dropItemObj.gameObject.SetActive(true);
     }
+
     public bool GetItemTrueOrFalse(int percent)
     {
         if (Random.Range(0, 100) < percent)

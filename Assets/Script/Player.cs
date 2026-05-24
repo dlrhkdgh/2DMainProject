@@ -141,11 +141,11 @@ public class Player : MonoBehaviour
             if (item.ItemId != "item_coin_01")
             {
                 //StageManager.Inst.AcquireItem(item.ItemCode);
-                GameManager.Inst.AddInventory(item.ItemId, 1);
+                StageManager.Inst.AddStageInventory(item.ItemId, 1);
                // GameManager.Inst.DebugPrintInventory();
             }
             else {
-                GameManager.Inst.Gold = GameManager.Inst.Gold + item.GoldAmount;
+                StageManager.Inst.AddStageGold(item.GoldAmount);
 
             }
             Debug.Log($"아이템 먹음{item.ItemId} ");

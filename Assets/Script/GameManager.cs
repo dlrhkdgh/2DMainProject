@@ -76,11 +76,13 @@ public class GameManager : MonoBehaviour
     public void StartStage(int stageNum) 
     {
         StageManager.Inst.StartStage(stageNum);
+        UIManager.Inst.CloseMainUi();
         UIManager.Inst.OpenInFeildUI();
     }
     public void FinishStage() 
     {
         StageManager.Inst.FinishStage();
         UIManager.Inst.CloseInFeildUI();
+        UIManager.Inst.OpenMainUI();
     }
 }

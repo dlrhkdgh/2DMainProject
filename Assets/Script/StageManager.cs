@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class StageManager : MonoBehaviour
 {
@@ -7,6 +8,9 @@ public class StageManager : MonoBehaviour
     [SerializeField] MonsterSpawner _monsterSpawmer1;
     [SerializeField] MonsterSpawner _monsterSpawmer2;
     [SerializeField] DropItemSpawner _dropItemSpawner;
+    public int StageGold { get; set; } = 0;
+    public Dictionary<string, int> _stageInventoryDic = new Dictionary<string, int>();
+    private bool isStageOnGoing = false;
     private void Awake()
     {
         Inst = this;
@@ -15,35 +19,93 @@ public class StageManager : MonoBehaviour
     void Start()
     {
         //DataManager.Inst.LoadFullData();
-       // StageStart();
+        // StageStart();
     }
 
     // Update is called once per frame
     void Update()
     {
-      
+
     }
-    public void StartStage(int stageNum) {
+    public void StartStage(int stageNum)
+    {
+        if (isStageOnGoing) return;
+
         _monsterSpawmer1.InitMonsterSpawner(Player.Inst.transform);
         _monsterSpawmer2.InitMonsterSpawner(Player.Inst.transform);
         _dropItemSpawner.InitDropItemSpawner();
         _bulletSpawner.InitBulletSpawner();
         Player.Inst.StartShooting();
+
+        isStageOnGoing=true;
     }
-    public void DropItemFromMonster(Vector3 diePosition, string monsterDropTableId) {
-        
+    public void DropItemFromMonster(Vector3 diePosition, string monsterDropTableId)
+    {
+
         _dropItemSpawner.DropItemInField(diePosition, monsterDropTableId);
-      
+
     }
-    public void StartFireBullet(Vector3 spawnPosition, Vector2 direction) {
+    public void StartFireBullet(Vector3 spawnPosition, Vector2 direction)
+    {
         _bulletSpawner.FireBullet(spawnPosition, direction);
     }
     public void FinishStage()
     {
+        if (isStageOnGoing == false) return;
+
         _monsterSpawmer1.ClearAndReleaseSpawner();
         _monsterSpawmer2.ClearAndReleaseSpawner();
         _dropItemSpawner.ClearAndReleaseSpawner();
         _bulletSpawner.ClearAndReleaseSpawner();
         Player.Inst.StopShooting();
+
+        AddToRealInventory(1f);
+        ResetStageInventory();
+
+        isStageOnGoing = false;
+    }
+    public bool AddStageGold(int getGold)
+    {
+
+        int newGold = StageGold + getGold;
+        if (newGold < 0)
+        {
+            return false;
+        }
+        else
+        {
+            StageGold = newGold;
+            return true;
+
+        }
+    }
+    public void AddStageInventory(string itemId, int itemCount)
+    {
+
+        if (string.IsNullOrEmpty(itemId) || itemCount == 0) return;
+
+        if (_stageInventoryDic.ContainsKey(itemId))
+        {
+            _stageInventoryDic[itemId] = _stageInventoryDic[itemId] + itemCount;
+            //DebugPrintInventory();
+        }
+        else
+        {
+            _stageInventoryDic.Add(itemId, itemCount);
+            //DebugPrintInventory();
+        }
+    }
+    public void ResetStageInventory() {
+
+        StageGold = 0;
+        _stageInventoryDic.Clear();
+    }
+    public void AddToRealInventory(float scalef) {
+
+        GameManager.Inst.AddGold(StageGold);
+        foreach (KeyValuePair<string, int> item in _stageInventoryDic)
+        {
+        GameManager.Inst.AddInventory(item.Key, item.Value);
+        }
     }
 }

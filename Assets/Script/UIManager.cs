@@ -169,7 +169,33 @@ public class UIManager : MonoBehaviour
         }
 
     }
+    public T GetUI<T>(UIType uiType) where T : UIBase
+    {
+        if (_createdUIDic.TryGetValue(uiType, out UIBase uiBase))
+        {
+            return uiBase as T;
+        }
+        return null;
+    }
 
+    
+    public void OpenEarnItemPopUp(InventoryType type)
+    {
+       
+        OpenCreatedUI(UITypeRoot.PopupUI, UIType.EarnItemPopUp);
+
+       
+        EarnItemPopUp earnUi = GetUI<EarnItemPopUp>(UIType.EarnItemPopUp);
+
+        if (earnUi != null)
+        {
+            earnUi.OpenInventory(type);
+        }
+        else
+        {
+            Debug.LogError($"[UI Error] {UIType.EarnItemPopUp}를 형변환하는 데 실패했습니다.");
+        }
+    }
     public static string GetUIPath(UIType uiType)
     {
         string path = string.Empty;
@@ -202,6 +228,12 @@ public class UIManager : MonoBehaviour
         CloseCreatedUI(UIType.InFieldUI);
     }
     public void OpenInFeildUI() {
-        OpenCreatedUI (UIType.InFieldUI);
+        OpenCreatedUI(UIType.InFieldUI);
+    }
+    public void OpenMainUI() {
+        OpenCreatedUI(UIType.MainUI);
+    }
+    public void CloseMainUi() {
+        CloseCreatedUI(UIType.MainUI);
     }
 }

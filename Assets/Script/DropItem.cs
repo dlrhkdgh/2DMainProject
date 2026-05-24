@@ -44,7 +44,7 @@ public class DropItem : MonoBehaviour
         _spriteRenderer.sprite = null;
     }
 
-    
+
     public async UniTaskVoid InitDroppedItemAsync(ItemData data)
     {
         if (data == null) return;
@@ -53,14 +53,15 @@ public class DropItem : MonoBehaviour
         GoldAmount = 0;
         await LoadAndApplySprite(data);
     }
-    public async UniTaskVoid InitDroppedItemAsync(ItemData data,int goldAmount)
+    public async UniTaskVoid InitDroppedItemAsync(ItemData data, int goldAmount)
     {
         if (data == null) return;
 
         ItemId = data.Id;
-        GoldAmount= goldAmount;
+        GoldAmount = goldAmount;
         await LoadAndApplySprite(data);
     }
+
     private async UniTask LoadAndApplySprite(ItemData data)
     {
         Sprite itemTexture = await ResourceManager.Inst.LoadSprite(data.IconPath);

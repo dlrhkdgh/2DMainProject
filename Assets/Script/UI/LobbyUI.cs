@@ -21,6 +21,7 @@ public class NewMonoBehaviourScript : UIBase
     }
     void OnClick_GameStart() {
         UIManager.Inst.CloseLobbyUI();
+        UIManager.Inst.OpenMainUI();
     }
     void OnClick_GameExit() {
     
