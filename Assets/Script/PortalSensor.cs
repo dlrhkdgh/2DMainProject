@@ -16,13 +16,20 @@ public class PortalSensor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (_isOnPortal) {
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                UIManager.Inst.OpenEnterStageUI();
+            }
         
+        }
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
             InfoUICanvus.SetActive(true);
+            _isOnPortal=true;
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
@@ -30,6 +37,7 @@ public class PortalSensor : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             InfoUICanvus.SetActive(false);
+            _isOnPortal=false;
         }
     }
 }

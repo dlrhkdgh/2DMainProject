@@ -1,5 +1,6 @@
-﻿using System.Collections;
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
+using System.Collections;
+using System.Threading;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -9,7 +10,7 @@ public class Player : MonoBehaviour
     [Header("이동 설정")]
     [SerializeField] private float _moveSpeed = 4f;
     [Header("총알 발사")]
-   // [SerializeField] private GameObject _bulletPrefab; 
+    // [SerializeField] private GameObject _bulletPrefab; 
     [SerializeField] private Transform _firePoint;
     [SerializeField] private int FireBulletPerSec = 5;
     private PlayerAnimController _animController;
@@ -18,27 +19,32 @@ public class Player : MonoBehaviour
     private float _horizontalInput;
     private float _verticalInput;
     private Vector2 _moveDirection;
+    private CancellationTokenSource _shootCts;
 
     void Awake()
     {
-        Inst= this;
+        Inst = this;
         _rigidBody = GetComponent<Rigidbody2D>();
         _animController = GetComponent<PlayerAnimController>();
         _rigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
     }
     void Start()
     {
-       
-        AutoFireBulletAsync().Forget();
+
+
     }
 
-    
+
     void Update()
     {
         PlayerMove();
         PlayerFlipOnShoot();
         //PlayerFlip();
         AnimatePlayer();
+    }
+    private void OnDisable()
+    {
+        StopShooting();
     }
     private void PlayerMove()
     {
@@ -51,33 +57,33 @@ public class Player : MonoBehaviour
             _moveDirection = _moveDirection.normalized;
         }
         _rigidBody.linearVelocity = _moveDirection * _moveSpeed;
-      
+
     }
-    private void PlayerFlip() 
+    private void PlayerFlip()
     {
         if (_horizontalInput > 0)
         {
             transform.localScale = new Vector3(1, 1, 1);
         }
-        else if (_horizontalInput < 0) 
-        { 
+        else if (_horizontalInput < 0)
+        {
             transform.localScale = new Vector3(-1, 1, 1);
         }
     }
     private void PlayerFlipOnShoot()
     {
-        
+
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        
+
         if (mousePos.x > transform.position.x)
         {
-            
+
             transform.localScale = new Vector3(-1, 1, 1);
         }
         else if (mousePos.x < transform.position.x)
         {
-            
+
             transform.localScale = new Vector3(1, 1, 1);
         }
     }
@@ -85,26 +91,32 @@ public class Player : MonoBehaviour
     {
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePos.z = 0f;
-        Vector2 shootDirection = (mousePos - _firePoint.position).normalized; 
-       
+        Vector2 shootDirection = (mousePos - _firePoint.position).normalized;
+
         if (StageManager.Inst != null)
         {
-            StageManager.Inst.StartFireBullet(_firePoint.position,shootDirection);
+            StageManager.Inst.StartFireBullet(_firePoint.position, shootDirection);
         }
     }
-    
-    private async UniTaskVoid AutoFireBulletAsync()
-    {
-        
-        int delayMilliseconds = Mathf.RoundToInt((1f / (float)FireBulletPerSec) * 1000f);
-        var cancellationToken = this.GetCancellationTokenOnDestroy();
-        while (true)
-        {
-          
-            await UniTask.Delay(delayMilliseconds, cancellationToken: cancellationToken);
 
-           
-            Shoot();
+    private async UniTaskVoid AutoFireBulletAsync(CancellationToken token)
+    {
+
+        int delayMilliseconds = Mathf.RoundToInt((1f / (float)FireBulletPerSec) * 1000f);
+        try
+        {
+            while (true)
+            {
+
+                await UniTask.Delay(delayMilliseconds, cancellationToken: token);
+
+
+                Shoot();
+            }
+        }
+        catch (System.OperationCanceledException)
+        {
+            Debug.Log("슈팅 루프가 안전하게 종료되었습니다.");
         }
     }
 
@@ -112,7 +124,7 @@ public class Player : MonoBehaviour
     {
         if (_animController == null) return;
 
-         if (_horizontalInput == 0 && _verticalInput == 0)
+        if (_horizontalInput == 0 && _verticalInput == 0)
         {
             _animController.SetAnimState(PlayerAnimState.Shoot);
         }
@@ -123,20 +135,40 @@ public class Player : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-       
+
         if (collision.TryGetComponent<DropItem>(out DropItem item))
         {
             if (item.ItemId != "item_coin_01")
             {
                 //StageManager.Inst.AcquireItem(item.ItemCode);
                 GameManager.Inst.AddInventory(item.ItemId, 1);
-                GameManager.Inst.DebugPrintInventory();
+               // GameManager.Inst.DebugPrintInventory();
             }
             else {
-                GameManager.Inst.Gold= GameManager.Inst.Gold + item.GoldAmount;
+                GameManager.Inst.Gold = GameManager.Inst.Gold + item.GoldAmount;
 
             }
+            Debug.Log($"아이템 먹음{item.ItemId} ");
             collision.gameObject.SetActive(false);
+        }
+    }
+    public void StartShooting() {
+        CleanUpCts();
+        _shootCts = new CancellationTokenSource();
+        AutoFireBulletAsync(_shootCts.Token).Forget();
+
+    }
+    public void StopShooting() {
+
+        CleanUpCts();
+    }
+    private void CleanUpCts()
+    {
+        if (_shootCts != null)
+        {
+            _shootCts.Cancel();
+            _shootCts.Dispose();
+            _shootCts = null;
         }
     }
 }

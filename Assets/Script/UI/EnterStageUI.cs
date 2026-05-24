@@ -7,7 +7,7 @@ public class EnterStageUI : UIBase
     [SerializeField] UIButtonBase Button_Enter;
     [SerializeField] UIButtonBase Button_Exit;
     public int SelectedSlotId { get; set; } = -1;
-    void Start()
+    void OnEnable()
     {
         for (int i = 0; i < _slotList.Count; i++) {
 
@@ -15,6 +15,11 @@ public class EnterStageUI : UIBase
         }
         Button_Enter.BindOnClickButtonEvent(OnClick_ButtonEnter);
         Button_Exit.BindOnClickButtonEvent(OnClick_ButtonExit);
+    }
+    private void OnDisable()
+    {
+        
+        ResetSetSelectedState();
     }
 
     // Update is called once per frame
@@ -42,14 +47,26 @@ public class EnterStageUI : UIBase
     }
     private void OnClick_ButtonEnter() {
 
-        if(SelectedSlotId <0 || SelectedSlotId >= _slotList.Count)
+        if (SelectedSlotId < 0 || SelectedSlotId >= _slotList.Count)
+        {
             Debug.Log("현재선택된 스테이지 없음!");
+            return;
+        }
 
         Debug.Log($"현재{SelectedSlotId+1}스테이지 선택됨");
-    
+        GameManager.Inst.StartStage(SelectedSlotId);
+        UIManager.Inst.ExitEnterStageUI();
     }
     private void OnClick_ButtonExit() {
 
         UIManager.Inst.ExitEnterStageUI();
+    }
+    private void ResetSetSelectedState() {
+        if (SelectedSlotId >= 0 && SelectedSlotId < _slotList.Count)
+        {
+            _slotList[SelectedSlotId].SetSelectedState(false);
+        }
+
+        SelectedSlotId = -1;
     }
 }

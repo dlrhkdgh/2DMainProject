@@ -20,7 +20,7 @@ public class NewMonoBehaviourScript : UIBase
         
     }
     void OnClick_GameStart() {
-        UIManager.Inst.GetInStageUI();
+        UIManager.Inst.CloseLobbyUI();
     }
     void OnClick_GameExit() {
     

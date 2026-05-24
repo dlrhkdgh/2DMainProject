@@ -1,6 +1,7 @@
 ﻿using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 public class DropItemSpawner : MonoBehaviour
 {
@@ -149,5 +150,17 @@ public class DropItemSpawner : MonoBehaviour
 
         AsyncDropItemPool().Forget();
     }
-    
+    public void ClearAndReleaseSpawner()
+    {
+        for (int i = 0; i < _dropItemPool.Count; i++)
+        {
+
+            if (_dropItemPool[i] != null)
+            {
+                Addressables.ReleaseInstance(_dropItemPool[i].gameObject);
+            }
+        }
+        _dropItemPool.Clear();
+        _currentPivot = 0;
+    }
 }

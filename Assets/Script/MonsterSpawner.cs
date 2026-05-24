@@ -161,4 +161,19 @@ public class MonsterSpawner : MonoBehaviour
         AsyncMonsterPool().Forget();
 
     }
+    public void ClearAndReleaseSpawner()
+    {
+        CleanUpCts();
+
+        for (int i = 0; i < _monsterPool.Count; i++) {
+
+            if (_monsterPool[i] != null) 
+            {
+                Addressables.ReleaseInstance(_monsterPool[i].gameObject);
+            }
+        }
+        _monsterPool.Clear();
+        _currentPivot = 0;
+        _isSpawning = false;
+    }
 }

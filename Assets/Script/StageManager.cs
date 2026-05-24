@@ -21,16 +21,14 @@ public class StageManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Jump")) {
-
-            StageStart();
-        }
+      
     }
-    void StageStart() {
+    public void StartStage(int stageNum) {
         _monsterSpawmer1.InitMonsterSpawner(Player.Inst.transform);
         _monsterSpawmer2.InitMonsterSpawner(Player.Inst.transform);
         _dropItemSpawner.InitDropItemSpawner();
         _bulletSpawner.InitBulletSpawner();
+        Player.Inst.StartShooting();
     }
     public void DropItemFromMonster(Vector3 diePosition, string monsterDropTableId) {
         
@@ -40,5 +38,12 @@ public class StageManager : MonoBehaviour
     public void StartFireBullet(Vector3 spawnPosition, Vector2 direction) {
         _bulletSpawner.FireBullet(spawnPosition, direction);
     }
-
+    public void FinishStage()
+    {
+        _monsterSpawmer1.ClearAndReleaseSpawner();
+        _monsterSpawmer2.ClearAndReleaseSpawner();
+        _dropItemSpawner.ClearAndReleaseSpawner();
+        _bulletSpawner.ClearAndReleaseSpawner();
+        Player.Inst.StopShooting();
+    }
 }

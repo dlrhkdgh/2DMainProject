@@ -7,13 +7,13 @@ public class UIBase : MonoBehaviour
 
     public virtual void OpenUI()
     {
-        Debug.Log("OpenUI");
+        //Debug.Log("OpenUI");
 
         gameObject.SetActive(true);
     }
     public virtual void CloseUI()
     {
-        Debug.Log("CLoseUI");
+        //Debug.Log("CLoseUI");
 
         gameObject.SetActive(false);
     }

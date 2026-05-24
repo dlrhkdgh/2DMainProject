@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 public class BulletSpawner : MonoBehaviour
 {
@@ -91,6 +92,19 @@ public class BulletSpawner : MonoBehaviour
         _bulletData = DataManager.Inst.GetBulletData(_bulletId);
         _bulletAddressKey = _bulletData.PrefabPath;
         AsyncBulletPool().Forget();
+    }
+    public void ClearAndReleaseSpawner() {
+        for (int i = 0; i < _bulletPool.Count; i++)
+        {
+
+            if (_bulletPool[i] != null)
+            {
+                Addressables.ReleaseInstance(_bulletPool[i].gameObject);
+            }
+        }
+        _bulletPool.Clear();
+        _currentPivot = 0;
+        _isShooting = false;
 
     }
 }

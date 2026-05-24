@@ -179,20 +179,14 @@ public class UIManager : MonoBehaviour
     public void GameStartUI() {
         OpenCreatedUI(UIType.LobbyUI);
     }
-    public void GetInStageUI() {
+    public void CloseLobbyUI() {
         CloseCreatedUI(UIType.LobbyUI);
-        OpenCreatedUI(UIType.InFieldUI);
-
     }
     public void ExitGameUI() {
         CloseCreatedUI(UIType.LobbyUI);
-
     }
     public void OpenEarnItemPopUp(){
-
         OpenCreatedUI(UITypeRoot.PopupUI ,UIType.EarnItemPopUp);
-
-
     }
     public void ExitEarnItemPopUp() {
         CloseCreatedUI(UIType.EarnItemPopUp);
@@ -200,5 +194,14 @@ public class UIManager : MonoBehaviour
     public void ExitEnterStageUI()
     {
         CloseCreatedUI(UIType.EnterStageUI);
+    }
+    public void OpenEnterStageUI() {
+        OpenCreatedUI(UIType.EnterStageUI);
+    }
+    public void CloseInFeildUI() {
+        CloseCreatedUI(UIType.InFieldUI);
+    }
+    public void OpenInFeildUI() {
+        OpenCreatedUI (UIType.InFieldUI);
     }
 }
