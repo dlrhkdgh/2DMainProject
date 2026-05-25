@@ -18,7 +18,7 @@ public class ResultUI : UIInventoryBase
     
     public void OpenResultUI()
     {
-        this.gameObject.SetActive(true);
+       //this.gameObject.SetActive(true);
 
         if (Text_Coin != null) Text_Coin.text = StageManager.Inst.StageGold.ToString("N0");
 

@@ -1398,6 +1398,7 @@ MonoBehaviour:
   _monsterSpawmer1: {fileID: 871263447}
   _monsterSpawmer2: {fileID: 1375737369}
   _dropItemSpawner: {fileID: 1964602100}
+  maxExp: 300
 --- !u!4 &1457841520
 Transform:
   m_ObjectHideFlags: 0

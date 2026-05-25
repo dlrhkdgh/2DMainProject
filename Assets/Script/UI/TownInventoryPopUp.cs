@@ -11,7 +11,7 @@ public class TownInventoryPopUp : UIInventoryBase
     }
     public void OpenTownInventoryPopUp()
     {
-        this.gameObject.SetActive(true);
+       // this.gameObject.SetActive(true);
 
         if (Text_Coin != null) Text_Coin.text = GameManager.Inst.Gold.ToString("N0");
 

@@ -28,6 +28,7 @@ public class MonsterData : GameDataBase
     public string PrefabPath;
     public string IconPath;
     public string DropTableId;
+    public int MonsterExp;
 }
 [System.Serializable]
 public class ItemData : GameDataBase

@@ -19,6 +19,7 @@ public class Monster : MonoBehaviour
     public int AttackDamage { get; private set; } = 0;
     public float MoveSpeed { get; private set; } = 0f;
     public string DropTableId{ get; set; }
+    public int MonsterExp { get; set; }
 
     void Awake()
     {
@@ -134,6 +135,10 @@ public class Monster : MonoBehaviour
 
             StageManager.Inst.DropItemFromMonster(transform.position, DropTableId);
         }
+        if (MonsterExp > 0) 
+        {
+            StageManager.Inst.PlayerGetExp(MonsterExp);
+        }
         // 애니메이션 시간만큼 대기
         yield return new WaitForSeconds(animLength);
         
@@ -167,6 +172,7 @@ public class Monster : MonoBehaviour
         MoveSpeed = _defaultData.MoveSpeed;
         AttackDamage = _defaultData.AttackDamage;
         DropTableId = _defaultData.DropTableId;
+        MonsterExp= _defaultData.MonsterExp;
         Debug.Log($"[{_defaultData.Name}] 체력 {CurrentHp}, 속도 {MoveSpeed}로 초기화 완료!");
     }
     

@@ -18,6 +18,7 @@ public enum UIType
     GameoverUI,
     EnterStageUI,
     ResultUI,
+    LevelUpRewardUI,
     EarnItemPopUp,
     TownInventoryPopUp,
     ExitGamePopUp,
@@ -230,5 +231,13 @@ public class UIManager : MonoBehaviour
     }
     public void CloseResultUI() {
         CloseCreatedUI(UIType.ResultUI);
+    }
+    public void OpenLevelUpRewardUI()
+    {
+        OpenCreatedUI(UITypeRoot.PopupUI, UIType.LevelUpRewardUI);
+    }
+    public void CloseLevelUpRewardUI()
+    {
+        CloseCreatedUI(UIType.LevelUpRewardUI);
     }
 }

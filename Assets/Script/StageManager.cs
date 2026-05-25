@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class StageManager : MonoBehaviour
@@ -10,6 +11,10 @@ public class StageManager : MonoBehaviour
     [SerializeField] DropItemSpawner _dropItemSpawner;
     public int StageGold { get; set; } = 0;
     public Dictionary<string, int> _stageInventoryDic = new Dictionary<string, int>();
+    public int PlayerExp { get; set; } = 0;
+    public int maxExp = 300;
+    public int PlayerLevel { get; set; } = 0;
+    public Action<int, int, int> OnExpChanged;
     private bool isStageOnGoing = false;
     private void Awake()
     {
@@ -35,6 +40,7 @@ public class StageManager : MonoBehaviour
         _monsterSpawmer2.InitMonsterSpawner(Player.Inst.transform);
         _dropItemSpawner.InitDropItemSpawner();
         _bulletSpawner.InitBulletSpawner();
+        ResetLevel();
         Player.Inst.StartShooting();
 
         isStageOnGoing=true;
@@ -107,5 +113,34 @@ public class StageManager : MonoBehaviour
         {
         GameManager.Inst.AddInventory(item.Key, item.Value);
         }
+    }
+    public void PlayerGetExp(int expAmount) {
+        PlayerExp = PlayerExp+ expAmount;
+        while (PlayerExp >= maxExp) 
+        {
+            PlayerExp = PlayerExp - maxExp;
+            PlayerLevelUp();
+        }
+        OnExpChanged?.Invoke(PlayerExp, maxExp, PlayerLevel);
+    }
+    public void PlayerLevelUp() {
+        PlayerLevel++;
+        GetLevelUpReward();
+
+       //maxExp = Mathf.RoundToInt(maxExp * 1.2f);
+    }
+    public void ResetLevel() {
+        PlayerLevel = 0;
+        PlayerExp = 0;    
+    }
+    public void GetLevelUpReward() 
+    {
+        GameManager.Inst.PauseGame();
+        UIManager.Inst.OpenLevelUpRewardUI();
+    }
+    public void FinishLevelUpReward() 
+    {
+        UIManager.Inst.CloseLevelUpRewardUI();
+        GameManager.Inst.ResumeGame();
     }
 }

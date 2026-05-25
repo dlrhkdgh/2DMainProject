@@ -11,7 +11,7 @@ public class EarnItemPopUp : UIInventoryBase
     }
     public void OpenEarnItemPopUp()
     {
-        this.gameObject.SetActive(true);
+        //this.gameObject.SetActive(true);
        
         if (Text_Coin != null) Text_Coin.text = StageManager.Inst.StageGold.ToString("N0");
 

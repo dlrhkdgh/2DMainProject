@@ -1,7 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
-using System.Collections;
 using System.Threading;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -13,6 +11,13 @@ public class Player : MonoBehaviour
     // [SerializeField] private GameObject _bulletPrefab; 
     [SerializeField] private Transform _firePoint;
     [SerializeField] private int FireBulletPerSec = 5;
+    [Header("스텟")]
+    [SerializeField] private int _maxHp;
+
+    public int PlayerLevel { get; set; }
+    public int PlayerExp { get; set; }
+    public int PlayerCurrentHp { get; set; } 
+
     private PlayerAnimController _animController;
     private Rigidbody2D _rigidBody;
 
@@ -27,6 +32,7 @@ public class Player : MonoBehaviour
         _rigidBody = GetComponent<Rigidbody2D>();
         _animController = GetComponent<PlayerAnimController>();
         _rigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
+        ResetHp();
     }
     void Start()
     {
@@ -140,7 +146,6 @@ public class Player : MonoBehaviour
         {
             if (item.ItemId != "item_coin_01")
             {
-                //StageManager.Inst.AcquireItem(item.ItemCode);
                 StageManager.Inst.AddStageInventory(item.ItemId, 1);
                // GameManager.Inst.DebugPrintInventory();
             }
@@ -170,5 +175,19 @@ public class Player : MonoBehaviour
             _shootCts.Dispose();
             _shootCts = null;
         }
+    }
+    public void ResetHp()
+    {
+        PlayerCurrentHp = _maxHp;
+    }
+    public void PlayerGetExp(int expAmount) {
+        PlayerExp = PlayerExp + expAmount;
+        if (PlayerExp >= 100) {
+            PlayerExp = PlayerExp % 100;
+            PlayerLevelUp();
+        }
+    }
+    public void PlayerLevelUp() {
+        PlayerLevel++;
     }
 }
