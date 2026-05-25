@@ -126,7 +126,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec7ab7936a4894543bf486a34f39c04f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NewMonoBehaviourScript
-  _uiType: 0
+  _uiType: 1
   Button_GameStart: {fileID: 2027034634792290364}
   Button_GameExit: {fileID: 3552840184543797093}
 --- !u!1 &2347894510095499320

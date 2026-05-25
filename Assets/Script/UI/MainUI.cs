@@ -19,7 +19,6 @@ public class MainUI : UIBase
     }
     private void OnClick_InVenButton() {
 
-        UIManager.Inst.OpenEarnItemPopUp(InventoryType.Town);
-    
+        UIManager.Inst.OpenTownInventoryPopUp();
     }
 }

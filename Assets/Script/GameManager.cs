@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
     }
     public void GameStart() {
 
-        UIManager.Inst.GameStartUI();
+        UIManager.Inst.OpenLobbyUI();
     }
     public bool AddGold(int getGold) {
 
@@ -80,9 +80,15 @@ public class GameManager : MonoBehaviour
         UIManager.Inst.OpenInFeildUI();
     }
     public void FinishStage() 
-    {
-        StageManager.Inst.FinishStage();
+    {   
         UIManager.Inst.CloseInFeildUI();
+        UIManager.Inst.OpenResultUI();
+        StageManager.Inst.FinishStage();
+       // UIManager.Inst.OpenResultUI();
+
+    }
+    public void GoToTown() {
+        UIManager.Inst.CloseResultUI();
         UIManager.Inst.OpenMainUI();
     }
 }

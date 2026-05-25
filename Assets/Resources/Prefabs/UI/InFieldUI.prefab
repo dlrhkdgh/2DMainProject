@@ -208,7 +208,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cec6d6bce3c64ba44a5a495ba328b65f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InFieldUI
-  _uiType: 0
+  _uiType: 2
   Button_EarnItemPopUp: {fileID: 7624407190383026680}
   Button_ExitStage: {fileID: 2361023742250860245}
 --- !u!1 &7634463418799461371

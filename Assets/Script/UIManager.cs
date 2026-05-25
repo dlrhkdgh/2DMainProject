@@ -17,7 +17,9 @@ public enum UIType
     MainUI,
     GameoverUI,
     EnterStageUI,
+    ResultUI,
     EarnItemPopUp,
+    TownInventoryPopUp,
     ExitGamePopUp,
 }
 public class UIManager : MonoBehaviour
@@ -67,7 +69,7 @@ public class UIManager : MonoBehaviour
     {
 
         if (_createdUIDic.ContainsKey(uiType) == false)
-            CreatUI(uiTypRoot,uiType);
+            CreatUI(uiTypRoot, uiType);
 
         if (_createdUIDic.ContainsKey(uiType))
         {
@@ -150,7 +152,7 @@ public class UIManager : MonoBehaviour
                 return;
             }
 
-            
+
             newUIObj = Instantiate(loadedObj, popUpUiCanvasTransform);
             if (newUIObj != null)
             {
@@ -177,63 +179,56 @@ public class UIManager : MonoBehaviour
         }
         return null;
     }
-
-    
-    public void OpenEarnItemPopUp(InventoryType type)
-    {
-       
-        OpenCreatedUI(UITypeRoot.PopupUI, UIType.EarnItemPopUp);
-
-       
-        EarnItemPopUp earnUi = GetUI<EarnItemPopUp>(UIType.EarnItemPopUp);
-
-        if (earnUi != null)
-        {
-            earnUi.OpenInventory(type);
-        }
-        else
-        {
-            Debug.LogError($"[UI Error] {UIType.EarnItemPopUp}를 형변환하는 데 실패했습니다.");
-        }
-    }
+  
     public static string GetUIPath(UIType uiType)
     {
         string path = string.Empty;
         path = $"Prefabs/UI/{uiType}";
         return path;
     }
-    public void GameStartUI() {
+    public void OpenLobbyUI() {
         OpenCreatedUI(UIType.LobbyUI);
     }
     public void CloseLobbyUI() {
         CloseCreatedUI(UIType.LobbyUI);
     }
-    public void ExitGameUI() {
-        CloseCreatedUI(UIType.LobbyUI);
+    public void OpenEarnItemPopUp() {
+        OpenCreatedUI(UITypeRoot.PopupUI, UIType.EarnItemPopUp);
     }
-    public void OpenEarnItemPopUp(){
-        OpenCreatedUI(UITypeRoot.PopupUI ,UIType.EarnItemPopUp);
-    }
-    public void ExitEarnItemPopUp() {
+    public void CloseEarnItemPopUp() {
         CloseCreatedUI(UIType.EarnItemPopUp);
     }
-    public void ExitEnterStageUI()
-    {
-        CloseCreatedUI(UIType.EnterStageUI);
+    public void OpenTownInventoryPopUp(){
+
+        OpenCreatedUI(UITypeRoot.PopupUI, UIType.TownInventoryPopUp);
+    }
+    public void CloseTownInventoryPopUp() {
+
+        CloseCreatedUI(UIType.TownInventoryPopUp);
     }
     public void OpenEnterStageUI() {
         OpenCreatedUI(UIType.EnterStageUI);
     }
+    public void CloseEnterStageUI()
+    {
+        CloseCreatedUI(UIType.EnterStageUI);
+    }
+     public void OpenInFeildUI() {
+        OpenCreatedUI(UIType.InFieldUI);
+    }
     public void CloseInFeildUI() {
         CloseCreatedUI(UIType.InFieldUI);
-    }
-    public void OpenInFeildUI() {
-        OpenCreatedUI(UIType.InFieldUI);
     }
     public void OpenMainUI() {
         OpenCreatedUI(UIType.MainUI);
     }
     public void CloseMainUi() {
         CloseCreatedUI(UIType.MainUI);
+    }
+    public void OpenResultUI() {
+        OpenCreatedUI(UIType.ResultUI);
+    }
+    public void CloseResultUI() {
+        CloseCreatedUI(UIType.ResultUI);
     }
 }

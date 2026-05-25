@@ -1,24 +1,30 @@
 ﻿using UnityEngine;
 
-public class EarnItemPopUp : UIInventoryBase
+public class ResultUI : UIInventoryBase
 {
     [SerializeField] UIButtonBase Button_Exit;
-
+    void Start()
+    {
+        
+    }
     private void OnEnable()
     {
-        Button_Exit.BindOnClickButtonEvent(OnClick_ExitButton);
-        OpenEarnItemPopUp();
+        if (Button_Exit != null)
+        {
+            Button_Exit.BindOnClickButtonEvent(OnClick_ExitResultUI);
+        }
+        OpenResultUI();
     }
-    public void OpenEarnItemPopUp()
+    
+    public void OpenResultUI()
     {
         this.gameObject.SetActive(true);
-       
+
         if (Text_Coin != null) Text_Coin.text = StageManager.Inst.StageGold.ToString("N0");
 
         DrawInventoryAsync(StageManager.Inst._stageInventoryDic).Forget();
     }
-    public void OnClick_ExitButton() 
-    {
-        UIManager.Inst.CloseEarnItemPopUp();
+    void OnClick_ExitResultUI() {
+        GameManager.Inst.GoToTown();
     }
 }

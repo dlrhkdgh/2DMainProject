@@ -55,11 +55,11 @@ public class EnterStageUI : UIBase
 
         Debug.Log($"현재{SelectedSlotId+1}스테이지 선택됨");
         GameManager.Inst.StartStage(SelectedSlotId);
-        UIManager.Inst.ExitEnterStageUI();
+        UIManager.Inst.CloseEnterStageUI();
     }
     private void OnClick_ButtonExit() {
 
-        UIManager.Inst.ExitEnterStageUI();
+        UIManager.Inst.CloseEnterStageUI();
     }
     private void ResetSetSelectedState() {
         if (SelectedSlotId >= 0 && SelectedSlotId < _slotList.Count)

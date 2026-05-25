@@ -19,7 +19,7 @@ public class InFieldUI : UIBase
     void OnClick_EarnItemPopUp()
     {
 
-        UIManager.Inst.OpenEarnItemPopUp(InventoryType.Stage);
+        UIManager.Inst.OpenEarnItemPopUp();
     }
     void OnClick_ExitSatge() {
         GameManager.Inst.FinishStage();
