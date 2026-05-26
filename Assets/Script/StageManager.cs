@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class StageManager : MonoBehaviour
@@ -11,6 +12,8 @@ public class StageManager : MonoBehaviour
     [SerializeField] DropItemSpawner _dropItemSpawner;
     public int StageGold { get; set; } = 0;
     public Dictionary<string, int> _stageInventoryDic = new Dictionary<string, int>();
+    public Dictionary<string, int> _currentLevelUpRewardDic = new Dictionary<string, int>();
+    public List<string> _finalRewardList = new List<string>();
     public int PlayerExp { get; set; } = 0;
     public int maxExp = 300;
     public int PlayerLevel { get; set; } = 0;
@@ -41,6 +44,7 @@ public class StageManager : MonoBehaviour
         _dropItemSpawner.InitDropItemSpawner();
         _bulletSpawner.InitBulletSpawner();
         ResetLevel();
+        InitCurrentLevelUpRewardDic();
         Player.Inst.StartShooting();
 
         isStageOnGoing=true;
@@ -66,7 +70,7 @@ public class StageManager : MonoBehaviour
         Player.Inst.StopShooting();
 
         AddToRealInventory(1f);
-        ResetStageInventory();
+        ResetStageInfo();
 
         isStageOnGoing = false;
     }
@@ -101,10 +105,11 @@ public class StageManager : MonoBehaviour
             //DebugPrintInventory();
         }
     }
-    public void ResetStageInventory() {
+    public void ResetStageInfo() {
 
         StageGold = 0;
         _stageInventoryDic.Clear();
+        _currentLevelUpRewardDic.Clear();
     }
     public void AddToRealInventory(float scalef) {
 
@@ -136,11 +141,64 @@ public class StageManager : MonoBehaviour
     public void GetLevelUpReward() 
     {
         GameManager.Inst.PauseGame();
+        _finalRewardList.Clear();
+        _finalRewardList = GetRandomLevelUpReward(3);
         UIManager.Inst.OpenLevelUpRewardUI();
     }
     public void FinishLevelUpReward() 
     {
         UIManager.Inst.CloseLevelUpRewardUI();
         GameManager.Inst.ResumeGame();
+    }
+    public void InitCurrentLevelUpRewardDic() {
+        foreach (KeyValuePair<string, LevelUpRewardData> reward in DataManager.Inst.LevelUpRewardDataList)
+        {
+            _currentLevelUpRewardDic.Add(reward.Key,0);
+        }    
+    }
+    public List<string> GetRandomLevelUpReward(int count) {
+       
+        List<string> finalReward = new List<string>();
+
+        foreach (KeyValuePair<string, LevelUpRewardData> data in DataManager.Inst.LevelUpRewardDataList)
+        {
+            if (!(CheckRewardIsMaxLevel(data.Key))) {
+            finalReward.Add(data.Key);            
+            }        
+        }
+        if (finalReward.Count <= count)
+        {
+            return finalReward;
+        }
+        for (int i = 0; i < finalReward.Count; i++)
+        {
+            int randomIndex = UnityEngine.Random.Range(i, finalReward.Count);
+            string temp = finalReward[i];
+            finalReward[i] = finalReward[randomIndex];
+            finalReward[randomIndex] = temp;
+        }
+        
+        return finalReward.GetRange(0, count);
+    }
+    public bool CheckRewardIsMaxLevel(string id) {
+        LevelUpRewardData data = DataManager.Inst.GetLevelUpRewardData(id);
+
+        if (_currentLevelUpRewardDic[id] >= data.MaxLevel) return true;
+        else return false;
+    }
+    public void PlayerGetLevelUpReward(string id) {
+        _currentLevelUpRewardDic[id]++;
+    }
+    public void PlayerStatLevelUp(RewardStatType type) {
+
+        switch (type) {
+            case RewardStatType.MaxHp: break;
+            case RewardStatType.MoveSpeed: break;
+            case RewardStatType.Attack: break;
+            case RewardStatType.MagnetRange: break;
+            case RewardStatType.Armor: break;
+            case RewardStatType.CriticalPercent: break;
+            default:break;
+        }
     }
 }

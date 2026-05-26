@@ -2,17 +2,42 @@
 using System.Threading;
 using UnityEngine;
 
+
 public class Player : MonoBehaviour
 {
     public static Player Inst { get; set; }
     [Header("이동 설정")]
-    [SerializeField] private float _moveSpeed = 4f;
+    
     [Header("총알 발사")]
     // [SerializeField] private GameObject _bulletPrefab; 
     [SerializeField] private Transform _firePoint;
     [SerializeField] private int FireBulletPerSec = 5;
     [Header("스텟")]
-    [SerializeField] private int _maxHp;
+    
+
+    [Header("기본 스텟")]
+    [SerializeField] private int _maxHp = 100;
+    [SerializeField] private float _moveSpeed = 4f;
+    [SerializeField] private int _attack = 5;
+    [SerializeField] private float _magnetRange = 5f;
+    [SerializeField] private int _armor = 0;
+    [SerializeField] private float _criticalPercent = 0f;
+
+    [Header("인게임 추가 능력치")]
+    public int _stageAddMaxHp;
+    public float _stageAddMoveSpeed;
+    public int _stageAddAttack;
+    public float _stageAddMagnetRange;
+    public int _stageAddArmor;
+    public float _stageAddCriticalPercent;
+
+    [Header("최종 스텟")]
+    public int FinalMaxHp => _maxHp + _stageAddMaxHp;
+    public float FinalMoveSpeed => _moveSpeed + _stageAddMoveSpeed;
+    public int FinalAttack => _attack + _stageAddAttack;
+    public float FinalMangetRange => _magnetRange + _stageAddMagnetRange;
+    public int FinalArmor => _armor + _stageAddArmor;
+    public float FinalCriticalPercent => _criticalPercent + _stageAddCriticalPercent;
 
     public int PlayerLevel { get; set; }
     public int PlayerExp { get; set; }
@@ -189,5 +214,13 @@ public class Player : MonoBehaviour
     }
     public void PlayerLevelUp() {
         PlayerLevel++;
+    }
+    public void ResetAddedPlayerStageStat() {
+     _stageAddMaxHp=0;
+     _stageAddMoveSpeed=0f;
+     _stageAddAttack=0;
+     _stageAddMagnetRange=0f;
+     _stageAddArmor=0;
+     _stageAddCriticalPercent=0f;
     }
 }

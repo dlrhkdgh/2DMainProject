@@ -1,6 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 
+public enum RewardStatType {
+    None=0,
+    MaxHp,
+    MoveSpeed,
+    Attack,
+    MagnetRange,
+    Armor,
+    CriticalPercent
+}
+public enum StatClacType
+{
+    None = 0,
+    Flat,
+    Percent
+}
+
 [ System.Serializable]
 public class GameDataBase
 {
@@ -62,4 +78,15 @@ public class DropTableData : GameDataBase
     public string DropItemId1; public int Item1DropPercent;
     public string DropItemId2; public int Item2DropPercent;
     public string DropItemId3; public int Item3DropPercent;
+}
+[System.Serializable]
+public class LevelUpRewardData : GameDataBase 
+{
+    public string Name;
+    public string Description;
+    public RewardStatType StatType;
+    public StatClacType ClacType;
+    public float Value;
+    public int MaxLevel;
+    public string IconPath;
 }

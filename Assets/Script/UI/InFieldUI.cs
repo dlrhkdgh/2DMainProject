@@ -7,9 +7,16 @@ public class InFieldUI : UIBase
     [SerializeField] UIButtonBase Button_ExitStage;
     [Header("경험치 UI 요소")]
     [SerializeField] private Slider _expSlider;
-    [SerializeField] private Text _textLevel;
-    [SerializeField] private Text _textExpPercent;
-    
+    [SerializeField] private Text Text_Level;
+    //[SerializeField] private Text _textExpPercent;
+    [Header("플레이어 현재 스텟")]
+    [SerializeField] private Text Text_MaxHp;
+    [SerializeField] private Text Text_MoveSpeed;
+    [SerializeField] private Text Text_Attack;
+    [SerializeField] private Text Text_MagnetRange;
+    [SerializeField] private Text Text_Armor;
+    [SerializeField] private Text Text_CriticalPercent;
+
     void OnEnable()
     {
         if (StageManager.Inst != null) 
@@ -37,9 +44,9 @@ public class InFieldUI : UIBase
         _expSlider.value = expRatio;
 
        
-        if (_textLevel != null)
+        if (Text_Level != null)
         {
-            _textLevel.text = $"Lv.{currentLevel}";
+            Text_Level.text = $"Lv.{currentLevel}";
         }
 
 

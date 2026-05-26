@@ -16,7 +16,7 @@ public class UIInventoryBase : UIBase
     public async UniTaskVoid DrawInventoryAsync(Dictionary<string, int> targetInven)
     {
         
-        this.gameObject.SetActive(true);
+        //this.gameObject.SetActive(true);
 
         foreach (Transform child in _layoutGroupParent)
         {

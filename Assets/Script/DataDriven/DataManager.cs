@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class DataManager : MonoBehaviour
@@ -26,6 +24,7 @@ public class DataManager : MonoBehaviour
     public Dictionary<string, ItemData> ItemDataList { get; private set; } = new Dictionary<string, ItemData>();
     public Dictionary<string, BulletData> BulletDataList { get; private set; } = new Dictionary<string, BulletData>();
     public Dictionary<string, DropTableData> DropTableDataList { get; private set; } = new Dictionary<string, DropTableData>();
+    public Dictionary<string, LevelUpRewardData> LevelUpRewardDataList { get; private set; } = new Dictionary<string, LevelUpRewardData>();
     private Dictionary<string, T> LoadData<T>(string tableName) where T : GameDataBase
     {
         // 1. 경로 설정 (확장자 .json 제외!)
@@ -79,6 +78,10 @@ public class DataManager : MonoBehaviour
     {
         DropTableDataList = LoadData<DropTableData>(jsonPath);
     }
+    public void LoadLevelUpRewardData(string jsonPath)
+    {
+        LevelUpRewardDataList = LoadData<LevelUpRewardData>(jsonPath);
+    }
     public MonsterData GetMonsterData(string id) {
 
         if (MonsterDataList == null || string.IsNullOrEmpty(id)) return null; 
@@ -106,11 +109,19 @@ public class DataManager : MonoBehaviour
         return DropTableDataList.TryGetValue(id, out var data) ? data : null;
 
     }
+    public LevelUpRewardData GetLevelUpRewardData(string id)
+    {
+
+        if (LevelUpRewardDataList == null || string.IsNullOrEmpty(id)) return null;
+        return LevelUpRewardDataList.TryGetValue(id, out var data) ? data : null;
+
+    }
     public void LoadFullData()
     {
         LoadMonsterData("MonsterData");
         LoadItemData("ItemData");
         LoadBulletData("BulletData");
         LoadDropTableData("DropTableData");
+        LoadLevelUpRewardData("LevelUpRewardData");
     }
 }

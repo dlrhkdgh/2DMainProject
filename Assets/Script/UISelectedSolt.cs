@@ -8,7 +8,7 @@ public class UISelectedSolt : MonoBehaviour
     [SerializeField] private Image Image_Select;
     
     private Action<int> _onClickCallback;
-    private int _slotId = -1;
+    public int SlotId { get; set; } = -1;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -21,7 +21,7 @@ public class UISelectedSolt : MonoBehaviour
 
     }
     public void InitSelectedSolt(int id, Action<int> callback) {
-        _slotId = id;
+        SlotId = id;
         _onClickCallback = callback;
         if (Button_Selected != null)
         {
@@ -36,6 +36,7 @@ public class UISelectedSolt : MonoBehaviour
     }
     public void OnClick_SelectSlot()
     {
-        _onClickCallback?.Invoke(_slotId);
+        _onClickCallback?.Invoke(SlotId);
     }
+
 }   

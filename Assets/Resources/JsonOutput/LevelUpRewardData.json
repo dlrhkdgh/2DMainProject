@@ -1,0 +1,62 @@
+[
+  {
+    "Id": "levelupreward_maxhp_01",
+    "Name": "체력 증가",
+    "Description": "최대체력이 10%증가합니다.",
+    "StatType": "MaxHp",
+    "CalcType": "Percent",
+    "Value": 10,
+    "MaxLevel": 5,
+    "IconPath": "Reward/Icon[RewardIcon_1]"
+  },
+  {
+    "Id": "levelupreward_movespeed_01",
+    "Name": "이동속도 증가",
+    "Description": "이동속도가 1 증가합니다.",
+    "StatType": "MoveSpeed",
+    "CalcType": "Flat",
+    "Value": 1,
+    "MaxLevel": 5,
+    "IconPath": "Reward/Icon[RewardIcon_3]"
+  },
+  {
+    "Id": "levelupreward_attack_01",
+    "Name": "공격력 증가",
+    "Description": "공격력이 5 증가합니다.",
+    "StatType": "Attack",
+    "CalcType": "Flat",
+    "Value": 5,
+    "MaxLevel": 3,
+    "IconPath": "Reward/Icon2[Reward2_0]"
+  },
+  {
+    "Id": "levelupreward_magnet_01",
+    "Name": "아이템 습득범위 증가",
+    "Description": "아이템 자석의 범위가 10% 증가합니다.",
+    "StatType": "MagnetRange",
+    "CalcType": "Percent",
+    "Value": 10,
+    "MaxLevel": 3,
+    "IconPath": "Reward/Icon[RewardIcon_7]"
+  },
+  {
+    "Id": "levelupreward_armor_01",
+    "Name": "방어력 증가",
+    "Description": "방어력이 5 증가합니다.",
+    "StatType": "Armor",
+    "CalcType": "Flat",
+    "Value": 5,
+    "MaxLevel": 3,
+    "IconPath": "Reward/Icon3[RewardIcon3_0]"
+  },
+  {
+    "Id": "levelupreward_criticalpercent_01",
+    "Name": "크리티컬 확률 증가",
+    "Description": "크리티컬 확률이 5%증가합니다.",
+    "StatType": "CriticalPercent",
+    "CalcType": "Percent",
+    "Value": 5,
+    "MaxLevel": 5,
+    "IconPath": "Reward/Icon[RewardIcon_5]"
+  }
+]

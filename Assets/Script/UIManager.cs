@@ -22,6 +22,7 @@ public enum UIType
     EarnItemPopUp,
     TownInventoryPopUp,
     ExitGamePopUp,
+    YesOrNoPopUp,
 }
 public class UIManager : MonoBehaviour
 {
@@ -239,5 +240,13 @@ public class UIManager : MonoBehaviour
     public void CloseLevelUpRewardUI()
     {
         CloseCreatedUI(UIType.LevelUpRewardUI);
+    }
+    public void OpenYesOrNoPopUp()
+    {
+        OpenCreatedUI(UITypeRoot.PopupUI, UIType.YesOrNoPopUp);
+    }
+    public void CloseYesOrNoPopUp()
+    {
+        CloseCreatedUI(UIType.YesOrNoPopUp);
     }
 }
