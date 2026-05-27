@@ -1,30 +1,34 @@
 ﻿using Cysharp.Threading.Tasks;
+using System;
+using System.Collections;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 public class Player : MonoBehaviour
 {
     public static Player Inst { get; set; }
     [Header("이동 설정")]
-    
+    [SerializeField] private Transform _spriteTransform;
+    [SerializeField] private SpriteRenderer _spriteRenderer;
     [Header("총알 발사")]
     // [SerializeField] private GameObject _bulletPrefab; 
     [SerializeField] private Transform _firePoint;
     [SerializeField] private int FireBulletPerSec = 5;
     [Header("스텟")]
-    
-
+    [SerializeField] private float _invincibleDuration = 0.5f;
+    [SerializeField] private Slider _hpSlider;
     [Header("기본 스텟")]
     [SerializeField] private int _maxHp = 100;
-    [SerializeField] private float _moveSpeed = 4f;
+    [SerializeField] private float _moveSpeed = 10f;
     [SerializeField] private int _attack = 5;
     [SerializeField] private float _magnetRange = 5f;
     [SerializeField] private int _armor = 0;
     [SerializeField] private float _criticalPercent = 0f;
 
     [Header("인게임 추가 능력치")]
-    public int _stageAddMaxHp;
+    public float _stageAddMaxHpPercent;
     public float _stageAddMoveSpeed;
     public int _stageAddAttack;
     public float _stageAddMagnetRange;
@@ -32,10 +36,10 @@ public class Player : MonoBehaviour
     public float _stageAddCriticalPercent;
 
     [Header("최종 스텟")]
-    public int FinalMaxHp => _maxHp + _stageAddMaxHp;
+    public int FinalMaxHp => GetFinalMaxHp();
     public float FinalMoveSpeed => _moveSpeed + _stageAddMoveSpeed;
     public int FinalAttack => _attack + _stageAddAttack;
-    public float FinalMangetRange => _magnetRange + _stageAddMagnetRange;
+    public float FinalMagnetRange => GetFinalMagnetRange();
     public int FinalArmor => _armor + _stageAddArmor;
     public float FinalCriticalPercent => _criticalPercent + _stageAddCriticalPercent;
 
@@ -50,6 +54,9 @@ public class Player : MonoBehaviour
     private float _verticalInput;
     private Vector2 _moveDirection;
     private CancellationTokenSource _shootCts;
+    
+    public bool _isInvincible= false;
+    public Action OnHpChanged;
 
     void Awake()
     {
@@ -57,15 +64,70 @@ public class Player : MonoBehaviour
         _rigidBody = GetComponent<Rigidbody2D>();
         _animController = GetComponent<PlayerAnimController>();
         _rigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
+        if (_spriteTransform != null)
+        {
+            _spriteRenderer = _spriteTransform.GetComponent<SpriteRenderer>();
+        }
+        else
+        {
+            _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        }
+        ResetAddedPlayerStageStat();
+        OnHpChanged += UpdateHpBar;
         ResetHp();
+        
     }
     void Start()
     {
 
 
     }
+    public void TakeDamage(int damage)
+    {
+        if (_isInvincible) return;
+
+        int finalDmg = damage - FinalArmor;
+        if (finalDmg < 1)
+        {
+            finalDmg = 1;
+        }
+        PlayerCurrentHp -= finalDmg;
+        Debug.Log($"플레이어 피격! 남은 체력: {PlayerCurrentHp}");
+        
+        if (PlayerCurrentHp <= 0)
+        {
+            PlayerCurrentHp = 0;
+            //return;
+        }
+        OnHpChanged?.Invoke();
+        StartCoroutine(CoInvincibleTimer());
+    }
+    private IEnumerator CoInvincibleTimer()
+    {
+        _isInvincible = true; 
+
+        
+        float timer = 0f;
+        while (timer < _invincibleDuration)
+        {
+
+            Color color = _spriteRenderer.color;
+            color.a = (color.a == 1.0f) ? 0.2f : 1.0f;
+            _spriteRenderer.color = color;
 
 
+            yield return new WaitForSeconds(0.1f);
+            timer += 0.1f;
+        }
+
+
+        Color finalColor = _spriteRenderer.color;
+        finalColor.a = 1.0f;
+        _spriteRenderer.color = finalColor;
+
+        _isInvincible = false; 
+       // Debug.Log("무적 종료");
+    }
     void Update()
     {
         PlayerMove();
@@ -76,6 +138,7 @@ public class Player : MonoBehaviour
     private void OnDisable()
     {
         StopShooting();
+        OnHpChanged -= UpdateHpBar;
     }
     private void PlayerMove()
     {
@@ -87,7 +150,7 @@ public class Player : MonoBehaviour
         {
             _moveDirection = _moveDirection.normalized;
         }
-        _rigidBody.linearVelocity = _moveDirection * _moveSpeed;
+        _rigidBody.linearVelocity = _moveDirection * FinalMoveSpeed;
 
     }
     private void PlayerFlip()
@@ -109,13 +172,11 @@ public class Player : MonoBehaviour
 
         if (mousePos.x > transform.position.x)
         {
-
-            transform.localScale = new Vector3(-1, 1, 1);
+            _spriteTransform.localScale = new Vector3(-1, 1, 1);
         }
         else if (mousePos.x < transform.position.x)
         {
-
-            transform.localScale = new Vector3(1, 1, 1);
+            _spriteTransform.localScale = new Vector3(1, 1, 1);
         }
     }
     private void Shoot()//마우스방향따라
@@ -172,7 +233,7 @@ public class Player : MonoBehaviour
             if (item.ItemId != "item_coin_01")
             {
                 StageManager.Inst.AddStageInventory(item.ItemId, 1);
-               // GameManager.Inst.DebugPrintInventory();
+                // GameManager.Inst.DebugPrintInventory();
             }
             else {
                 StageManager.Inst.AddStageGold(item.GoldAmount);
@@ -180,8 +241,9 @@ public class Player : MonoBehaviour
             }
             Debug.Log($"아이템 먹음{item.ItemId} ");
             collision.gameObject.SetActive(false);
-        }
+        }        
     }
+    
     public void StartShooting() {
         CleanUpCts();
         _shootCts = new CancellationTokenSource();
@@ -204,6 +266,7 @@ public class Player : MonoBehaviour
     public void ResetHp()
     {
         PlayerCurrentHp = _maxHp;
+        OnHpChanged?.Invoke();
     }
     public void PlayerGetExp(int expAmount) {
         PlayerExp = PlayerExp + expAmount;
@@ -216,11 +279,35 @@ public class Player : MonoBehaviour
         PlayerLevel++;
     }
     public void ResetAddedPlayerStageStat() {
-     _stageAddMaxHp=0;
+     _stageAddMaxHpPercent=0;
      _stageAddMoveSpeed=0f;
      _stageAddAttack=0;
      _stageAddMagnetRange=0f;
      _stageAddArmor=0;
      _stageAddCriticalPercent=0f;
+    }
+    public int GetFinalMaxHp() 
+    {
+        float calcHp = _maxHp * (_stageAddMaxHpPercent / 100f);
+        int finalMaxHp = _maxHp + Mathf.RoundToInt(calcHp);
+        return finalMaxHp;
+    }
+    public float GetFinalMagnetRange() {
+    return _magnetRange + (_magnetRange * (_stageAddMagnetRange /100f));
+    }
+    public void GetLevelUpHp(float addMaxHpPercent) {
+        Debug.Log($"변경전 체력 {PlayerCurrentHp}");
+        float calcHp = _maxHp * (addMaxHpPercent / 100f);
+        PlayerCurrentHp += Mathf.RoundToInt(calcHp);
+        OnHpChanged?.Invoke();
+        Debug.Log($"변경후 체력 {PlayerCurrentHp}");
+    }
+    private void UpdateHpBar()
+    {
+      
+        if (_hpSlider == null) return;
+        float hpRatio = (float)PlayerCurrentHp / FinalMaxHp;
+        _hpSlider.value = hpRatio;
+        Debug.Log(" cpfurqk qusrud");
     }
 }

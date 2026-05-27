@@ -12,12 +12,24 @@ public class PlayerMagnet : MonoBehaviour
     void Awake()
     {
         _itemLayerMask = LayerMask.GetMask("DropItem");
-        Debug.Log($"[레이어마스크 결과] : {_itemLayerMask}");
+       // Debug.Log($"[레이어마스크 결과] : {_itemLayerMask}");
         if (_playerTransform == null) _playerTransform = transform.parent; 
     }
-
+    private void OnEnable()
+    {
+       
+    }
+    private void OnDisable()
+    {
+        if (StageManager.Inst != null)
+        {
+            StageManager.Inst.OnPlayerStatChanged -= UpdateColliderRadius;
+        }
+    }
     void Start()
     {
+        StageManager.Inst.OnPlayerStatChanged += UpdateColliderRadius;
+        UpdateColliderRadius();
         StartCoroutine(ScanItemsCo());
     }
     private IEnumerator ScanItemsCo()
@@ -57,5 +69,14 @@ public class PlayerMagnet : MonoBehaviour
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, _magnetRadius);
+    }
+    private void UpdateColliderRadius()
+    {
+        if (Player.Inst == null) return;
+
+        // 플레이어가 들고 있는 최신 실시간 자석 범위 데이터를 가져와 콜라이더에 꽂아줍니다!
+        _magnetRadius = Player.Inst.FinalMagnetRange;
+
+        Debug.Log($"[자석] 플레이어 스텟 변경 방송 수신! 현재 자석 범위: {_magnetRadius}");
     }
 }

@@ -1,8 +1,12 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class InFieldUI : UIBase
 {
+    [Header("자식 UI 참조")]
+    [SerializeField] private UIInventoryBase _uiInventory;
+
     [SerializeField] UIButtonBase Button_EarnItemPopUp;
     [SerializeField] UIButtonBase Button_ExitStage;
     [Header("경험치 UI 요소")]
@@ -16,14 +20,19 @@ public class InFieldUI : UIBase
     [SerializeField] private Text Text_MagnetRange;
     [SerializeField] private Text Text_Armor;
     [SerializeField] private Text Text_CriticalPercent;
-
+    private Dictionary<string, int> _myInventoryDic;
     void OnEnable()
     {
+
         if (StageManager.Inst != null) 
         {
             StageManager.Inst.OnExpChanged += UpdateExpBar;
+            StageManager.Inst.OnPlayerStatChanged += UpdatePlayerStat;
+            UpdatePlayerStat();
             UpdateExpBar(StageManager.Inst.PlayerExp,StageManager.Inst.maxExp,StageManager.Inst.PlayerLevel);
+            _myInventoryDic = StageManager.Inst._potionInventoryDic;
         }
+        OpenAndRefreshInventory();
         Button_EarnItemPopUp.BindOnClickButtonEvent(OnClick_EarnItemPopUp);
         Button_ExitStage.BindOnClickButtonEvent(OnClick_ExitSatge);
     }
@@ -32,6 +41,7 @@ public class InFieldUI : UIBase
         if (StageManager.Inst != null) 
         {
             StageManager.Inst.OnExpChanged -= UpdateExpBar;
+            StageManager.Inst.OnPlayerStatChanged -= UpdatePlayerStat;
         }
     }
     private void UpdateExpBar(int currentExp, int maxExp, int currentLevel)
@@ -62,6 +72,21 @@ public class InFieldUI : UIBase
     }
     void OnClick_ExitSatge() {
         GameManager.Inst.FinishStage();
-        UIManager.Inst.CloseInFeildUI();
+        //UIManager.Inst.CloseInFeildUI();
+    }
+    void UpdatePlayerStat() {
+        Debug.Log("플레이어스텟 업데이트");
+        Text_MaxHp.text=Player.Inst.FinalMaxHp.ToString();
+        Text_Attack.text=Player.Inst.FinalAttack.ToString();
+        Text_MoveSpeed.text = Player.Inst.FinalMoveSpeed.ToString();
+        Text_MagnetRange.text = Player.Inst.FinalMagnetRange.ToString();
+        Text_Armor.text = Player.Inst.FinalArmor.ToString();
+        Text_CriticalPercent.text = Player.Inst.FinalCriticalPercent.ToString();
+    }
+    public void OpenAndRefreshInventory()
+    {
+        if (_uiInventory == null) return;
+        _uiInventory.gameObject.SetActive(true);
+        _uiInventory.DrawInventory(_myInventoryDic);
     }
 }

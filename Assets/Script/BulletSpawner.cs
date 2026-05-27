@@ -76,8 +76,19 @@ public class BulletSpawner : MonoBehaviour
         }
         if (bulletToSpawn != null)
         {
+            int bonusDamage=0;
+            bool isCritical=false;
+            if (Player.Inst != null&&GetIsCritical())
+            {
+                bonusDamage = Player.Inst.FinalAttack*2;
+                isCritical = true;
+            }
+            else if (Player.Inst != null)
+            {
+                bonusDamage = Player.Inst.FinalAttack;
+            }
             bulletToSpawn.transform.position = spawnPosition;
-            bulletToSpawn.InitBullet(_bulletData);
+            bulletToSpawn.InitBullet(_bulletData,bonusDamage,0f,0f, isCritical);
             bulletToSpawn.gameObject.SetActive(true);
 
             bulletToSpawn.Launch(direction);
@@ -105,6 +116,15 @@ public class BulletSpawner : MonoBehaviour
         _bulletPool.Clear();
         _currentPivot = 0;
         _isShooting = false;
+
+    }
+    public bool GetIsCritical() {
+
+        if (Random.Range(0, 100) < Player.Inst.FinalCriticalPercent) 
+        {
+            return true;
+        }
+        else return false;
 
     }
 }

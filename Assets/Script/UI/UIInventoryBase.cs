@@ -1,5 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,53 +9,56 @@ public class UIInventoryBase : UIBase
     [SerializeField] GameObject _itemSlotPrefab;
     [SerializeField] private Transform _layoutGroupParent;
     [SerializeField] protected Text Text_Coin;
-
+    private CancellationTokenSource _cts;
     private void OnEnable()
     {
-       
+      
     }
-    public async UniTaskVoid DrawInventoryAsync(Dictionary<string, int> targetInven)
+    public void DrawInventory(Dictionary<string, int> targetInven)
     {
-        
-        //this.gameObject.SetActive(true);
-
         foreach (Transform child in _layoutGroupParent)
         {
             Destroy(child.gameObject);
         }
 
-
         if (targetInven != null)
         {
             foreach (KeyValuePair<string, int> item in targetInven)
             {
-                await CreateAndSetupSlotAsync(item.Key, item.Value);
+                CreateAndSetupSlot(item.Key, item.Value);
             }
         }
     }
-    private async UniTask CreateAndSetupSlotAsync(string itemId, int count)
+    private void CreateAndSetupSlot(string itemId, int count)
     {
         if (_itemSlotPrefab == null) return;
+
+        ItemData itemData = DataManager.Inst.GetItemData(itemId);
+        if (itemData == null) return;
 
         GameObject newSlot = Instantiate(_itemSlotPrefab, _layoutGroupParent);
         newSlot.SetActive(true);
 
         UIButtonBase targetSlot = newSlot.GetComponent<UIButtonBase>();
-        if (targetSlot == null)
+        if (targetSlot != null)
         {
-            Debug.LogError($"{newSlot.name} 프리팹에 UIButtonBase 스크립트가 누락되었습니다!");
-            return;
+            targetSlot.ChangeButtonText(count.ToString());
         }
-
-        ItemData itemData = DataManager.Inst.GetItemData(itemId);
-        if (itemData == null) return;
-
-        Sprite slotImage = await ResourceManager.Inst.LoadSprite(itemData.IconPath);
-        if (slotImage != null && targetSlot.Image_Base != null)
+        ResourceManager.Inst.LoadSprite(itemData.IconPath, (loadedSprite) =>
         {
-            targetSlot.Image_Base.sprite = slotImage;
-        }
+            if (targetSlot == null || targetSlot.gameObject == null)
+            {
+                // Debug.Log("이미지를 불러왔으나 슬롯이 이미 파괴되어 연산을 취소합니다.");
+                return;
+            }
 
-        targetSlot.ChangeButtonText(count.ToString());
+            // 이미지 컴포넌트 자체도 한 번 더 체크
+            if (targetSlot.Image_Base == null) return;
+            if (loadedSprite != null)
+            {
+                targetSlot.Image_Base.sprite = loadedSprite;
+            }
+        });
     }
+
 }

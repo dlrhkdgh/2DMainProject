@@ -15,7 +15,7 @@ public class TownInventoryPopUp : UIInventoryBase
 
         if (Text_Coin != null) Text_Coin.text = GameManager.Inst.Gold.ToString("N0");
 
-        DrawInventoryAsync(GameManager.Inst._inventoryDic).Forget();
+        DrawInventory(GameManager.Inst._inventoryDic);
     }
     public void OnClick_ExitButton()
     {

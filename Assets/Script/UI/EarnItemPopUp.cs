@@ -15,7 +15,7 @@ public class EarnItemPopUp : UIInventoryBase
        
         if (Text_Coin != null) Text_Coin.text = StageManager.Inst.StageGold.ToString("N0");
 
-        DrawInventoryAsync(StageManager.Inst._stageInventoryDic).Forget();
+        DrawInventory(StageManager.Inst._stageInventoryDic);
     }
     public void OnClick_ExitButton() 
     {

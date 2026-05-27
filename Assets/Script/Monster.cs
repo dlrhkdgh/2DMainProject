@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+
 using UnityEngine;
 
 
@@ -83,8 +84,8 @@ public class Monster : MonoBehaviour
         }
 
     }
-    public void MonsterTakeDamage(int damage) {
-
+    public void MonsterTakeDamage(int damage, bool isCritical) {
+        //Debug.Log($"{damage}");
         if (_isDying) return;
         int newHp = CurrentHp - damage;
 
@@ -151,15 +152,30 @@ public class Monster : MonoBehaviour
         _targetTransform= newTargetTransform;
 
     }
-    private void OnTriggerEnter2D(Collider2D collision)
+    //private void OnTriggerEnter2D(Collider2D collision)
+    //{
+
+    //    if (collision.TryGetComponent<Bullet>(out Bullet bullet))
+    //    {
+
+    //        MonsterTakeDamage(bullet.BulletDamage, bullet._isCritical);
+    //        if (bullet._isCritical)
+    //        {
+    //            Debug.Log($"크리티컬 데미지! : {bullet.BulletDamage}");
+    //        }
+    //        bullet.DestroyBullet();
+    //    }
+    //}
+    private void OnCollisionStay2D(Collision2D collision)
     {
         
-        if (collision.TryGetComponent<Bullet>(out Bullet bullet))
+        if (collision.gameObject.CompareTag("Player"))
         {
-           
-            MonsterTakeDamage(bullet.BulletDamage);
-
-            bullet.DestroyBullet();
+            
+            if (collision.gameObject.TryGetComponent<Player>(out var player))
+            {
+                player.TakeDamage(AttackDamage);
+            }
         }
     }
     public void InitMonster(MonsterData monsterData) {

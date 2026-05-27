@@ -11,8 +11,9 @@ public class Bullet : MonoBehaviour
     private Coroutine _destroyCoroutine;
     public float MoveSpeed { get; set; } = 0f;
     public float DestroyTime { get; set; } = 0f;
-   public int BulletDamage { get; set; } = 0;
-    //public int BulletDamage { get; private set; }
+    public int BulletDamage { get; set; } = 0;
+    public bool _isCritical;
+
     void Awake()
     {
         _rigidBody = GetComponent<Rigidbody2D>();
@@ -57,12 +58,26 @@ public class Bullet : MonoBehaviour
         gameObject.SetActive(false);
 
     }
-    public void InitBullet(BulletData bulletData) {
+    public void InitBullet(BulletData bulletData ,int bonusDamage, float bonusSpeed , float bonusDestroyTime, bool iscritical) {
     
         _defaultData=bulletData;
-        BulletDamage = _defaultData.Damage;
-        MoveSpeed = _defaultData.MoveSpeed;
-        DestroyTime = _defaultData.DestroyTime;
+        BulletDamage = _defaultData.Damage + bonusDamage;
+        MoveSpeed = _defaultData.MoveSpeed + bonusSpeed;
+        DestroyTime = _defaultData.DestroyTime + bonusDestroyTime;
+        _isCritical = iscritical;
     
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+       
+        if (collision.CompareTag("Enemy"))
+        {
+           
+            if (collision.TryGetComponent<Monster>(out var monster))
+            {
+                monster.MonsterTakeDamage(BulletDamage,_isCritical);
+            }
+            DestroyBullet();
+        }
     }
 }

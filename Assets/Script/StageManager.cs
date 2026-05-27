@@ -13,11 +13,14 @@ public class StageManager : MonoBehaviour
     public int StageGold { get; set; } = 0;
     public Dictionary<string, int> _stageInventoryDic = new Dictionary<string, int>();
     public Dictionary<string, int> _currentLevelUpRewardDic = new Dictionary<string, int>();
+    public Dictionary<string, int> _potionInventoryDic = new Dictionary<string, int>();
     public List<string> _finalRewardList = new List<string>();
     public int PlayerExp { get; set; } = 0;
     public int maxExp = 300;
     public int PlayerLevel { get; set; } = 0;
     public Action<int, int, int> OnExpChanged;
+    public Action OnPlayerStatChanged;
+    //public Action<int> OnMaxHpChanged;
     private bool isStageOnGoing = false;
     private void Awake()
     {
@@ -26,6 +29,7 @@ public class StageManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        InitPotionInventory();
         //DataManager.Inst.LoadFullData();
         // StageStart();
     }
@@ -38,7 +42,7 @@ public class StageManager : MonoBehaviour
     public void StartStage(int stageNum)
     {
         if (isStageOnGoing) return;
-
+      
         _monsterSpawmer1.InitMonsterSpawner(Player.Inst.transform);
         _monsterSpawmer2.InitMonsterSpawner(Player.Inst.transform);
         _dropItemSpawner.InitDropItemSpawner();
@@ -110,6 +114,7 @@ public class StageManager : MonoBehaviour
         StageGold = 0;
         _stageInventoryDic.Clear();
         _currentLevelUpRewardDic.Clear();
+        Player.Inst.ResetAddedPlayerStageStat();
     }
     public void AddToRealInventory(float scalef) {
 
@@ -187,18 +192,33 @@ public class StageManager : MonoBehaviour
         else return false;
     }
     public void PlayerGetLevelUpReward(string id) {
+        Debug.Log($"레벨업 할 스텟{id}");
         _currentLevelUpRewardDic[id]++;
+        PlayerStatLevelUp(id);
+        OnPlayerStatChanged?.Invoke();
     }
-    public void PlayerStatLevelUp(RewardStatType type) {
-
+    public void PlayerStatLevelUp(string id) {
+        LevelUpRewardData data= DataManager.Inst.GetLevelUpRewardData(id);
+        RewardStatType type = data.StatType;
+        Debug.Log($"레벨업 할 스텟{type}");
         switch (type) {
-            case RewardStatType.MaxHp: break;
-            case RewardStatType.MoveSpeed: break;
-            case RewardStatType.Attack: break;
-            case RewardStatType.MagnetRange: break;
-            case RewardStatType.Armor: break;
-            case RewardStatType.CriticalPercent: break;
+            case RewardStatType.MaxHp: PlayerMaxHpLevelUp(data); Debug.Log($"변경후 스텟{Player.Inst._stageAddMaxHpPercent}"); break;
+            case RewardStatType.MoveSpeed: Player.Inst._stageAddMoveSpeed += data.Value; Debug.Log($"변경후 스텟{Player.Inst._stageAddMoveSpeed}"); break;
+            case RewardStatType.Attack: Player.Inst._stageAddAttack += (int)data.Value; Debug.Log($"변경후 스텟{Player.Inst._stageAddAttack}"); break;
+            case RewardStatType.MagnetRange: Player.Inst._stageAddMagnetRange += data.Value; Debug.Log($"변경후 스텟{Player.Inst._stageAddMagnetRange}"); break;
+            case RewardStatType.Armor: Player.Inst._stageAddArmor += (int)data.Value; Debug.Log($"변경후 스텟{Player.Inst._stageAddArmor}"); break;
+            case RewardStatType.CriticalPercent: Player.Inst._stageAddCriticalPercent += (int)data.Value; Debug.Log($"변경후 스텟{Player.Inst._stageAddCriticalPercent}"); break;
             default:break;
         }
+    }
+    public void PlayerMaxHpLevelUp(LevelUpRewardData data) {
+        Player.Inst._stageAddMaxHpPercent += data.Value;
+        Player.Inst.GetLevelUpHp(data.Value);
+    }
+    public void InitPotionInventory() {
+        _potionInventoryDic.Add("item_potion_02", 5);
+        _potionInventoryDic.Add("item_potion_03", 3);
+        _potionInventoryDic.Add("item_potion_01", 8);
+
     }
 }
