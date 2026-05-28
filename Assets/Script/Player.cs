@@ -56,8 +56,10 @@ public class Player : MonoBehaviour
     private CancellationTokenSource _shootCts;
     
     public bool _isInvincible= false;
+    public bool _isOnBattle = false;
     public Action OnHpChanged;
 
+    private Coroutine _fireSpeedBuffCoroutine;
     void Awake()
     {
         Inst = this;
@@ -134,6 +136,7 @@ public class Player : MonoBehaviour
         PlayerFlipOnShoot();
         //PlayerFlip();
         AnimatePlayer();
+        PlayerUseItem();
     }
     private void OnDisable()
     {
@@ -194,12 +197,15 @@ public class Player : MonoBehaviour
     private async UniTaskVoid AutoFireBulletAsync(CancellationToken token)
     {
 
-        int delayMilliseconds = Mathf.RoundToInt((1f / (float)FireBulletPerSec) * 1000f);
+        //int delayMilliseconds = Mathf.RoundToInt((1f / (float)FireBulletPerSec) * 1000f);
         try
         {
             while (true)
             {
+                int delayMilliseconds = Mathf.RoundToInt((1f / (float)FireBulletPerSec) * 1000f);
 
+                //  주의: 연사 속도가 0 이하가 되어 디바이드 바이 제로(무한대 렉)가 걸리는 것을 방어합니다.
+                if (delayMilliseconds <= 0) delayMilliseconds = 100;
                 await UniTask.Delay(delayMilliseconds, cancellationToken: token);
 
 
@@ -309,5 +315,72 @@ public class Player : MonoBehaviour
         float hpRatio = (float)PlayerCurrentHp / FinalMaxHp;
         _hpSlider.value = hpRatio;
         Debug.Log(" cpfurqk qusrud");
+    }
+    public bool UseHpPotion()
+    {
+        int newHp;
+        if (PlayerCurrentHp >= FinalMaxHp) return false;
+        else
+        {
+            newHp = PlayerCurrentHp + 30;
+            if (newHp > FinalMaxHp)
+                newHp = FinalMaxHp;
+            PlayerCurrentHp = newHp;
+            OnHpChanged?.Invoke();
+            return true;
+        }
+    }
+    public bool UseFireSpeedPotion(float duration, int multiplier) 
+    {
+        if (_fireSpeedBuffCoroutine != null)
+        {
+            return false;
+        }
+        _fireSpeedBuffCoroutine = StartCoroutine(FireSpeedBuffCo(duration, multiplier));
+        return true;
+    }
+    private IEnumerator FireSpeedBuffCo(float duration, int multiplier)
+    {
+        
+        int originalSpeed = FireBulletPerSec;
+        
+        FireBulletPerSec = FireBulletPerSec * multiplier;
+        Debug.Log($" 버프 시작! 현재 속도: {FireBulletPerSec} (원본 백업: {originalSpeed})");
+
+       
+        float remainTime = duration;
+        while (remainTime > 0)
+        {
+            remainTime -= Time.deltaTime;
+            yield return null;
+        }
+
+        FireBulletPerSec = originalSpeed;
+        Debug.Log($" 버프 정상 만료! 현재 속도: {FireBulletPerSec}");
+
+        
+        _fireSpeedBuffCoroutine = null;
+    }
+    void PlayerUseItem() {
+
+        if(Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            StageManager.Inst.UseItemToKey(0);
+        }
+        
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            StageManager.Inst.UseItemToKey(1);
+        }
+        // 키보드 상단의 '3' 번 키를 눌렀을 때
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            StageManager.Inst.UseItemToKey(2);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            StageManager.Inst.UseItemToKey(3);
+        }
+
     }
 }

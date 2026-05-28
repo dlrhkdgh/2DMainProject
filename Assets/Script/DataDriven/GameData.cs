@@ -16,7 +16,15 @@ public enum StatClacType
     Flat,
     Percent
 }
-
+public enum ItemType 
+{
+    None =0,
+    DropItem,
+    Coin,
+    HpPotion,
+    MagnetPotion,
+    BerserkPotion
+}
 [ System.Serializable]
 public class GameDataBase
 {
@@ -51,7 +59,7 @@ public class ItemData : GameDataBase
 {
     public string Name;
     public string Description;
-    public string ItemType;
+    public ItemType EItemType;
     public int MaxStackCount; 
     public int SellingPrice;  
     public string PrefabPath;
@@ -88,5 +96,15 @@ public class LevelUpRewardData : GameDataBase
     public StatClacType ClacType;
     public float Value;
     public int MaxLevel;
+    public string IconPath;
+}
+[System.Serializable]
+public class ShopItemData : GameDataBase
+{
+    public string Name;
+    public string Description;
+    public ItemType EItemType;
+    public int MaxStackCount;
+    public int SellingPrice;
     public string IconPath;
 }

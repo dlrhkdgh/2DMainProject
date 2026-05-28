@@ -98,14 +98,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7185179578536207845}
-  - component: {fileID: 6846270366257572238}
+  - component: {fileID: 7090759967100238804}
   m_Layer: 0
   m_Name: PotionInventiry
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &7185179578536207845
 RectTransform:
   m_ObjectHideFlags: 0
@@ -126,7 +126,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &6846270366257572238
+--- !u!114 &7090759967100238804
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -135,13 +135,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 978822495439859418}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fbe49b6cdaccda94b81df1c71da106d6, type: 3}
+  m_Script: {fileID: 11500000, guid: 1bb6d7432971d1944af35c5265383ed3, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UIInventoryBase
+  m_EditorClassIdentifier: Assembly-CSharp::UIUseableInventory
   _uiType: 0
   _itemSlotPrefab: {fileID: 4710189179936304593, guid: 6cd7407b79464684a93ce63cd905d2bd, type: 3}
   _layoutGroupParent: {fileID: 3385640109402493753}
   Text_Coin: {fileID: 0}
+  _slotNum: 0
 --- !u!1 &1514358323032450214
 GameObject:
   m_ObjectHideFlags: 0
@@ -691,7 +692,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InFieldUI
   _uiType: 2
-  _uiInventory: {fileID: 6846270366257572238}
+  _uiInventory: {fileID: 7090759967100238804}
   Button_EarnItemPopUp: {fileID: 7624407190383026680}
   Button_ExitStage: {fileID: 2361023742250860245}
   _expSlider: {fileID: 8043284342625192303}

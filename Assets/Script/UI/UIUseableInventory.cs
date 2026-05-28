@@ -1,20 +1,21 @@
 ﻿using System.Collections.Generic;
-using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIInventoryBase : UIBase
+public class UIUseableInventory : UIBase
 {
     [SerializeField] GameObject _itemSlotPrefab;
     [SerializeField] private Transform _layoutGroupParent;
     [SerializeField] protected Text Text_Coin;
-   
+    public int _slotNum = 0;
     private void OnEnable()
     {
-      
+        _slotNum = 0;
+       
     }
     public void DrawInventory(Dictionary<string, int> targetInven)
     {
+        _slotNum = 0;
         foreach (Transform child in _layoutGroupParent)
         {
             Destroy(child.gameObject);
@@ -24,11 +25,12 @@ public class UIInventoryBase : UIBase
         {
             foreach (KeyValuePair<string, int> item in targetInven)
             {
-                CreateAndSetupSlot(item.Key, item.Value);
+                _slotNum++;
+                CreateAndSetupSlot(item.Key, item.Value,_slotNum);
             }
         }
     }
-    private void CreateAndSetupSlot(string itemId, int count)
+    private void CreateAndSetupSlot(string itemId, int count, int slotNum)
     {
         if (_itemSlotPrefab == null) return;
 
@@ -38,7 +40,7 @@ public class UIInventoryBase : UIBase
         GameObject newSlot = Instantiate(_itemSlotPrefab, _layoutGroupParent);
         newSlot.SetActive(true);
 
-        UIButtonBase targetSlot = newSlot.GetComponent<UIButtonBase>();
+        InventorySlotWithKey targetSlot = newSlot.GetComponent<InventorySlotWithKey>();
         if (targetSlot != null)
         {
             targetSlot.ChangeButtonText(count.ToString());
@@ -58,6 +60,7 @@ public class UIInventoryBase : UIBase
                 targetSlot.Image_Base.sprite = loadedSprite;
             }
         });
+        targetSlot.ChangeKeyNumberText(slotNum);
     }
 
 }

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class InFieldUI : UIBase
 {
     [Header("자식 UI 참조")]
-    [SerializeField] private UIInventoryBase _uiInventory;
+    [SerializeField] private UIUseableInventory _uiInventory;
 
     [SerializeField] UIButtonBase Button_EarnItemPopUp;
     [SerializeField] UIButtonBase Button_ExitStage;
@@ -28,9 +28,10 @@ public class InFieldUI : UIBase
         {
             StageManager.Inst.OnExpChanged += UpdateExpBar;
             StageManager.Inst.OnPlayerStatChanged += UpdatePlayerStat;
+            StageManager.Inst.OnUseableItemChanged += OpenAndRefreshInventory;
             UpdatePlayerStat();
             UpdateExpBar(StageManager.Inst.PlayerExp,StageManager.Inst.maxExp,StageManager.Inst.PlayerLevel);
-            _myInventoryDic = StageManager.Inst._potionInventoryDic;
+            _myInventoryDic = StageManager.Inst._useableItemInventoryDic;
         }
         OpenAndRefreshInventory();
         Button_EarnItemPopUp.BindOnClickButtonEvent(OnClick_EarnItemPopUp);
@@ -42,6 +43,8 @@ public class InFieldUI : UIBase
         {
             StageManager.Inst.OnExpChanged -= UpdateExpBar;
             StageManager.Inst.OnPlayerStatChanged -= UpdatePlayerStat;
+            StageManager.Inst.OnUseableItemChanged -= OpenAndRefreshInventory;
+
         }
     }
     private void UpdateExpBar(int currentExp, int maxExp, int currentLevel)

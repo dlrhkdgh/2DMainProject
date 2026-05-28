@@ -165,4 +165,17 @@ public class DropItemSpawner : MonoBehaviour
         _dropItemPool.Clear();
         _currentPivot = 0;
     }
+    public void StartMagnetToAllDropItems(Transform playerTransform)
+    {
+        if (playerTransform == null) return;
+
+        // 풀을 돌면서 현재 필드에 활성화된 아이템을 찾습니다.
+        for (int i = 0; i < _dropItemPool.Count; i++)
+        {
+            if (_dropItemPool[i] != null && _dropItemPool[i].gameObject.activeSelf)
+            {
+                _dropItemPool[i].StartAttracting(playerTransform);
+            }
+        }
+    }
 }

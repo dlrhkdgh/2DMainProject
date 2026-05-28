@@ -13,13 +13,16 @@ public class StageManager : MonoBehaviour
     public int StageGold { get; set; } = 0;
     public Dictionary<string, int> _stageInventoryDic = new Dictionary<string, int>();
     public Dictionary<string, int> _currentLevelUpRewardDic = new Dictionary<string, int>();
-    public Dictionary<string, int> _potionInventoryDic = new Dictionary<string, int>();
+    public Dictionary<string, int> _useableItemInventoryDic = new Dictionary<string, int>();
+    
     public List<string> _finalRewardList = new List<string>();
+    
     public int PlayerExp { get; set; } = 0;
     public int maxExp = 300;
     public int PlayerLevel { get; set; } = 0;
     public Action<int, int, int> OnExpChanged;
     public Action OnPlayerStatChanged;
+    public Action OnUseableItemChanged;
     //public Action<int> OnMaxHpChanged;
     private bool isStageOnGoing = false;
     private void Awake()
@@ -50,6 +53,7 @@ public class StageManager : MonoBehaviour
         ResetLevel();
         InitCurrentLevelUpRewardDic();
         Player.Inst.StartShooting();
+        Player.Inst._isOnBattle = true;
 
         isStageOnGoing=true;
     }
@@ -72,7 +76,7 @@ public class StageManager : MonoBehaviour
         _dropItemSpawner.ClearAndReleaseSpawner();
         _bulletSpawner.ClearAndReleaseSpawner();
         Player.Inst.StopShooting();
-
+        Player.Inst._isOnBattle = false;
         AddToRealInventory(1f);
         ResetStageInfo();
 
@@ -216,9 +220,46 @@ public class StageManager : MonoBehaviour
         Player.Inst.GetLevelUpHp(data.Value);
     }
     public void InitPotionInventory() {
-        _potionInventoryDic.Add("item_potion_02", 5);
-        _potionInventoryDic.Add("item_potion_03", 3);
-        _potionInventoryDic.Add("item_potion_01", 8);
+        _useableItemInventoryDic.Add("item_potion_02", 5);
+        _useableItemInventoryDic.Add("item_potion_03", 3);
+        _useableItemInventoryDic.Add("item_potion_01", 8);
+
+    }
+    public void UseItemToKey(int key) 
+    {
+        if (_useableItemInventoryDic == null || _useableItemInventoryDic.Count == 0) return ;
+        if (key < 0 || key >= _useableItemInventoryDic.Count) return;
+
+        List<string> itemIdList = new List<string>(_useableItemInventoryDic.Keys);
+
+        string targetItemId = itemIdList[key];
+
+        ItemType type = DataManager.Inst.GetItemData(targetItemId).EItemType;
+
+        switch (type) 
+        {
+            case ItemType.HpPotion: 
+                if (Player.Inst.UseHpPotion()&& _useableItemInventoryDic[targetItemId]>0) 
+                {
+                    _useableItemInventoryDic[targetItemId]--;
+                    OnUseableItemChanged?.Invoke();
+                } break;
+            case ItemType.MagnetPotion: 
+                if (_useableItemInventoryDic[targetItemId] > 0) 
+                {
+                    _dropItemSpawner.StartMagnetToAllDropItems(Player.Inst.transform); 
+                    _useableItemInventoryDic[targetItemId]--;
+                    OnUseableItemChanged?.Invoke();
+                } break;
+            case ItemType.BerserkPotion:
+                if(Player.Inst.UseFireSpeedPotion(10,10) && _useableItemInventoryDic[targetItemId] > 0) 
+                {
+                    _useableItemInventoryDic[targetItemId]--;
+                    OnUseableItemChanged?.Invoke();
+                } break;
+            default: break;
+        }
+
 
     }
 }

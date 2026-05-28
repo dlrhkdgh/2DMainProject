@@ -22,6 +22,7 @@ public class DataManager : MonoBehaviour
     }
     public Dictionary<string, MonsterData> MonsterDataList { get; private set; } = new Dictionary<string, MonsterData>();
     public Dictionary<string, ItemData> ItemDataList { get; private set; } = new Dictionary<string, ItemData>();
+    public Dictionary<string, ShopItemData> ShopItemDataList { get; private set; } = new Dictionary<string, ShopItemData>();
     public Dictionary<string, BulletData> BulletDataList { get; private set; } = new Dictionary<string, BulletData>();
     public Dictionary<string, DropTableData> DropTableDataList { get; private set; } = new Dictionary<string, DropTableData>();
     public Dictionary<string, LevelUpRewardData> LevelUpRewardDataList { get; private set; } = new Dictionary<string, LevelUpRewardData>();
@@ -82,6 +83,10 @@ public class DataManager : MonoBehaviour
     {
         LevelUpRewardDataList = LoadData<LevelUpRewardData>(jsonPath);
     }
+    public void LoadShopItemData(string jsonPath)
+    {
+        ShopItemDataList = LoadData<ShopItemData>(jsonPath);
+    }
     public MonsterData GetMonsterData(string id) {
 
         if (MonsterDataList == null || string.IsNullOrEmpty(id)) return null; 
@@ -116,6 +121,13 @@ public class DataManager : MonoBehaviour
         return LevelUpRewardDataList.TryGetValue(id, out var data) ? data : null;
 
     }
+    public ShopItemData GetShopItemData(string id)
+    {
+
+        if (ShopItemDataList == null || string.IsNullOrEmpty(id)) return null;
+        return ShopItemDataList.TryGetValue(id, out var data) ? data : null;
+
+    }
     public void LoadFullData()
     {
         LoadMonsterData("MonsterData");
@@ -123,5 +135,6 @@ public class DataManager : MonoBehaviour
         LoadBulletData("BulletData");
         LoadDropTableData("DropTableData");
         LoadLevelUpRewardData("LevelUpRewardData");
+        LoadShopItemData("ShopItemData");
     }
 }

@@ -10,8 +10,7 @@ public class DropItem : MonoBehaviour
     public int GoldAmount { get; set; } = 0;
     private Transform _targetTransform;
     private Coroutine _flyCoroutine;
-
-   
+    
     public void StartAttracting(Transform target)
     {
         //Debug.Log("atrrct strat");
