@@ -227,10 +227,11 @@ public class StageManager : MonoBehaviour
     }
     public void UseItemToKey(int key) 
     {
-        if (_useableItemInventoryDic == null || _useableItemInventoryDic.Count == 0) return ;
-        if (key < 0 || key >= _useableItemInventoryDic.Count) return;
+        var inventoryDic = GameManager.Inst._inventoryDic;
+        if (inventoryDic == null || inventoryDic.Count == 0) return ;
+        if (key < 0 || key >= inventoryDic.Count) return;
 
-        List<string> itemIdList = new List<string>(_useableItemInventoryDic.Keys);
+        List<string> itemIdList = new List<string>(inventoryDic.Keys);
 
         string targetItemId = itemIdList[key];
 
@@ -239,22 +240,34 @@ public class StageManager : MonoBehaviour
         switch (type) 
         {
             case ItemType.HpPotion: 
-                if (Player.Inst.UseHpPotion()&& _useableItemInventoryDic[targetItemId]>0) 
+                if (Player.Inst.UseHpPotion()&& inventoryDic[targetItemId]>0) 
                 {
-                    _useableItemInventoryDic[targetItemId]--;
+                    inventoryDic[targetItemId]--;
+                    if (inventoryDic[targetItemId] <= 0)
+                    {
+                        inventoryDic.Remove(targetItemId);
+                    }
                     OnUseableItemChanged?.Invoke();
                 } break;
             case ItemType.MagnetPotion: 
-                if (_useableItemInventoryDic[targetItemId] > 0) 
+                if (inventoryDic[targetItemId] > 0) 
                 {
-                    _dropItemSpawner.StartMagnetToAllDropItems(Player.Inst.transform); 
-                    _useableItemInventoryDic[targetItemId]--;
+                    _dropItemSpawner.StartMagnetToAllDropItems(Player.Inst.transform);
+                    inventoryDic[targetItemId]--;
+                    if (inventoryDic[targetItemId] <= 0)
+                    {
+                        inventoryDic.Remove(targetItemId);
+                    }
                     OnUseableItemChanged?.Invoke();
                 } break;
             case ItemType.BerserkPotion:
-                if(Player.Inst.UseFireSpeedPotion(10,10) && _useableItemInventoryDic[targetItemId] > 0) 
+                if(Player.Inst.UseFireSpeedPotion(10,10) && inventoryDic[targetItemId] > 0) 
                 {
-                    _useableItemInventoryDic[targetItemId]--;
+                    inventoryDic[targetItemId]--;
+                    if (inventoryDic[targetItemId] <= 0)
+                    {
+                        inventoryDic.Remove(targetItemId);
+                    }
                     OnUseableItemChanged?.Invoke();
                 } break;
             default: break;

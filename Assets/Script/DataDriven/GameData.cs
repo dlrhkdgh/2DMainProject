@@ -65,6 +65,7 @@ public class ItemData : GameDataBase
     public string PrefabPath;
     public string IconPath;
     public string Grade;
+    public bool IsUseable;
 }
 [System.Serializable]
 public class BulletData : GameDataBase

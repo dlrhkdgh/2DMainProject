@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class LevelUpRewardSlot : UISelectedSolt
@@ -38,7 +37,7 @@ public class LevelUpRewardSlot : UISelectedSolt
     {
         // 혹시 이버튼을 동적으로, 코드에서 텍스트를 수정해야할 때 사용
         if (Text_RewardLevel == null) return;
-
+        Text_RewardLevel.gameObject.SetActive(true);
         Text_RewardLevel.text = buttonStr;
     }
 }

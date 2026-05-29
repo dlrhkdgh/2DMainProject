@@ -25,8 +25,12 @@ public class UIUseableInventory : UIBase
         {
             foreach (KeyValuePair<string, int> item in targetInven)
             {
-                _slotNum++;
-                CreateAndSetupSlot(item.Key, item.Value,_slotNum);
+                ItemData data =DataManager.Inst.GetItemData(item.Key);
+                if (data.IsUseable)
+                {
+                    _slotNum++;
+                    CreateAndSetupSlot(item.Key, item.Value, _slotNum);
+                }
             }
         }
     }

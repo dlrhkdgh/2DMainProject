@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class ShopUI : UIBase
 {
     [SerializeField] private UIButtonBase Button_Exit;
+    [SerializeField] private UIButtonBase Button_ItemDescription;
     [SerializeField] private Transform _shopLayoutGroupParent;
     [SerializeField] private Transform _playerLayoutGroupParent;
     [SerializeField] GameObject _shopItemSlotPrefab;
@@ -18,21 +19,30 @@ public class ShopUI : UIBase
     {
         
         Button_Exit.BindOnClickButtonEvent(OnClick_ExitButton);
-        DrawInventory(GameManager.Inst._inventoryDic, _playerLayoutGroupParent);
-        DrawInventory(DataManager.Inst.ShopItemDataList, _shopLayoutGroupParent);
+        Button_ItemDescription.BindOnClickButtonEvent(OnClick_ItemDescriptionButton);
+        DrawPlayerInventory(GameManager.Inst._inventoryDic, _playerLayoutGroupParent);
+        DrawShopInventory(DataManager.Inst.ShopItemDataList, _shopLayoutGroupParent);
+        GameManager.Inst.OnItemSell += DrawPlayerInventory;
+        GameManager.Inst.OnItemBuy += DrawShopInventory;
         ChangeGoldText();
     }
     // Update is called once per frame
-    void Update()
+    void OnDisable ()
     {
-        
+        GameManager.Inst.OnItemSell -= DrawPlayerInventory;
+        GameManager.Inst.OnItemBuy -= DrawShopInventory;
     }
     private void OnClick_ExitButton()
     {
 
         UIManager.Inst.CloseShopUI();
     }
-    public void DrawInventory(Dictionary<string, int> targetInven, Transform layoutParent )
+    private void OnClick_ItemDescriptionButton()
+    {
+
+        UIManager.Inst.OpenShopItemDescriptionPopUp();
+    }
+    public void DrawPlayerInventory(Dictionary<string, int> targetInven, Transform layoutParent )
     {
         
         foreach (Transform child in layoutParent)
@@ -47,6 +57,7 @@ public class ShopUI : UIBase
                 CreateAndSetupSlot(item.Key, item.Value, layoutParent);
             }
         }
+        ChangeGoldText();
     }
     
     private void CreateAndSetupSlot(string itemId, int count, Transform layoutParent)
@@ -66,6 +77,7 @@ public class ShopUI : UIBase
             targetSlot.Price = itemData.SellingPrice;
             targetSlot.ChangePriceButtonText();
             targetSlot.ChangeButtonText(count.ToString());
+            targetSlot.BindOnClickButtonEvent(() => { GameManager.Inst.SellItem(itemId, layoutParent); });
         }
         ResourceManager.Inst.LoadSprite(itemData.IconPath, (loadedSprite) =>
         {
@@ -84,7 +96,7 @@ public class ShopUI : UIBase
         });
        
     }
-    public void DrawInventory(Dictionary<string, ShopItemData> targetInven, Transform layoutParent)
+    public void DrawShopInventory(Dictionary<string, ShopItemData> targetInven, Transform layoutParent)
     {
 
         foreach (Transform child in layoutParent)
@@ -116,6 +128,7 @@ public class ShopUI : UIBase
             targetSlot.Price = itemData.SellingPrice;
             targetSlot.ChangePriceButtonText();
             targetSlot.SetFalseImage();
+            targetSlot.BindOnClickButtonEvent(() => { GameManager.Inst.BuyItem(itemId, _playerLayoutGroupParent); });
         }
         ResourceManager.Inst.LoadSprite(itemData.IconPath, (loadedSprite) =>
         {

@@ -8,7 +8,8 @@
     "SellingPrice": 1,
     "PrefabPath": "Prefab/Coin",
     "IconPath": "Item/Coin[cion-_0]",
-    "Grade": null
+    "Grade": null,
+    "IsUseable": false
   },
   {
     "Id": "item_potion_01",
@@ -19,7 +20,8 @@
     "SellingPrice": 5,
     "PrefabPath": null,
     "IconPath": "Item/Potion[potion_2]",
-    "Grade": null
+    "Grade": null,
+    "IsUseable": true
   },
   {
     "Id": "item_potion_02",
@@ -30,7 +32,8 @@
     "SellingPrice": 10,
     "PrefabPath": null,
     "IconPath": "Item/Potion[potion_6]",
-    "Grade": null
+    "Grade": null,
+    "IsUseable": true
   },
   {
     "Id": "item_potion_03",
@@ -41,7 +44,8 @@
     "SellingPrice": 10,
     "PrefabPath": null,
     "IconPath": "Item/Potion[potion_5]",
-    "Grade": null
+    "Grade": null,
+    "IsUseable": true
   },
   {
     "Id": "item_cactuslime_slime_01",
@@ -52,7 +56,8 @@
     "SellingPrice": 1,
     "PrefabPath": null,
     "IconPath": "Item/Cactuslime[dropitem1-_1]",
-    "Grade": null
+    "Grade": null,
+    "IsUseable": false
   },
   {
     "Id": "item_cactuslime_needle_01",
@@ -63,7 +68,8 @@
     "SellingPrice": 20,
     "PrefabPath": null,
     "IconPath": "Item/Cactuslime[dropitem1-_0]",
-    "Grade": null
+    "Grade": null,
+    "IsUseable": false
   },
   {
     "Id": "item_cowbombie_hat_01",
@@ -74,7 +80,8 @@
     "SellingPrice": 1,
     "PrefabPath": null,
     "IconPath": "Item/Cowbombie[cowbombiedrop_0]",
-    "Grade": null
+    "Grade": null,
+    "IsUseable": false
   },
   {
     "Id": "item_cowbombie_badge_01",
@@ -85,6 +92,7 @@
     "SellingPrice": 25,
     "PrefabPath": null,
     "IconPath": "Item/Cowbombie[cowbombiedrop_1]",
-    "Grade": null
+    "Grade": null,
+    "IsUseable": false
   }
 ]

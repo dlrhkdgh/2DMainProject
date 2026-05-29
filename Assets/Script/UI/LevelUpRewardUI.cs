@@ -1,7 +1,5 @@
-﻿using Cysharp.Threading.Tasks;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 public class LevelUpRewardUI : UIBase
 {
@@ -46,26 +44,7 @@ public class LevelUpRewardUI : UIBase
             StageManager.Inst.FinishLevelUpReward();
         }
     }
-    //public async UniTaskVoid DrawInventoryAsync(List<string> rewardList)
-    //{
-    //    if (rewardList == null || rewardList.Count == 0) return;
-    //    _rewardList = new List<string>(rewardList);
-    //    //this.gameObject.SetActive(true);
-
-    //    foreach (Transform child in _layoutGroupParent)
-    //    {
-    //        Destroy(child.gameObject);
-    //    }
-
-    //    if (rewardList != null)
-    //    {
-    //        for (int i = 0; i < _rewardList.Count; i++) {
-
-    //            await CreateAndSetupSlotAsync(_rewardList[i],i);
-    //        }
-            
-    //    }
-    //}
+    
     public void DrawInventory(List<string> rewardList)
     {
         if (rewardList == null || rewardList.Count == 0) return;
@@ -88,7 +67,7 @@ public class LevelUpRewardUI : UIBase
     private void CreateAndSetupSlot(string Id, int index)
     {
         if (_itemSlotPrefab == null) return;
- GameObject newSlot = Instantiate(_itemSlotPrefab, _layoutGroupParent);
+        GameObject newSlot = Instantiate(_itemSlotPrefab, _layoutGroupParent);
         newSlot.SetActive(true);
         LevelUpRewardSlot targetSlot = newSlot.GetComponent<LevelUpRewardSlot>();
 
@@ -122,36 +101,7 @@ public class LevelUpRewardUI : UIBase
         targetSlot.ChangeDescriptionText(rewardData.Description);
         targetSlot.ChangeLevelText($"Lv.{StageManager.Inst._currentLevelUpRewardDic[Id].ToString()}");
     }
-    //private async UniTask CreateAndSetupSlotAsync(string Id,int index)
-    //{
-
-    //    if (_itemSlotPrefab == null) return;
-
-    //    GameObject newSlot = Instantiate(_itemSlotPrefab, _layoutGroupParent);
-    //    newSlot.SetActive(true);
-
-    //    LevelUpRewardSlot targetSlot = newSlot.GetComponent<LevelUpRewardSlot>();
-    //    if (targetSlot == null)
-    //    {
-    //        Debug.LogError($"{newSlot.name} 프리팹에 UIButtonBase 스크립트가 누락되었습니다!");
-    //        return;
-    //    }
-
-    //    LevelUpRewardData rewardData = DataManager.Inst.GetLevelUpRewardData(Id);
-    //    if (rewardData == null) return;
-
-    //    Sprite slotImage = await ResourceManager.Inst.LoadSprite(rewardData.IconPath);
-    //    if (slotImage != null && targetSlot.Image_Base != null)
-    //    {
-    //        targetSlot.Image_Base.sprite = slotImage;
-    //    }
-
-    //    _rewardSlotList.Add(targetSlot);
-    //    targetSlot.InitSelectedSolt(index, OnSlotSelect);
-    //    targetSlot.ChangeNameText(rewardData.Name);
-    //    targetSlot.ChangeDescriptionText(rewardData.Description);
-    //    targetSlot.ChangeLevelText($"Lv.{StageManager.Inst._currentLevelUpRewardDic[Id].ToString()}");
-    //}
+   
     private void OnSlotSelect(int id)
     {
 

@@ -31,7 +31,7 @@ public class InFieldUI : UIBase
             StageManager.Inst.OnUseableItemChanged += OpenAndRefreshInventory;
             UpdatePlayerStat();
             UpdateExpBar(StageManager.Inst.PlayerExp,StageManager.Inst.maxExp,StageManager.Inst.PlayerLevel);
-            _myInventoryDic = StageManager.Inst._useableItemInventoryDic;
+            _myInventoryDic = GameManager.Inst._inventoryDic;
         }
         OpenAndRefreshInventory();
         Button_EarnItemPopUp.BindOnClickButtonEvent(OnClick_EarnItemPopUp);

@@ -24,6 +24,7 @@ public enum UIType
     TownInventoryPopUp,
     ExitGamePopUp,
     YesOrNoPopUp,
+    ShopItemDescriptionPopUp,
 }
 public class UIManager : MonoBehaviour
 {
@@ -257,5 +258,13 @@ public class UIManager : MonoBehaviour
     public void CloseShopUI()
     {
         CloseCreatedUI(UIType.ShopUI);
+    }
+    public void OpenShopItemDescriptionPopUp()
+    {
+        OpenCreatedUI(UITypeRoot.PopupUI, UIType.ShopItemDescriptionPopUp);
+    }
+    public void CloseShopItemDescriptionPopUp()
+    {
+        CloseCreatedUI(UIType.ShopItemDescriptionPopUp);
     }
 }
