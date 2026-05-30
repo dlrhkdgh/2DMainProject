@@ -27,6 +27,8 @@ public class Player : MonoBehaviour
     [SerializeField] private int _armor = 0;
     [SerializeField] private float _criticalPercent = 0f;
 
+    [SerializeField] private BombBase Bomdprefab;
+
     [Header("인게임 추가 능력치")]
     public float _stageAddMaxHpPercent;
     public float _stageAddMoveSpeed;
@@ -137,6 +139,7 @@ public class Player : MonoBehaviour
         //PlayerFlip();
         AnimatePlayer();
         PlayerUseItem();
+        PlayerUseBomb();
     }
     private void OnDisable()
     {
@@ -382,5 +385,31 @@ public class Player : MonoBehaviour
             StageManager.Inst.UseItemToKey(3);
         }
 
+    }
+    void UseBomb() 
+    {
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePos.z = 0f;
+        Vector2 shootDirection = (mousePos - _firePoint.position).normalized;
+        BombBase spawnedBomb = Instantiate(Bomdprefab, transform.position, Quaternion.identity);
+        if (spawnedBomb != null)
+        {
+           
+            spawnedBomb.MoveSpeed = 8f;        
+            spawnedBomb.ExplosionTime = 1.5f; 
+            spawnedBomb.BombDamage = FinalAttack * 3;
+            spawnedBomb.ExplosionRadius = 8f;
+            
+            spawnedBomb.ThrowBomb(shootDirection);
+        }
+    }
+    void PlayerUseBomb() 
+    
+    {
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            UseBomb();
+        }
     }
 }

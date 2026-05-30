@@ -152,20 +152,7 @@ public class Monster : MonoBehaviour
         _targetTransform= newTargetTransform;
 
     }
-    //private void OnTriggerEnter2D(Collider2D collision)
-    //{
-
-    //    if (collision.TryGetComponent<Bullet>(out Bullet bullet))
-    //    {
-
-    //        MonsterTakeDamage(bullet.BulletDamage, bullet._isCritical);
-    //        if (bullet._isCritical)
-    //        {
-    //            Debug.Log($"크리티컬 데미지! : {bullet.BulletDamage}");
-    //        }
-    //        bullet.DestroyBullet();
-    //    }
-    //}
+   
     private void OnCollisionStay2D(Collision2D collision)
     {
         

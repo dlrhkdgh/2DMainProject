@@ -8,11 +8,10 @@ using System.Threading;
 public class MonsterSpawner : MonoBehaviour
 {
     
-    [SerializeField] private AssetReference _monsterAddressableRef;
+    
     private string _monsterAddressKey;
     private Transform _playerTransform;
     [SerializeField] private int _poolSize = 100;
-    [SerializeField] private string _spawnMonsterId = "monster_cowbombie_01";
 
     [Header("스폰 설정")]
     [SerializeField] private float _minSpawnDistance = 10f;
@@ -29,9 +28,7 @@ public class MonsterSpawner : MonoBehaviour
    
    private void OnEnable()
     {
-        Debug.Log("스포너활성화");
-        
-        
+      
     }
     private void OnDisable()
     {
@@ -150,10 +147,11 @@ public class MonsterSpawner : MonoBehaviour
         resultPosition.z = 0f;
         return resultPosition;
     }
-    public void InitMonsterSpawner(Transform playerTransform) {
-        _playerTransform = playerTransform;
-        _monsterdata = DataManager.Inst.GetMonsterData(_spawnMonsterId);
+    public void InitMonsterSpawner(Transform playerTransform , string monsterId) {
 
+        _playerTransform = playerTransform;
+        _monsterdata = DataManager.Inst.GetMonsterData(monsterId);
+        if (_monsterdata == null) return;
         _monsterAddressKey = _monsterdata.PrefabPath;
         Debug.Log($"<color=green>[성공] 패스 받아옴 성공: {_monsterAddressKey}</color>");
         CleanUpCts();

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
+using System.Linq;
 
 public class StageManager : MonoBehaviour
 {
@@ -13,10 +13,8 @@ public class StageManager : MonoBehaviour
     public int StageGold { get; set; } = 0;
     public Dictionary<string, int> _stageInventoryDic = new Dictionary<string, int>();
     public Dictionary<string, int> _currentLevelUpRewardDic = new Dictionary<string, int>();
-    public Dictionary<string, int> _useableItemInventoryDic = new Dictionary<string, int>();
-    
+
     public List<string> _finalRewardList = new List<string>();
-    
     public int PlayerExp { get; set; } = 0;
     public int maxExp = 300;
     public int PlayerLevel { get; set; } = 0;
@@ -32,9 +30,7 @@ public class StageManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        InitPotionInventory();
-        //DataManager.Inst.LoadFullData();
-        // StageStart();
+      
     }
 
     // Update is called once per frame
@@ -45,11 +41,8 @@ public class StageManager : MonoBehaviour
     public void StartStage(int stageNum)
     {
         if (isStageOnGoing) return;
-      
-        _monsterSpawmer1.InitMonsterSpawner(Player.Inst.transform);
-        _monsterSpawmer2.InitMonsterSpawner(Player.Inst.transform);
-        _dropItemSpawner.InitDropItemSpawner();
-        _bulletSpawner.InitBulletSpawner();
+
+        SetSpawners(stageNum);
         ResetLevel();
         InitCurrentLevelUpRewardDic();
         Player.Inst.StartShooting();
@@ -219,12 +212,7 @@ public class StageManager : MonoBehaviour
         Player.Inst._stageAddMaxHpPercent += data.Value;
         Player.Inst.GetLevelUpHp(data.Value);
     }
-    public void InitPotionInventory() {
-        _useableItemInventoryDic.Add("item_potion_02", 5);
-        _useableItemInventoryDic.Add("item_potion_03", 3);
-        _useableItemInventoryDic.Add("item_potion_01", 8);
-
-    }
+    
     public void UseItemToKey(int key) 
     {
         var inventoryDic = GameManager.Inst._inventoryDic;
@@ -273,6 +261,14 @@ public class StageManager : MonoBehaviour
             default: break;
         }
 
+    }
+    public void SetSpawners(int stageNum) {
 
+        var row = DataManager.Inst.StageMonstertTableDataList.ElementAt(stageNum);
+
+        _monsterSpawmer1.InitMonsterSpawner(Player.Inst.transform,row.Value.MonsterId1);
+        _monsterSpawmer2.InitMonsterSpawner(Player.Inst.transform, row.Value.MonsterId2);
+        _dropItemSpawner.InitDropItemSpawner();
+        _bulletSpawner.InitBulletSpawner();
     }
 }

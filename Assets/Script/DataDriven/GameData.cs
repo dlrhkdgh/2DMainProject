@@ -109,3 +109,22 @@ public class ShopItemData : GameDataBase
     public int SellingPrice;
     public string IconPath;
 }
+[System.Serializable]
+public class StageMonstertTableData : GameDataBase
+{
+    public string MonsterId1;
+    public string MonsterId2;
+    public string MonsterId3;
+}
+[System.Serializable]
+public class BombData : GameDataBase
+{
+    public string Name;
+    public string Description;
+    public int BombDamage;
+    public float ExplosionRadius;
+    public float MoveSpeed;
+    public string IconPath;
+    public string PrefabPath;
+    public string UpgradeitemId;
+}

@@ -26,6 +26,9 @@ public class DataManager : MonoBehaviour
     public Dictionary<string, BulletData> BulletDataList { get; private set; } = new Dictionary<string, BulletData>();
     public Dictionary<string, DropTableData> DropTableDataList { get; private set; } = new Dictionary<string, DropTableData>();
     public Dictionary<string, LevelUpRewardData> LevelUpRewardDataList { get; private set; } = new Dictionary<string, LevelUpRewardData>();
+    public Dictionary<string, StageMonstertTableData> StageMonstertTableDataList { get; private set; } = new Dictionary<string, StageMonstertTableData>();
+    public Dictionary<string, BombData> BombDataList { get; private set; } = new Dictionary<string, BombData>();
+    
     private Dictionary<string, T> LoadData<T>(string tableName) where T : GameDataBase
     {
         // 1. 경로 설정 (확장자 .json 제외!)
@@ -87,12 +90,22 @@ public class DataManager : MonoBehaviour
     {
         ShopItemDataList = LoadData<ShopItemData>(jsonPath);
     }
+    public void LoadStageMonstertTableData(string jsonPath)
+    {
+        StageMonstertTableDataList = LoadData<StageMonstertTableData>(jsonPath);
+    }
+    public void LoadBombData(string jsonPath)
+    {
+        BombDataList = LoadData<BombData>(jsonPath);
+    }
+
     public MonsterData GetMonsterData(string id) {
 
         if (MonsterDataList == null || string.IsNullOrEmpty(id)) return null; 
         return MonsterDataList.TryGetValue(id, out var data) ? data : null;
     
     }
+    
     public ItemData GetItemData(string id)
     {
 
@@ -128,6 +141,21 @@ public class DataManager : MonoBehaviour
         return ShopItemDataList.TryGetValue(id, out var data) ? data : null;
 
     }
+    public StageMonstertTableData GetStageMonstertTableData(string id)
+    {
+
+        if (StageMonstertTableDataList == null || string.IsNullOrEmpty(id)) return null;
+        return StageMonstertTableDataList.TryGetValue(id, out var data) ? data : null;
+
+    }
+    public BombData GetBombData(string id)
+    {
+
+        if (BombDataList == null || string.IsNullOrEmpty(id)) return null;
+        return BombDataList.TryGetValue(id, out var data) ? data : null;
+
+    }
+    
     public void LoadFullData()
     {
         LoadMonsterData("MonsterData");
@@ -136,5 +164,7 @@ public class DataManager : MonoBehaviour
         LoadDropTableData("DropTableData");
         LoadLevelUpRewardData("LevelUpRewardData");
         LoadShopItemData("ShopItemData");
+        LoadStageMonstertTableData("StageMonstertTableData");
+        LoadBombData("BombData");
     }
 }

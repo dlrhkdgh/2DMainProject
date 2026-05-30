@@ -43,7 +43,7 @@ public class PlayerMagnet : MonoBehaviour
         while (true)
         {
 
-            yield return new WaitForSeconds(2f); 
+            yield return new WaitForSeconds(0.2f); 
             Debug.Log("드롭템스캔");
             
             int count = Physics2D.OverlapCircle(transform.position, _magnetRadius, filter, _hitItemArr);//오버랩

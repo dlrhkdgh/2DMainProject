@@ -1,0 +1,14 @@
+[
+  {
+    "Id": "spawn_monster_stage_1",
+    "MonsterId1": "monster_catussilme_01",
+    "MonsterId2": "monster_cowbombie_01",
+    "MonsterId3": null
+  },
+  {
+    "Id": "spawn_monster_stage_2",
+    "MonsterId1": null,
+    "MonsterId2": null,
+    "MonsterId3": null
+  }
+]

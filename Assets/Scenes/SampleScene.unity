@@ -2639,6 +2639,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3715995759435356609, guid: fb50475eed558d240a04669d4f5ef388, type: 3}
+      propertyPath: Bomdprefab
+      value: 
+      objectReference: {fileID: 5309754278396456286, guid: 76bb24647bb4bff4cb45b9e7c6b37602, type: 3}
+    - target: {fileID: 3715995759435356609, guid: fb50475eed558d240a04669d4f5ef388, type: 3}
       propertyPath: _moveSpeed
       value: 10
       objectReference: {fileID: 0}

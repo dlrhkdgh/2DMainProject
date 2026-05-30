@@ -1,0 +1,35 @@
+[
+  {
+    "Id": "bomb_normal_01",
+    "Name": "다이너마이트",
+    "Description": "일반 다이너마이트",
+    "BombDamage": 200,
+    "ExplosionRadius": 10,
+    "MoveSpeed": 10,
+    "IconPath": null,
+    "PrefabPath": null,
+    "UpgradeitemId": null
+  },
+  {
+    "Id": "bomb_freeze_01",
+    "Name": "얼음다이너마이트",
+    "Description": "얼음다이너마이트",
+    "BombDamage": 200,
+    "ExplosionRadius": 10,
+    "MoveSpeed": 10,
+    "IconPath": null,
+    "PrefabPath": null,
+    "UpgradeitemId": null
+  },
+  {
+    "Id": "bomb_poison_01",
+    "Name": "독다이너마이트",
+    "Description": "독다이너마이트",
+    "BombDamage": 200,
+    "ExplosionRadius": 10,
+    "MoveSpeed": 10,
+    "IconPath": null,
+    "PrefabPath": null,
+    "UpgradeitemId": null
+  }
+]
