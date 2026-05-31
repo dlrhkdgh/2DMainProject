@@ -13,7 +13,7 @@ public class BombBase : MonoBehaviour
     private Collider2D[] _hitMonsterArr = new Collider2D[100];
     public float ExplosionRadius { get; set; } = 0f;
     public float MoveSpeed { get; set; } = 0f;
-    public float ExplosionTime { get; set; } = 0f;
+    public float ExplosionTime { get; set; } = 1.5f;
     public int BombDamage { get; set; } = 0;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()

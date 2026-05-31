@@ -386,22 +386,13 @@ public class Player : MonoBehaviour
         }
 
     }
-    void UseBomb() 
+    void UseBomb()
     {
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePos.z = 0f;
         Vector2 shootDirection = (mousePos - _firePoint.position).normalized;
-        BombBase spawnedBomb = Instantiate(Bomdprefab, transform.position, Quaternion.identity);
-        if (spawnedBomb != null)
-        {
-           
-            spawnedBomb.MoveSpeed = 8f;        
-            spawnedBomb.ExplosionTime = 1.5f; 
-            spawnedBomb.BombDamage = FinalAttack * 3;
-            spawnedBomb.ExplosionRadius = 8f;
-            
-            spawnedBomb.ThrowBomb(shootDirection);
-        }
+        StageManager.Inst.ThrowBomb(transform.position, shootDirection);
+       
     }
     void PlayerUseBomb() 
     

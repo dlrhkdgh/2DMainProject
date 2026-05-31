@@ -6,8 +6,8 @@
     "BombDamage": 200,
     "ExplosionRadius": 10,
     "MoveSpeed": 10,
-    "IconPath": null,
-    "PrefabPath": null,
+    "IconPath": "Sprite/bomb[bomb__0]",
+    "PrefabPath": "Prefab/Bomb",
     "UpgradeitemId": null
   },
   {

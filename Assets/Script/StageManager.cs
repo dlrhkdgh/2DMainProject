@@ -10,6 +10,7 @@ public class StageManager : MonoBehaviour
     [SerializeField] MonsterSpawner _monsterSpawmer1;
     [SerializeField] MonsterSpawner _monsterSpawmer2;
     [SerializeField] DropItemSpawner _dropItemSpawner;
+    [SerializeField] BombSpawner _bombSpawner;
     public int StageGold { get; set; } = 0;
     public Dictionary<string, int> _stageInventoryDic = new Dictionary<string, int>();
     public Dictionary<string, int> _currentLevelUpRewardDic = new Dictionary<string, int>();
@@ -60,6 +61,10 @@ public class StageManager : MonoBehaviour
     {
         _bulletSpawner.FireBullet(spawnPosition, direction);
     }
+    public void ThrowBomb(Vector3 spawnPosition, Vector2 direction)
+    {
+        _bombSpawner.SpawnBomb(spawnPosition, direction);
+    }
     public void FinishStage()
     {
         if (isStageOnGoing == false) return;
@@ -68,6 +73,7 @@ public class StageManager : MonoBehaviour
         _monsterSpawmer2.ClearAndReleaseSpawner();
         _dropItemSpawner.ClearAndReleaseSpawner();
         _bulletSpawner.ClearAndReleaseSpawner();
+        _bombSpawner.ClearAndReleaseSpawner();
         Player.Inst.StopShooting();
         Player.Inst._isOnBattle = false;
         AddToRealInventory(1f);
@@ -270,5 +276,6 @@ public class StageManager : MonoBehaviour
         _monsterSpawmer2.InitMonsterSpawner(Player.Inst.transform, row.Value.MonsterId2);
         _dropItemSpawner.InitDropItemSpawner();
         _bulletSpawner.InitBulletSpawner();
+        _bombSpawner.InitBombSpawner();
     }
 }
