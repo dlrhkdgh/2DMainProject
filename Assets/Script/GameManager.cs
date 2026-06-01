@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] private GameObject _townprefab;
+    private GameObject _town;
     public static GameManager Inst { get; private set; }
     public int Gold { get; set; } = 1000;
     public Dictionary<string, int> _inventoryDic = new Dictionary<string, int>();
@@ -14,10 +16,11 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         Inst = this;
+        _town = Instantiate(_townprefab, Vector3.zero,Quaternion.identity, transform);
     }
     void Start()
     {
-        GameStart();
+        StartMainMenu();
     }
 
     // Update is called once per frame
@@ -25,9 +28,14 @@ public class GameManager : MonoBehaviour
     {
         
     }
-    public void GameStart() {
+    public void StartMainMenu() {
 
         UIManager.Inst.OpenLobbyUI();
+    }
+    public void StartGame()
+    {
+        GoToTown();
+        UIManager.Inst.CloseLobbyUI();
     }
     public bool AddGold(int getGold) {
 
@@ -79,23 +87,36 @@ public class GameManager : MonoBehaviour
     }
     public void StartStage(int stageNum) 
     {
-        StageManager.Inst.StartStage(stageNum);
-        UIManager.Inst.CloseMainUi();
-        PlayerGoToStage();
+        ExitTown();
+        ResetPlayerPosition();
+        StageManager.Inst.StageStart(stageNum);
         UIManager.Inst.OpenInFeildUI();
     }
-    public void FinishStage() 
-    {   
+    public void FinishStage(bool isClear) 
+    {
+        PauseGame();
         UIManager.Inst.CloseInFeildUI();
+        StageManager.Inst._isClear = isClear;
         UIManager.Inst.OpenResultUI();
-        StageManager.Inst.FinishStage();
-        PlayerGoToTown();
-       // UIManager.Inst.OpenResultUI();
-
+        StageManager.Inst.StageFinish();
+    }
+    public void ExitStage() 
+    {
+        UIManager.Inst.CloseResultUI();
+        GoToTown();
+        ResumeGame();
     }
     public void GoToTown() {
-        UIManager.Inst.CloseResultUI();
+        ResetPlayerPosition();
+        Player.Inst.ResetHp();
+        _town.gameObject.SetActive(true);
         UIManager.Inst.OpenMainUI();
+    }
+    public void ExitTown() 
+    {
+        _town.gameObject.SetActive(false);
+        UIManager.Inst.CloseMainUI();
+
     }
     public void PauseGame()
     {
@@ -139,14 +160,8 @@ public class GameManager : MonoBehaviour
             }
         }
     }
-    public void PlayerGoToStage() {
-        Player.Inst.transform.position = new Vector3(1000f, 1000f, 0f);
-
+    public void ResetPlayerPosition() 
+    {
+        Player.Inst.transform.position = Vector3.zero;    
     }
-    public void PlayerGoToTown() {
-
-
-        Player.Inst.transform.position = new Vector3(0f, 0f, 0f);
-    }
-
 }

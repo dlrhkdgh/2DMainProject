@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class UIButtonBase : MonoBehaviour
 {
     [SerializeField] private Button Button_Base;
-    [SerializeField] private Text Text_Base;
+    [SerializeField] public Text Text_Base;
     [SerializeField] public Image Image_Base;
     [SerializeField] private Image Image_Select;
 

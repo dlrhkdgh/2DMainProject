@@ -226,7 +226,7 @@ public class UIManager : MonoBehaviour
     public void OpenMainUI() {
         OpenCreatedUI(UIType.MainUI);
     }
-    public void CloseMainUi() {
+    public void CloseMainUI() {
         CloseCreatedUI(UIType.MainUI);
     }
     public void OpenResultUI() {

@@ -25,6 +25,7 @@ public class StageManager : MonoBehaviour
     public Action OnSkillUse;
     //public Action<int> OnMaxHpChanged;
     private bool isStageOnGoing = false;
+    public bool _isClear;
     private void Awake()
     {
         Inst = this;
@@ -40,10 +41,10 @@ public class StageManager : MonoBehaviour
     {
 
     }
-    public void StartStage(int stageNum)
+    public void StageStart(int stageNum)
     {
         if (isStageOnGoing) return;
-
+       
         SetSpawners(stageNum);
         ResetLevel();
         InitCurrentLevelUpRewardDic();
@@ -69,7 +70,7 @@ public class StageManager : MonoBehaviour
             OnSkillUse?.Invoke();
         }
     }
-    public void FinishStage()
+    public void StageFinish()
     {
         if (isStageOnGoing == false) return;
 
@@ -80,8 +81,15 @@ public class StageManager : MonoBehaviour
         _bombSpawner.ClearAndReleaseSpawner();
         Player.Inst.StopShooting();
         Player.Inst._isOnBattle = false;
-        AddToRealInventory(1f);
-        ResetStageInfo();
+        if (_isClear)
+        {
+            AddToRealInventory(1f);
+        }
+        else
+        {
+            AddToRealInventory(0.5f);
+        }
+            ResetStageInfo();
 
         isStageOnGoing = false;
     }
@@ -128,7 +136,7 @@ public class StageManager : MonoBehaviour
         GameManager.Inst.AddGold(StageGold);
         foreach (KeyValuePair<string, int> item in _stageInventoryDic)
         {
-        GameManager.Inst.AddInventory(item.Key, item.Value);
+        GameManager.Inst.AddInventory(item.Key, (int)(item.Value * scalef));
         }
     }
     public void PlayerGetExp(int expAmount) {
@@ -282,4 +290,5 @@ public class StageManager : MonoBehaviour
         _bulletSpawner.InitBulletSpawner();
         _bombSpawner.InitBombSpawner();
     }
+    
 }

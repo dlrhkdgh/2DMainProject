@@ -101,7 +101,8 @@ public class Player : MonoBehaviour
         if (PlayerCurrentHp <= 0)
         {
             PlayerCurrentHp = 0;
-            //return;
+            PlayerDie();
+            return;
         }
         OnHpChanged?.Invoke();
         StartCoroutine(CoInvincibleTimer());
@@ -402,5 +403,10 @@ public class Player : MonoBehaviour
         {
             UseBomb();
         }
+    }
+    void PlayerDie() 
+    {
+        GameManager.Inst.FinishStage(false);
+    
     }
 }

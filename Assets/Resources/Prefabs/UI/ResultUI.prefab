@@ -48,6 +48,7 @@ GameObject:
   - component: {fileID: 3147230090794105126}
   - component: {fileID: 4919844858087885940}
   - component: {fileID: 4475411885415137097}
+  - component: {fileID: 5766529948603893534}
   m_Layer: 5
   m_Name: Content
   m_TagString: Untagged
@@ -114,6 +115,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.ContentSizeFitter
   m_HorizontalFit: 0
   m_VerticalFit: 2
+--- !u!114 &5766529948603893534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 374001818640988674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f8e8a34588edc24b92fa314be9da2a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIResultSlot
+  _uiType: 0
+  _itemSlotPrefab: {fileID: 5954457740197244156, guid: 8cc34432255d9224497a607604c53d8e, type: 3}
+  _layoutGroupParent: {fileID: 3147230090794105126}
 --- !u!1 &1498899095141581343
 GameObject:
   m_ObjectHideFlags: 0
@@ -910,10 +926,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ResultUI
   _uiType: 6
-  _itemSlotPrefab: {fileID: 5954457740197244156, guid: 8cc34432255d9224497a607604c53d8e, type: 3}
-  _layoutGroupParent: {fileID: 3147230090794105126}
-  Text_Coin: {fileID: 2824478061734574646}
   Button_Exit: {fileID: 5026692576299851030}
+  Text_Result: {fileID: 1341032259214072186}
+  Text_Coin: {fileID: 2824478061734574646}
+  _slotPrefab: {fileID: 5766529948603893534}
 --- !u!1 &7499087360785063473
 GameObject:
   m_ObjectHideFlags: 0

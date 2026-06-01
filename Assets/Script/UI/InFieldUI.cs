@@ -70,7 +70,7 @@ public class InFieldUI : UIBase
         UIManager.Inst.OpenEarnItemPopUp();
     }
     void OnClick_ExitSatge() {
-        GameManager.Inst.FinishStage();
+        GameManager.Inst.FinishStage(true);
     }
     void UpdatePlayerStat() {
         Debug.Log("플레이어스텟 업데이트");

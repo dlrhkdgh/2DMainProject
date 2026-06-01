@@ -20,12 +20,10 @@ public class NewMonoBehaviourScript : UIBase
         
     }
     void OnClick_GameStart() {
-        UIManager.Inst.CloseLobbyUI();
-        UIManager.Inst.OpenMainUI();
+       GameManager.Inst.StartGame();
     }
     void OnClick_GameExit() {
-    
-    UIManager.Inst.CloseLobbyUI();
+    Application.Quit();
     }
    
 }

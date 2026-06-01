@@ -1,17 +1,16 @@
 ﻿using System.Collections.Generic;
-using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIInventoryBase : UIBase
+public class UIResultSlot : UIBase
 {
     [SerializeField] GameObject _itemSlotPrefab;
-    [SerializeField] private Transform _layoutGroupParent;
-    [SerializeField] protected Text Text_Coin;
- 
+    [SerializeField] Transform _layoutGroupParent;
+
+    private bool _isClear;
     private void OnEnable()
     {
-       
+        _isClear = StageManager.Inst._isClear;
     }
     public void DrawInventory(Dictionary<string, int> targetInven)
     {
@@ -41,17 +40,24 @@ public class UIInventoryBase : UIBase
         UIButtonBase targetSlot = newSlot.GetComponent<UIButtonBase>();
         if (targetSlot != null)
         {
+            if (_isClear == false)
+            {
+                int failCount = (int)(count * 0.5f);
+                targetSlot.ChangeButtonText(failCount.ToString());
+                targetSlot.Text_Base.color = Color.red;
+            }
+            else
+            {
                 targetSlot.ChangeButtonText(count.ToString());
+            }
         }
         ResourceManager.Inst.LoadSprite(itemData.IconPath, (loadedSprite) =>
         {
             if (targetSlot == null || targetSlot.gameObject == null)
             {
-                // Debug.Log("이미지를 불러왔으나 슬롯이 이미 파괴되어 연산을 취소합니다.");
                 return;
             }
 
-            // 이미지 컴포넌트 자체도 한 번 더 체크
             if (targetSlot.Image_Base == null) return;
             if (loadedSprite != null)
             {
@@ -59,5 +65,4 @@ public class UIInventoryBase : UIBase
             }
         });
     }
-
 }
