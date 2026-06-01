@@ -6,6 +6,7 @@
     "BombDamage": 200,
     "ExplosionRadius": 10,
     "MoveSpeed": 10,
+    "CoolTime": 5,
     "IconPath": "Sprite/bomb[bomb__0]",
     "PrefabPath": "Prefab/Bomb",
     "UpgradeitemId": null
@@ -17,6 +18,7 @@
     "BombDamage": 200,
     "ExplosionRadius": 10,
     "MoveSpeed": 10,
+    "CoolTime": 5,
     "IconPath": null,
     "PrefabPath": null,
     "UpgradeitemId": null
@@ -28,6 +30,7 @@
     "BombDamage": 200,
     "ExplosionRadius": 10,
     "MoveSpeed": 10,
+    "CoolTime": 5,
     "IconPath": null,
     "PrefabPath": null,
     "UpgradeitemId": null

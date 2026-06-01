@@ -11,6 +11,9 @@ public class BombSpawner : MonoBehaviour
     private BombData _bombData;
     private string _bombAddressKey;
     private string _bombId = "bomb_normal_01";
+    private float _lastSpawnTime = -99f;
+    private float _coolTime = 5f;
+    private bool _isOnCoolTime = false;
 
     private List<BombBase> _bombPool = new List<BombBase>();
     private int _currentPivot = 0;
@@ -50,9 +53,13 @@ public class BombSpawner : MonoBehaviour
             }
         }
     }
-    public void SpawnBomb(Vector3 spawnPosition, Vector2 direction)
+    public bool SpawnBomb(Vector3 spawnPosition, Vector2 direction)
     {
-        if (_bombPool.Count == 0) return;
+        if (_bombPool.Count == 0) return false;
+
+        if (Time.time - _lastSpawnTime < _coolTime) {
+            Debug.Log($"남은 쿨타임 {_coolTime- (Time.time - _lastSpawnTime)}");
+            return false; } 
 
         BombBase bombToSpawn = null;
 
@@ -72,10 +79,13 @@ public class BombSpawner : MonoBehaviour
             bombToSpawn.InitBomb(_bombData);
             bombToSpawn.gameObject.SetActive(true);
             bombToSpawn.ThrowBomb(direction);
+            _lastSpawnTime = Time.time;
+            return true;
         }
         else
         {
             Debug.LogWarning("폭탄 풀이 가득 찼습니다!");
+            return false;
         }
     }
     public void InitBombSpawner()

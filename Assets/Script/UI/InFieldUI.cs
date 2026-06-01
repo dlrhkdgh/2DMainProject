@@ -6,6 +6,8 @@ public class InFieldUI : UIBase
 {
     [Header("자식 UI 참조")]
     [SerializeField] private UIUseableInventory _uiInventory;
+    [SerializeField] GameObject _skillSlotPrefab;
+    [SerializeField] private Transform _skillSlotLayoutGroupParent;
 
     [SerializeField] UIButtonBase Button_EarnItemPopUp;
     [SerializeField] UIButtonBase Button_ExitStage;
@@ -34,6 +36,7 @@ public class InFieldUI : UIBase
             _myInventoryDic = GameManager.Inst._inventoryDic;
         }
         OpenAndRefreshInventory();
+        InitSkillSlot(GameManager.Inst._playerSkillId);
         Button_EarnItemPopUp.BindOnClickButtonEvent(OnClick_EarnItemPopUp);
         Button_ExitStage.BindOnClickButtonEvent(OnClick_ExitSatge);
     }
@@ -61,21 +64,13 @@ public class InFieldUI : UIBase
         {
             Text_Level.text = $"Lv.{currentLevel}";
         }
-
-
-        //if (_textExpPercent != null)
-        //{
-        //    _textExpPercent.text = $"{expRatio * 100f:F1}%";
-        //}
     }
     void OnClick_EarnItemPopUp()
     {
-
         UIManager.Inst.OpenEarnItemPopUp();
     }
     void OnClick_ExitSatge() {
         GameManager.Inst.FinishStage();
-        //UIManager.Inst.CloseInFeildUI();
     }
     void UpdatePlayerStat() {
         Debug.Log("플레이어스텟 업데이트");
@@ -92,4 +87,48 @@ public class InFieldUI : UIBase
         _uiInventory.gameObject.SetActive(true);
         _uiInventory.DrawInventory(_myInventoryDic);
     }
+    public void InitSkillSlot(string skillId) 
+    {
+        DrawSkillSlot(skillId);
+    }
+    public void DrawSkillSlot(string skillId)
+    {
+       
+        foreach (Transform child in _skillSlotLayoutGroupParent)
+        {
+            Destroy(child.gameObject);
+        }
+        BombData data = DataManager.Inst.GetBombData(skillId);
+        CreateAndSetupSkillSlot(data);
+        
+    }
+    public void CreateAndSetupSkillSlot(BombData data) 
+    {
+        if (_skillSlotPrefab == null) return;
+
+        if (data == null) return;
+
+        GameObject newSlot = Instantiate(_skillSlotPrefab, _skillSlotLayoutGroupParent);
+        newSlot.SetActive(true);
+
+        UISkillSlot targetSlot = newSlot.GetComponent<UISkillSlot>();
+
+        targetSlot.CoolTime = data.CoolTime;
+        
+        ResourceManager.Inst.LoadSprite(data.IconPath, (loadedSprite) =>
+        {
+            if (targetSlot == null || targetSlot.gameObject == null)
+            {
+                return;
+            }
+            if (targetSlot.Image_Skill == null) return;
+            if (loadedSprite != null)
+            {
+                targetSlot.Image_Skill.sprite = loadedSprite;
+            }
+        });
+    }
+
+
 }
+

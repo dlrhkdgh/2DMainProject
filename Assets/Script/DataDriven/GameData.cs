@@ -124,6 +124,7 @@ public class BombData : GameDataBase
     public int BombDamage;
     public float ExplosionRadius;
     public float MoveSpeed;
+    public float CoolTime;
     public string IconPath;
     public string PrefabPath;
     public string UpgradeitemId;

@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public Dictionary<string, int> _inventoryDic = new Dictionary<string, int>();
     public Action<Dictionary<string, int>, Transform> OnItemSell;
     public Action<Dictionary<string, ShopItemData>, Transform> OnItemBuy;
+    public string _playerSkillId = "bomb_normal_01";
     private void Awake()
     {
         Inst = this;

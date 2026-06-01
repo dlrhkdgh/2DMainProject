@@ -22,6 +22,7 @@ public class StageManager : MonoBehaviour
     public Action<int, int, int> OnExpChanged;
     public Action OnPlayerStatChanged;
     public Action OnUseableItemChanged;
+    public Action OnSkillUse;
     //public Action<int> OnMaxHpChanged;
     private bool isStageOnGoing = false;
     private void Awake()
@@ -63,7 +64,10 @@ public class StageManager : MonoBehaviour
     }
     public void ThrowBomb(Vector3 spawnPosition, Vector2 direction)
     {
-        _bombSpawner.SpawnBomb(spawnPosition, direction);
+        if (_bombSpawner.SpawnBomb(spawnPosition, direction)) 
+        {
+            OnSkillUse?.Invoke();
+        }
     }
     public void FinishStage()
     {
