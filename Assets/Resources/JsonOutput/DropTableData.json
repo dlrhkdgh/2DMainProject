@@ -2,7 +2,7 @@
   {
     "Id": "droptable_cactuslime_01",
     "CoinMinAMount": 1,
-    "CoinMaxAMount": 5,
+    "CoinMaxAMount": 4,
     "DropItemId1": "item_cactuslime_slime_01",
     "Item1DropPercent": 20,
     "DropItemId2": "item_cactuslime_needle_01",
@@ -12,11 +12,33 @@
   },
   {
     "Id": "droptable_cowbombie_01",
-    "CoinMinAMount": 3,
-    "CoinMaxAMount": 7,
+    "CoinMinAMount": 2,
+    "CoinMaxAMount": 5,
     "DropItemId1": "item_cowbombie_hat_01",
     "Item1DropPercent": 20,
     "DropItemId2": "item_cowbombie_badge_01",
+    "Item2DropPercent": 1,
+    "DropItemId3": null,
+    "Item3DropPercent": null
+  },
+  {
+    "Id": "droptable_maxikeleton_01",
+    "CoinMinAMount": 4,
+    "CoinMaxAMount": 7,
+    "DropItemId1": "item_maxikeleton_hat_01",
+    "Item1DropPercent": 20,
+    "DropItemId2": "item_maxikeleton_guitar_01",
+    "Item2DropPercent": 1,
+    "DropItemId3": null,
+    "Item3DropPercent": null
+  },
+  {
+    "Id": "droptable_deserteagle_01",
+    "CoinMinAMount": 5,
+    "CoinMaxAMount": 8,
+    "DropItemId1": "item_deserteagle_feather_01",
+    "Item1DropPercent": 20,
+    "DropItemId2": "item_deserteagle_diamond_01",
     "Item2DropPercent": 1,
     "DropItemId3": null,
     "Item3DropPercent": null

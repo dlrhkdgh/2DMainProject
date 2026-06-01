@@ -110,7 +110,7 @@ public class ShopItemData : GameDataBase
     public string IconPath;
 }
 [System.Serializable]
-public class StageMonstertTableData : GameDataBase
+public class StageMonsterTableData : GameDataBase
 {
     public string MonsterId1;
     public string MonsterId2;

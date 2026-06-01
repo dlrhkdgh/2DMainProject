@@ -282,7 +282,7 @@ public class StageManager : MonoBehaviour
     }
     public void SetSpawners(int stageNum) {
 
-        var row = DataManager.Inst.StageMonstertTableDataList.ElementAt(stageNum);
+        var row = DataManager.Inst.StageMonsterTableDataList.ElementAt(stageNum);
 
         _monsterSpawmer1.InitMonsterSpawner(Player.Inst.transform,row.Value.MonsterId1);
         _monsterSpawmer2.InitMonsterSpawner(Player.Inst.transform, row.Value.MonsterId2);

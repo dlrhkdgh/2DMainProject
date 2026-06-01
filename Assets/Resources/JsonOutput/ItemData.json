@@ -94,5 +94,53 @@
     "IconPath": "Item/Cowbombie[cowbombiedrop_1]",
     "Grade": null,
     "IsUseable": false
+  },
+  {
+    "Id": "item_maxikeleton_hat_01",
+    "Name": "스켈레톤 모자",
+    "Description": "화려하다.",
+    "EItemType": "1",
+    "MaxStackCount": 999,
+    "SellingPrice": 2,
+    "PrefabPath": null,
+    "IconPath": "Item/skeleton[skeletondrop_0]",
+    "Grade": null,
+    "IsUseable": false
+  },
+  {
+    "Id": "item_maxikeleton_guitar_01",
+    "Name": "기타",
+    "Description": "흥겹다.",
+    "EItemType": "1",
+    "MaxStackCount": 999,
+    "SellingPrice": 40,
+    "PrefabPath": null,
+    "IconPath": "Item/skeleton[skeletondrop_1]",
+    "Grade": null,
+    "IsUseable": false
+  },
+  {
+    "Id": "item_deserteagle_feather_01",
+    "Name": "깃털",
+    "Description": "간지럽다.",
+    "EItemType": "1",
+    "MaxStackCount": 999,
+    "SellingPrice": 2,
+    "PrefabPath": null,
+    "IconPath": "Item/eagle[eagledropp_0]",
+    "Grade": null,
+    "IsUseable": false
+  },
+  {
+    "Id": "item_deserteagle_diamond_01",
+    "Name": "다이아몬드",
+    "Description": "빛난다.",
+    "EItemType": "1",
+    "MaxStackCount": 999,
+    "SellingPrice": 50,
+    "PrefabPath": null,
+    "IconPath": "Item/eagle[eagledropp_2]",
+    "Grade": null,
+    "IsUseable": false
   }
 ]
