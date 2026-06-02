@@ -278,16 +278,7 @@ public class Player : MonoBehaviour
         PlayerCurrentHp = _maxHp;
         OnHpChanged?.Invoke();
     }
-    public void PlayerGetExp(int expAmount) {
-        PlayerExp = PlayerExp + expAmount;
-        if (PlayerExp >= 100) {
-            PlayerExp = PlayerExp % 100;
-            PlayerLevelUp();
-        }
-    }
-    public void PlayerLevelUp() {
-        PlayerLevel++;
-    }
+    
     public void ResetAddedPlayerStageStat() {
      _stageAddMaxHpPercent=0;
      _stageAddMoveSpeed=0f;

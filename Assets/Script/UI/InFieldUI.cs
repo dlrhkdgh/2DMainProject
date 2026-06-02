@@ -14,6 +14,7 @@ public class InFieldUI : UIBase
     [Header("경험치 UI 요소")]
     [SerializeField] private Slider _expSlider;
     [SerializeField] private Text Text_Level;
+    [SerializeField] private Text _timerText;
     //[SerializeField] private Text _textExpPercent;
     [Header("플레이어 현재 스텟")]
     [SerializeField] private Text Text_MaxHp;
@@ -32,13 +33,32 @@ public class InFieldUI : UIBase
             StageManager.Inst.OnPlayerStatChanged += UpdatePlayerStat;
             StageManager.Inst.OnUseableItemChanged += OpenAndRefreshInventory;
             UpdatePlayerStat();
-            UpdateExpBar(StageManager.Inst.PlayerExp,StageManager.Inst.maxExp,StageManager.Inst.PlayerLevel);
+            UpdateExpBar(StageManager.Inst.PlayerExp,StageManager.Inst._maxExp,StageManager.Inst.PlayerLevel);
             _myInventoryDic = GameManager.Inst._inventoryDic;
         }
         OpenAndRefreshInventory();
         InitSkillSlot(GameManager.Inst._playerSkillId);
         Button_EarnItemPopUp.BindOnClickButtonEvent(OnClick_EarnItemPopUp);
         Button_ExitStage.BindOnClickButtonEvent(OnClick_ExitSatge);
+    }
+    private void Update()
+    {
+        if(StageManager.Inst == null) return;
+
+        float elapsedSeconds = StageManager.Inst.StageTimer;
+        float maxSeconds = StageManager.Inst.MaxStageTime; 
+
+        float remainingSeconds = maxSeconds - elapsedSeconds;
+
+        if (remainingSeconds < 0f) 
+        { 
+            remainingSeconds = 0f; 
+        }
+
+        int minutes = (int)(remainingSeconds / 60f);
+        int seconds = (int)(remainingSeconds % 60f);
+
+        _timerText.text = $"{minutes:D2}:{seconds:D2}";
     }
     private void OnDisable()
     {

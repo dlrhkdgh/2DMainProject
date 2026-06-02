@@ -5,9 +5,12 @@ using UnityEngine;
 
 public class Monster : MonoBehaviour
 {
+    [SerializeField] private Transform _visualTransform;
+    [SerializeField] private SpriteRenderer _sprite;
     private MonsterData _defaultData;
     private DropTableData _dropTableData;
     public Transform _targetTransform;
+    private SpriteRenderer _spriteRenderer;
 
     private Rigidbody2D _rigidBody;
     private MonsterAnimController _animController;
@@ -24,10 +27,11 @@ public class Monster : MonoBehaviour
 
     void Awake()
     {
-        
+
         _rigidBody = GetComponent<Rigidbody2D>();
         _animController = GetComponent<MonsterAnimController>();
         _rigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
+        _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
     }
     private void OnEnable()
     {
@@ -71,18 +75,24 @@ public class Monster : MonoBehaviour
         _rigidBody.linearVelocity = _moveDirection * MoveSpeed;
     }
 
-   
-    private void MonsterFlip() {
+    private void MonsterFlip()
+    {
+        if (_visualTransform == null) return;
+
+       
+        float currentScaleY = _visualTransform.localScale.y;
+        float currentScaleZ = _visualTransform.localScale.z;
+        
+        float baseScaleX = Mathf.Abs(_visualTransform.localScale.x);
 
         if (_moveDirection.x > 0)
         {
-            transform.localScale = new Vector3(1, 1, 1);
+            _visualTransform.localScale = new Vector3(baseScaleX, currentScaleY, currentScaleZ);
         }
         else if (_moveDirection.x < 0)
         {
-            transform.localScale = new Vector3(-1, 1, 1);
+            _visualTransform.localScale = new Vector3(-baseScaleX, currentScaleY, currentScaleZ);
         }
-
     }
     public void MonsterTakeDamage(int damage, bool isCritical) {
         //Debug.Log($"{damage}");
@@ -165,18 +175,33 @@ public class Monster : MonoBehaviour
             }
         }
     }
-    public void InitMonster(MonsterData monsterData) {
-
+    public void InitMonster(MonsterData monsterData, float hpMultiplier, float speedMultiplier, bool isElite) 
+    { 
         if (monsterData == null) return;
 
         _defaultData = monsterData;
 
-        CurrentHp = _defaultData.MaxHp;
-        MoveSpeed = _defaultData.MoveSpeed;
+        float calculatedHp = _defaultData.MaxHp * hpMultiplier;
+        CurrentHp = Mathf.RoundToInt(calculatedHp);
+        MoveSpeed = _defaultData.MoveSpeed * speedMultiplier;
         AttackDamage = _defaultData.AttackDamage;
         DropTableId = _defaultData.DropTableId;
         MonsterExp= _defaultData.MonsterExp;
-        Debug.Log($"[{_defaultData.Name}] 체력 {CurrentHp}, 속도 {MoveSpeed}로 초기화 완료!");
+
+        SpriteRenderer sr = GetComponentInChildren<SpriteRenderer>(); // 자식 Visual에서 가져옴
+        if (isElite)
+        {
+            CurrentHp = Mathf.RoundToInt(CurrentHp * 5.0f);       
+            MoveSpeed = _defaultData.MoveSpeed * speedMultiplier * 1.2f;
+            transform.localScale = new Vector3(3.5f, 3.5f, 1f);
+            _sprite.color = Color.red;   
+        }
+        else
+        {
+            transform.localScale = Vector3.one; // 일반몹 크기 복원
+            _sprite.color = Color.white;             // 일반몹 색상 복원
+        }
+        Debug.Log($"[{_defaultData.Name}] {(isElite ? "엘리트" : "일반")} 초기화 완료! 체력: {CurrentHp}, 속도: {MoveSpeed}");
     }
     
 }

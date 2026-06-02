@@ -112,6 +112,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4f8b13fc12497e4494ff057d57b4006, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Monster
+  _visualTransform: {fileID: 1918963277435141230}
+  _sprite: {fileID: 6711384552826032714}
   _targetTransform: {fileID: 0}
 --- !u!114 &4632105598489134425
 MonoBehaviour:

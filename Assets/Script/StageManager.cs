@@ -17,15 +17,18 @@ public class StageManager : MonoBehaviour
 
     public List<string> _finalRewardList = new List<string>();
     public int PlayerExp { get; set; } = 0;
-    public int maxExp = 300;
+    public int _maxExp = 300;
     public int PlayerLevel { get; set; } = 0;
     public Action<int, int, int> OnExpChanged;
     public Action OnPlayerStatChanged;
     public Action OnUseableItemChanged;
     public Action OnSkillUse;
     //public Action<int> OnMaxHpChanged;
-    private bool isStageOnGoing = false;
+    private bool _isStageOnGoing = false;
     public bool _isClear;
+    public float MaxStageTime { get; set; } = 300f;
+    public float StageTimer { get; private set; } = 0f;
+    
     private void Awake()
     {
         Inst = this;
@@ -37,21 +40,29 @@ public class StageManager : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
+        if (!_isStageOnGoing) return;
 
+        StageTimer += Time.deltaTime;
+
+        if (StageTimer >= MaxStageTime) 
+        {
+            _isStageOnGoing = false;
+            GameManager.Inst.FinishStage(true);
+        }
     }
     public void StageStart(int stageNum)
     {
-        if (isStageOnGoing) return;
+        if (_isStageOnGoing) return;
        
         SetSpawners(stageNum);
         ResetLevel();
         InitCurrentLevelUpRewardDic();
         Player.Inst.StartShooting();
         Player.Inst._isOnBattle = true;
-
-        isStageOnGoing=true;
+        StageTimer = 0f;
+        _isStageOnGoing =true;
     }
     public void DropItemFromMonster(Vector3 diePosition, string monsterDropTableId)
     {
@@ -72,7 +83,7 @@ public class StageManager : MonoBehaviour
     }
     public void StageFinish()
     {
-        if (isStageOnGoing == false) return;
+        if (_isStageOnGoing == false) return;
 
         _monsterSpawmer1.ClearAndReleaseSpawner();
         _monsterSpawmer2.ClearAndReleaseSpawner();
@@ -91,7 +102,7 @@ public class StageManager : MonoBehaviour
         }
             ResetStageInfo();
 
-        isStageOnGoing = false;
+        _isStageOnGoing = false;
     }
     public bool AddStageGold(int getGold)
     {
@@ -139,24 +150,47 @@ public class StageManager : MonoBehaviour
         GameManager.Inst.AddInventory(item.Key, (int)(item.Value * scalef));
         }
     }
-    public void PlayerGetExp(int expAmount) {
-        PlayerExp = PlayerExp+ expAmount;
-        while (PlayerExp >= maxExp) 
+    public void PlayerGetExp(int expAmount)
+    {
+        PlayerExp = PlayerExp + expAmount;
+        while (PlayerExp >= _maxExp)
         {
-            PlayerExp = PlayerExp - maxExp;
+            PlayerExp = PlayerExp - _maxExp;
             PlayerLevelUp();
         }
-        OnExpChanged?.Invoke(PlayerExp, maxExp, PlayerLevel);
+        OnExpChanged?.Invoke(PlayerExp, _maxExp, PlayerLevel);
     }
-    public void PlayerLevelUp() {
+    public void PlayerLevelUp()
+    {
         PlayerLevel++;
         GetLevelUpReward();
-
-       //maxExp = Mathf.RoundToInt(maxExp * 1.2f);
+        _maxExp = Mathf.RoundToInt(_maxExp * 1.2f);
     }
+    //public void PlayerGetExp(int expAmount)
+    //{
+       
+    //    PlayerExp = PlayerExp + expAmount;
+
+        
+    //    while (PlayerExp >= _maxExp)
+    //    {
+    //        PlayerLevelUp();
+    //        return;
+    //        //break;
+    //    }
+    //    OnExpChanged?.Invoke(PlayerExp, _maxExp, PlayerLevel);
+    //}
+    //public void PlayerLevelUp()
+    //{
+    //    PlayerLevel++;
+    //    PlayerExp = PlayerExp - _maxExp;
+    //    _maxExp = Mathf.RoundToInt(_maxExp * 1.2f);
+    //    GetLevelUpReward();
+    //}
     public void ResetLevel() {
         PlayerLevel = 0;
-        PlayerExp = 0;    
+        PlayerExp = 0;
+        _maxExp = 300;
     }
     public void GetLevelUpReward() 
     {
@@ -169,6 +203,7 @@ public class StageManager : MonoBehaviour
     {
         UIManager.Inst.CloseLevelUpRewardUI();
         GameManager.Inst.ResumeGame();
+       // PlayerGetExp(0);
     }
     public void InitCurrentLevelUpRewardDic() {
         foreach (KeyValuePair<string, LevelUpRewardData> reward in DataManager.Inst.LevelUpRewardDataList)

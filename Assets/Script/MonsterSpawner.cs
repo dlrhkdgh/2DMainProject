@@ -16,7 +16,14 @@ public class MonsterSpawner : MonoBehaviour
     [Header("스폰 설정")]
     [SerializeField] private float _minSpawnDistance = 10f;
     [SerializeField] private float _maxSpawnDistance = 15f;
-    [SerializeField] private int _spawnMonsterPerSec = 4;
+    [SerializeField] private float _spawnMonsterPerSec = 1f;
+    [Header("스폰 빈도 성장 가중치 (1분당 초당 스폰수 증가량)")]
+    [SerializeField] private float _spawnGrowthScale = 0.5f; // 1분마다 초당 스폰 마릿수를 0.5마리씩 늘림
+    [SerializeField] private float _baseSpawnPerSec = 1f;    // 게임 시작 시 최초 초당 스폰 마릿수
+
+    [Header("난이도 가중치")]
+    [SerializeField] private float _hpGrowthScale = 0.2f;    // 1분당 체력 20% 증가 수치
+    [SerializeField] private float _speedGrowthScale = 0.05f;// 1분당 속도 5% 증가 수치
 
     private List<Monster> _monsterPool = new List<Monster>();
     private int _currentPivot = 0;
@@ -66,14 +73,15 @@ public class MonsterSpawner : MonoBehaviour
     private async UniTaskVoid AutoSpawnMonsterAsync(CancellationToken token)
     {
 
-        int delayMilliseconds = Mathf.RoundToInt((1f / (float)_spawnMonsterPerSec) * 1000f);
         try
         {
             while (true)
             {
-                // 오브젝트가 파괴되거나(_spawnCts 취소) 구역이 바뀔 때 안전하게 탈출합니다.
+                float passedMinutes = StageManager.Inst.StageTimer / 60f;
+                _spawnMonsterPerSec = _baseSpawnPerSec + (passedMinutes * _spawnGrowthScale);
+                _spawnMonsterPerSec = Mathf.Min(_spawnMonsterPerSec, 10f);
+                int delayMilliseconds = Mathf.RoundToInt((1f / (float)_spawnMonsterPerSec) * 1000f);
                 await UniTask.Delay(delayMilliseconds, cancellationToken: token);
-
                 if (_isSpawning)
                 {
                     SpawnMonsterFromPool();
@@ -110,7 +118,16 @@ public class MonsterSpawner : MonoBehaviour
 
             monsterToSpawn.transform.position = spawnPosition;
             monsterToSpawn.SetTargetTransform(_playerTransform);
-            monsterToSpawn.InitMonster(_monsterdata);
+
+            float currentSeconds = StageManager.Inst.StageTimer;
+            float passedMinutes = currentSeconds / 30f;
+            float hpMultiplier = 1.0f + (passedMinutes * _hpGrowthScale);
+            float speedMultiplier = 1.0f + (passedMinutes * _speedGrowthScale);
+
+            float currentEliteChance = 0.03f + (passedMinutes * 0.02f);
+            bool isElite = Random.value < currentEliteChance;
+
+            monsterToSpawn.InitMonster(_monsterdata, hpMultiplier, speedMultiplier, isElite);
             monsterToSpawn.gameObject.SetActive(true);
            
         }
