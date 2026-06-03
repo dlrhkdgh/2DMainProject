@@ -51,9 +51,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TownInventoryPopUp
   _uiType: 0
   _itemSlotPrefab: {fileID: 1943150325800333728, guid: 0e0b56da81b80fd4894740d7296a8cb6, type: 3}
-  Button_Exit: {fileID: 2987703907795616908}
   _layoutGroupParent: {fileID: 6290079743330799715}
   Text_Coin: {fileID: 8138799077978742486}
+  Button_Exit: {fileID: 2987703907795616908}
 --- !u!1 &631927417760670964
 GameObject:
   m_ObjectHideFlags: 0
@@ -168,7 +168,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 25, y: 25}
+  m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &8903134965128260034
 CanvasRenderer:
@@ -246,7 +246,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
   m_AnchoredPosition: {x: 100, y: 0}
-  m_SizeDelta: {x: 312.7758, y: 241.8506}
+  m_SizeDelta: {x: 760, y: 585}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &9046154789839568845
 CanvasRenderer:
@@ -319,8 +319,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -140}
-  m_SizeDelta: {x: 240, y: 160}
+  m_AnchoredPosition: {x: 0, y: -310}
+  m_SizeDelta: {x: 650, y: 430}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2972835860909697355
 MonoBehaviour:
@@ -342,7 +342,7 @@ MonoBehaviour:
   m_ChildAlignment: 0
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 40, y: 40}
+  m_CellSize: {x: 100, y: 100}
   m_Spacing: {x: 10, y: 40}
   m_Constraint: 1
   m_ConstraintCount: 5
@@ -378,10 +378,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 9179387368652468183}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0.5}
-  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 70, y: 30}
+  m_SizeDelta: {x: 140, y: 0}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!222 &405652403369985038
 CanvasRenderer:
@@ -413,7 +413,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 18
+    m_FontSize: 36
     m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 0
@@ -598,5 +598,5 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -30, y: -20}
-  m_SizeDelta: {x: 100, y: 40}
+  m_SizeDelta: {x: 200, y: 80}
   m_Pivot: {x: 1, y: 1}
