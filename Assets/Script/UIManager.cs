@@ -237,6 +237,7 @@ public class UIManager : MonoBehaviour
     }
     public void OpenLevelUpRewardUI()
     {
+        Debug.Log($"현재레벨{StageManager.Inst.PlayerLevel}");
         OpenCreatedUI(UITypeRoot.PopupUI, UIType.LevelUpRewardUI);
     }
     public void CloseLevelUpRewardUI()

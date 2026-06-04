@@ -18,6 +18,8 @@ public class StageManager : MonoBehaviour
     public List<string> _finalRewardList = new List<string>();
     public int PlayerExp { get; set; } = 0;
     public int _maxExp = 300;
+    private Queue<bool> _levelUpQueue = new Queue<bool>();
+    private bool _isLevelUpUI =false;
     public int PlayerLevel { get; set; } = 0;
     public Action<int, int, int> OnExpChanged;
     public Action OnPlayerStatChanged;
@@ -156,37 +158,31 @@ public class StageManager : MonoBehaviour
         while (PlayerExp >= _maxExp)
         {
             PlayerExp = PlayerExp - _maxExp;
-            PlayerLevelUp();
+            _maxExp = Mathf.RoundToInt(_maxExp * 1.2f);
+            _levelUpQueue.Enqueue(true);
         }
         OnExpChanged?.Invoke(PlayerExp, _maxExp, PlayerLevel);
+        CheckAndProcessLevelUpQueue();
     }
-    public void PlayerLevelUp()
+   
+    private void CheckAndProcessLevelUpQueue()
     {
+        if (_isLevelUpUI || _levelUpQueue.Count == 0) return;
+
+        _levelUpQueue.Dequeue();
+
+        _isLevelUpUI = true;
         PlayerLevel++;
         GetLevelUpReward();
-        _maxExp = Mathf.RoundToInt(_maxExp * 1.2f);
     }
-    //public void PlayerGetExp(int expAmount)
-    //{
-       
-    //    PlayerExp = PlayerExp + expAmount;
-
-        
-    //    while (PlayerExp >= _maxExp)
-    //    {
-    //        PlayerLevelUp();
-    //        return;
-    //        //break;
-    //    }
-    //    OnExpChanged?.Invoke(PlayerExp, _maxExp, PlayerLevel);
-    //}
-    //public void PlayerLevelUp()
-    //{
-    //    PlayerLevel++;
-    //    PlayerExp = PlayerExp - _maxExp;
-    //    _maxExp = Mathf.RoundToInt(_maxExp * 1.2f);
-    //    GetLevelUpReward();
-    //}
+    public void FinishLevelUpReward()
+    {
+        UIManager.Inst.CloseLevelUpRewardUI();
+        GameManager.Inst.ResumeGame();
+        OnExpChanged?.Invoke(PlayerExp, _maxExp, PlayerLevel);
+        _isLevelUpUI = false;
+        CheckAndProcessLevelUpQueue();
+    }
     public void ResetLevel() {
         PlayerLevel = 0;
         PlayerExp = 0;
@@ -198,12 +194,6 @@ public class StageManager : MonoBehaviour
         _finalRewardList.Clear();
         _finalRewardList = GetRandomLevelUpReward(3);
         UIManager.Inst.OpenLevelUpRewardUI();
-    }
-    public void FinishLevelUpReward() 
-    {
-        UIManager.Inst.CloseLevelUpRewardUI();
-        GameManager.Inst.ResumeGame();
-       // PlayerGetExp(0);
     }
     public void InitCurrentLevelUpRewardDic() {
         foreach (KeyValuePair<string, LevelUpRewardData> reward in DataManager.Inst.LevelUpRewardDataList)
@@ -270,11 +260,18 @@ public class StageManager : MonoBehaviour
     {
         var inventoryDic = GameManager.Inst._inventoryDic;
         if (inventoryDic == null || inventoryDic.Count == 0) return ;
-        if (key < 0 || key >= inventoryDic.Count) return;
+        if (key < 0 ) return;
 
-        List<string> itemIdList = new List<string>(inventoryDic.Keys);
-
-        string targetItemId = itemIdList[key];
+        List<string> usableItemIdList = new List<string>();
+        foreach (string itemId in inventoryDic.Keys) 
+        {
+            if (DataManager.Inst.GetItemData(itemId).IsUseable) 
+            {
+                usableItemIdList.Add(itemId);
+            }
+        }
+        if ( key >= usableItemIdList.Count) return;
+        string targetItemId = usableItemIdList[key];
 
         ItemType type = DataManager.Inst.GetItemData(targetItemId).EItemType;
 

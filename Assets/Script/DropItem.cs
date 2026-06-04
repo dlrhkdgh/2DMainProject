@@ -5,7 +5,7 @@ using UnityEngine;
 public class DropItem : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer _spriteRenderer;
-    [SerializeField] private float _moveSpeed = 8f;
+    private float _moveSpeed = 20f;
     public string ItemId { get; set; }
     public int GoldAmount { get; set; } = 0;
     private Transform _targetTransform;
