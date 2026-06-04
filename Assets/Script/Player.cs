@@ -61,6 +61,8 @@ public class Player : MonoBehaviour
     public bool _isOnBattle = false;
     public Action OnHpChanged;
 
+    public string _bulletId = "bullet_normalbullet_01";
+
     private Coroutine _fireSpeedBuffCoroutine;
     void Awake()
     {

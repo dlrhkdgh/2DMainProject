@@ -25,6 +25,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 11b81565b2d159443bbb5b32f611fed0
+    m_Address: bullet/bullet
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 198d59f20ca641b40b351581e82250da
     m_Address: Reward/Icon
     m_ReadOnly: 0

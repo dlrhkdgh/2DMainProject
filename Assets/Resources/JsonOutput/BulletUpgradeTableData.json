@@ -1,0 +1,22 @@
+[
+  {
+    "Id": "upgrade_normalbullet_01",
+    "CoinMount": 500,
+    "ItemId1": "item_cactuslime_needle_01",
+    "Item1Amount": 1,
+    "ItemId2": "item_cowbombie_badge_01",
+    "Item2Amount": 1,
+    "ItemId3": null,
+    "Item3Amount": null
+  },
+  {
+    "Id": "upgrade_ironbullet_01",
+    "CoinMount": 1000,
+    "ItemId1": "item_maxikeleton_guitar_01",
+    "Item1Amount": 1,
+    "ItemId2": "item_deserteagle_diamond_01",
+    "Item2Amount": 1,
+    "ItemId3": null,
+    "Item3Amount": null
+  }
+]

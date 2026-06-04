@@ -75,10 +75,13 @@ public class BulletData : GameDataBase
     public float MoveSpeed;
     public float DestroyTime;
     public int Damage;
-    public int BulletLevel;
+    public int FireSpeed;
     public string PrefabPath;
     public string IconPath;
-    
+    public string UpgradeIngredientTableId;
+    public string NextBulletId;
+
+
 }
 [System.Serializable]
 public class DropTableData : GameDataBase 
@@ -128,4 +131,12 @@ public class BombData : GameDataBase
     public string IconPath;
     public string PrefabPath;
     public string UpgradeitemId;
+}
+[System.Serializable]
+public class BulletUpgradeTableData : GameDataBase
+{
+    public int CoinMount;
+    public string ItemId1; public int Item1Amount;
+    public string ItemId2; public int Item2Amount;
+    public string ItemId3; public int Item3Amount;
 }

@@ -28,7 +28,9 @@ public class DataManager : MonoBehaviour
     public Dictionary<string, LevelUpRewardData> LevelUpRewardDataList { get; private set; } = new Dictionary<string, LevelUpRewardData>();
     public Dictionary<string, StageMonsterTableData> StageMonsterTableDataList { get; private set; } = new Dictionary<string, StageMonsterTableData>();
     public Dictionary<string, BombData> BombDataList { get; private set; } = new Dictionary<string, BombData>();
-    
+    public Dictionary<string, BulletUpgradeTableData> BulletUpgradeTableDataList { get; private set; } = new Dictionary<string, BulletUpgradeTableData>();
+
+
     private Dictionary<string, T> LoadData<T>(string tableName) where T : GameDataBase
     {
         // 1. 경로 설정 (확장자 .json 제외!)
@@ -98,7 +100,11 @@ public class DataManager : MonoBehaviour
     {
         BombDataList = LoadData<BombData>(jsonPath);
     }
-
+    public void LoadBulletUpgradeTableData(string jsonPath)
+    {
+        BulletUpgradeTableDataList = LoadData<BulletUpgradeTableData>(jsonPath);
+    }
+    
     public MonsterData GetMonsterData(string id) {
 
         if (MonsterDataList == null || string.IsNullOrEmpty(id)) return null; 
@@ -155,7 +161,14 @@ public class DataManager : MonoBehaviour
         return BombDataList.TryGetValue(id, out var data) ? data : null;
 
     }
-    
+    public BulletUpgradeTableData GetBulletUpgradeTableData(string id)
+    {
+
+        if (BulletUpgradeTableDataList == null || string.IsNullOrEmpty(id)) return null;
+        return BulletUpgradeTableDataList.TryGetValue(id, out var data) ? data : null;
+
+    }
+
     public void LoadFullData()
     {
         LoadMonsterData("MonsterData");
@@ -166,5 +179,7 @@ public class DataManager : MonoBehaviour
         LoadShopItemData("ShopItemData");
         LoadStageMonsterTableData("StageMonsterTableData");
         LoadBombData("BombData");
+        LoadBulletUpgradeTableData("BulletUpgradeTableData");
+
     }
 }

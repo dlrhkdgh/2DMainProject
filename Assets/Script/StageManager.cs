@@ -299,7 +299,7 @@ public class StageManager : MonoBehaviour
                     OnUseableItemChanged?.Invoke();
                 } break;
             case ItemType.BerserkPotion:
-                if(Player.Inst.UseFireSpeedPotion(10,10) && inventoryDic[targetItemId] > 0) 
+                if(Player.Inst.UseFireSpeedPotion(10,5) && inventoryDic[targetItemId] > 0) 
                 {
                     inventoryDic[targetItemId]--;
                     if (inventoryDic[targetItemId] <= 0)
@@ -322,5 +322,6 @@ public class StageManager : MonoBehaviour
         _bulletSpawner.InitBulletSpawner();
         _bombSpawner.InitBombSpawner();
     }
+  
     
 }

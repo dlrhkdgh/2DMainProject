@@ -164,4 +164,57 @@ public class GameManager : MonoBehaviour
     {
         Player.Inst.transform.position = Vector3.zero;    
     }
+    public void UpgradeBullet()
+    {
+        var currentBulletData = DataManager.Inst.GetBulletData(Player.Inst._bulletId);
+        var bulletUpgradeTableData = DataManager.Inst.GetBulletUpgradeTableData(Player.Inst._bulletId);
+        string nextBulletId = currentBulletData.NextBulletId;
+        var nextBulletData = DataManager.Inst.GetBulletData(nextBulletId);
+        if (CheckUpgradeAvailable(nextBulletData,bulletUpgradeTableData)) 
+        {
+            UpgradePlayerBullet(bulletUpgradeTableData);
+            Player.Inst._bulletId = nextBulletId;
+        }
+    }
+    public bool CheckUpgradeAvailable(BulletData nextBulletData, BulletUpgradeTableData bulletUpgradeTableData)
+    {
+        if (nextBulletData == null || bulletUpgradeTableData == null) return false;
+        if (bulletUpgradeTableData.CoinMount > Gold) return false;
+
+        if (!HasEnoughIngredient(bulletUpgradeTableData.ItemId1, bulletUpgradeTableData.Item1Amount)) return false;
+        if (!HasEnoughIngredient(bulletUpgradeTableData.ItemId2, bulletUpgradeTableData.Item2Amount)) return false;
+        if (!HasEnoughIngredient(bulletUpgradeTableData.ItemId3, bulletUpgradeTableData.Item3Amount)) return false;
+        
+        return true;
+    }
+    private bool HasEnoughIngredient(string itemId, int requiredAmount)
+    {
+        if (string.IsNullOrEmpty(itemId) || requiredAmount <= 0) return true;
+       
+        _inventoryDic.TryGetValue(itemId, out int currentAmount);
+        
+        if (currentAmount < requiredAmount) return false;
+
+        return true;
+    }
+    public void UpgradePlayerBullet(BulletUpgradeTableData bulletUpgradeTableData)
+    {
+        Gold -= bulletUpgradeTableData.CoinMount;
+        ConsumeIngredient(bulletUpgradeTableData.ItemId1, bulletUpgradeTableData.Item1Amount);
+        ConsumeIngredient(bulletUpgradeTableData.ItemId2, bulletUpgradeTableData.Item2Amount);
+        ConsumeIngredient(bulletUpgradeTableData.ItemId3, bulletUpgradeTableData.Item3Amount);
+    }
+    private void ConsumeIngredient(string itemId, int amount)
+    {
+        if (string.IsNullOrEmpty(itemId) || amount <= 0) return;
+      
+        if (_inventoryDic.ContainsKey(itemId))
+        {
+            _inventoryDic[itemId] -= amount;
+            if (_inventoryDic[itemId] <= 0)
+            {
+                _inventoryDic.Remove(itemId);
+            }
+        }
+    }
 }
