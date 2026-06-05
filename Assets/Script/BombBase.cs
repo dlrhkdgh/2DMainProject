@@ -7,13 +7,14 @@ public class BombBase : MonoBehaviour
     private Rigidbody2D _rigidBody;
     private Coroutine _explosionCoroutine;
    
-    [SerializeField] private GameObject _explosionEffectPrefab; //  폭발 이펙트 프리팹 칸 
+   // [SerializeField] private GameObject _explosionEffectPrefab; 
+    
 
     private int _itemLayerMask;
     private Collider2D[] _hitMonsterArr = new Collider2D[100];
     public float ExplosionRadius { get; set; } = 0f;
     public float MoveSpeed { get; set; } = 0f;
-    public float ExplosionTime { get; set; } = 1.5f;
+    public float ExplosionTime { get; set; } = 1.0f;
     public int BombDamage { get; set; } = 0;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
@@ -111,10 +112,7 @@ public class BombBase : MonoBehaviour
                 Debug.Log("monster없음");
                 }
             }
-        if (_explosionEffectPrefab != null)
-        {
-            Instantiate(_explosionEffectPrefab, transform.position, Quaternion.identity);
-        }
+        StageManager.Inst.SpawnEffect(transform.position);
         DestroyBomb();
     }
     public void InitBomb(BombData data)

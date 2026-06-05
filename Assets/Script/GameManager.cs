@@ -8,10 +8,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject _townprefab;
     private GameObject _town;
     public static GameManager Inst { get; private set; }
-    public int Gold { get; set; } = 1000;
+    public int Gold { get; set; } = 5000;
     public Dictionary<string, int> _inventoryDic = new Dictionary<string, int>();
     public Action<Dictionary<string, int>, Transform> OnItemSell;
     public Action<Dictionary<string, ShopItemData>, Transform> OnItemBuy;
+    public Action OnBulletUpgrade;
     public string _playerSkillId = "bomb_normal_01";
     private void Awake()
     {
@@ -21,9 +22,8 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         StartMainMenu();
+        GetInven();/////////////////////////////////////////////////////////
     }
-
-    // Update is called once per frame
     void Update()
     {
         
@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviour
     }
     public void StartGame()
     {
+        GetLoading();
         GoToTown();
         UIManager.Inst.CloseLobbyUI();
     }
@@ -87,6 +88,7 @@ public class GameManager : MonoBehaviour
     }
     public void StartStage(int stageNum) 
     {
+        GetLoading();
         ExitTown();
         ResetPlayerPosition();
         StageManager.Inst.StageStart(stageNum);
@@ -103,6 +105,7 @@ public class GameManager : MonoBehaviour
     public void ExitStage() 
     {
         UIManager.Inst.CloseResultUI();
+        GetLoading();
         GoToTown();
         ResumeGame();
     }
@@ -167,13 +170,16 @@ public class GameManager : MonoBehaviour
     public void UpgradeBullet()
     {
         var currentBulletData = DataManager.Inst.GetBulletData(Player.Inst._bulletId);
-        var bulletUpgradeTableData = DataManager.Inst.GetBulletUpgradeTableData(Player.Inst._bulletId);
+        string bulletUpgradeTableId = currentBulletData.UpgradeIngredientTableId;
+        var bulletUpgradeTableData = DataManager.Inst.GetBulletUpgradeTableData(bulletUpgradeTableId);
         string nextBulletId = currentBulletData.NextBulletId;
-        var nextBulletData = DataManager.Inst.GetBulletData(nextBulletId);
+        if (string.IsNullOrEmpty(nextBulletId)) { return; }
+            var nextBulletData = DataManager.Inst.GetBulletData(nextBulletId);
         if (CheckUpgradeAvailable(nextBulletData,bulletUpgradeTableData)) 
         {
             UpgradePlayerBullet(bulletUpgradeTableData);
             Player.Inst._bulletId = nextBulletId;
+            OnBulletUpgrade?.Invoke();
         }
     }
     public bool CheckUpgradeAvailable(BulletData nextBulletData, BulletUpgradeTableData bulletUpgradeTableData)
@@ -216,5 +222,16 @@ public class GameManager : MonoBehaviour
                 _inventoryDic.Remove(itemId);
             }
         }
+    }
+    public void GetInven() 
+    {
+        _inventoryDic.Add("item_cactuslime_needle_01",99);
+        _inventoryDic.Add("item_cowbombie_badge_01",99);
+        _inventoryDic.Add("item_maxikeleton_guitar_01",99);
+        _inventoryDic.Add("item_deserteagle_diamond_01",99);
+    }
+    public void GetLoading() 
+    {
+        UIManager.Inst.OpenLoadingUI();
     }
 }

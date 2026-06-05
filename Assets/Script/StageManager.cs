@@ -28,7 +28,7 @@ public class StageManager : MonoBehaviour
     //public Action<int> OnMaxHpChanged;
     private bool _isStageOnGoing = false;
     public bool _isClear;
-    public float MaxStageTime { get; set; } = 300f;
+    public float MaxStageTime { get; set; } = 180f;
     public float StageTimer { get; private set; } = 0f;
     
     private void Awake()
@@ -50,7 +50,6 @@ public class StageManager : MonoBehaviour
 
         if (StageTimer >= MaxStageTime) 
         {
-            _isStageOnGoing = false;
             GameManager.Inst.FinishStage(true);
         }
     }
@@ -82,6 +81,10 @@ public class StageManager : MonoBehaviour
         {
             OnSkillUse?.Invoke();
         }
+    }
+    public void SpawnEffect(Vector3 spawnPosition) 
+    {
+        _bombSpawner.SpawnBombEffect(spawnPosition);
     }
     public void StageFinish()
     {

@@ -15,6 +15,11 @@ MonoBehaviour:
   m_GroupName: Default Local Group
   m_GUID: 70cb55b86e433cc418ed466881c03cc2
   m_SerializeEntries:
+  - m_GUID: 0a9e9bc8de5c18e4285cd2263b926f15
+    m_Address: Prefab/Bullet_Plasma
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 0e0b56da81b80fd4894740d7296a8cb6
     m_Address: Prefab/UI/EarnItemSlot1
     m_ReadOnly: 0
@@ -70,6 +75,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6abe3f8aa73001a41832f4d5ebcc4459
+    m_Address: Prefab/BombEffect
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 752ce885eb9684f49a94ef3b4a6a3a81
     m_Address: Prefab/Monster_3
     m_ReadOnly: 0
@@ -92,6 +102,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a155f8baafa606c4b936984566c5fede
     m_Address: Monster/Skeleton
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a525467ca0a7f794eb32d18439913f80
+    m_Address: Prefab/Bullet_Iron
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

@@ -637,7 +637,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Stage 3
+  m_Text: Coming Soon
 --- !u!1 &3553525101277383451
 GameObject:
   m_ObjectHideFlags: 0
@@ -691,7 +691,6 @@ MonoBehaviour:
   _slotList:
   - {fileID: 1300329675444990442}
   - {fileID: 6534756793127456940}
-  - {fileID: 2515826895006511904}
   Button_Enter: {fileID: 2034015966879066653}
   Button_Exit: {fileID: 3698338877009933659}
 --- !u!1 &3572622014171159730
@@ -1135,7 +1134,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.2735849, g: 0.26713243, b: 0.26713243, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

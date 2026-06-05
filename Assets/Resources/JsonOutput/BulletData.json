@@ -20,21 +20,21 @@
     "DestroyTime": 6,
     "Damage": 65,
     "FireSpeed": 7,
-    "PrefabPath": null,
+    "PrefabPath": "Prefab/Bullet_Iron",
     "IconPath": "bullet/bullet[bullets_13]",
     "UpgradeIngredientTableId": "upgrade_ironbullet_01",
-    "NextBulletId": "bullet_goldenbullet_01"
+    "NextBulletId": "bullet_plasmabullet_01"
   },
   {
-    "Id": "bullet_goldenbullet_01",
-    "Name": "황금 총알",
-    "Description": "황금으로 만든 매우 강한 총알이다.",
+    "Id": "bullet_plasmabullet_01",
+    "Name": "플라즈마 총알",
+    "Description": "플라즈마로 만들어진 매우 강한 총알이다.",
     "MoveSpeed": 14,
     "DestroyTime": 6,
     "Damage": 80,
     "FireSpeed": 10,
-    "PrefabPath": null,
-    "IconPath": "bullet/bullet[bullets_0]",
+    "PrefabPath": "Prefab/Bullet_Plasma",
+    "IconPath": "bullet/bullet[bullets_2]",
     "UpgradeIngredientTableId": null,
     "NextBulletId": null
   }

@@ -9,6 +9,8 @@ public class UpgradeShopUI : UIBase
     [SerializeField] LevelUpRewardSlot _upgradeBulletSlot;
     [SerializeField] Text Text_Gold;
     [SerializeField] Text Text_NeedGold;
+    [SerializeField] UIButtonBase Button_Upgrade;
+    [SerializeField] UIButtonBase Button_Exit;
     [SerializeField] GameObject _ingredientSlotPrefab;
     [SerializeField] GameObject _InvenitemSlotPrefab;
     [SerializeField] private Transform _ingredientLayoutGroupParent;
@@ -22,30 +24,41 @@ public class UpgradeShopUI : UIBase
     {
         if (Player.Inst != null)
         {
-            _playerBulletId = Player.Inst._bulletId;
-            _currentBulletData = DataManager.Inst.GetBulletData(_playerBulletId);
-            _currentUpgradeTableData = DataManager.Inst.GetBulletUpgradeTableData(_currentBulletData.UpgradeIngredientTableId);
+            Button_Upgrade.BindOnClickButtonEvent(OnClick_UpgradeButton);
+            Button_Exit.BindOnClickButtonEvent(OnClick_ExitButton);
 
-            Text_NeedGold.text = _currentUpgradeTableData.CoinMount.ToString();
-            DrawUpgradeIngredientSlot(_currentUpgradeTableData, _ingredientLayoutGroupParent);            
-            DrawPlayerInventory(GameManager.Inst._inventoryDic, _playerInvenLayoutGroupParent);
-            SetPlayerBulletSlot();
-            SetUpgradeBulletSlot();
+            RefreshUI();
+            GameManager.Inst.OnBulletUpgrade += RefreshUI;
+        }
+    }
+    private void OnDisable()
+    {
+        if (GameManager.Inst != null)
+        {
+            GameManager.Inst.OnBulletUpgrade -= RefreshUI;
         }
     }
     public void DrawUpgradeIngredientSlot(BulletUpgradeTableData data, Transform layoutParent) 
     {
-        if (data.ItemId1 != null) 
+        foreach (Transform child in layoutParent)
         {
-            CreateAndSetupUpgradeIngredientSlot(data.ItemId1, data.Item1Amount, layoutParent);
+            Destroy(child.gameObject);
         }
-        if (data.ItemId2 != null)
+        if (data != null)
         {
-            CreateAndSetupUpgradeIngredientSlot(data.ItemId2, data.Item2Amount, layoutParent);
-        }
-        if (data.ItemId3 != null)
-        {
-            CreateAndSetupUpgradeIngredientSlot(data.ItemId3, data.Item3Amount, layoutParent);
+            Text_NeedGold.text = data.CoinMount.ToString();
+            if (data.ItemId1 != null)
+            {
+                CreateAndSetupUpgradeIngredientSlot(data.ItemId1, data.Item1Amount, layoutParent);
+            }
+            if (data.ItemId2 != null)
+            {
+                CreateAndSetupUpgradeIngredientSlot(data.ItemId2, data.Item2Amount, layoutParent);
+            }
+            if (data.ItemId3 != null)
+            {
+                CreateAndSetupUpgradeIngredientSlot(data.ItemId3, data.Item3Amount, layoutParent);
+            }
         }
     }
     private void CreateAndSetupUpgradeIngredientSlot(string itemId, int count, Transform layoutParent) 
@@ -104,7 +117,7 @@ public class UpgradeShopUI : UIBase
         GameObject newSlot = Instantiate(_InvenitemSlotPrefab, layoutParent);
         newSlot.SetActive(true);
 
-        UIButtonBase targetSlot = newSlot.GetComponent<UIButtonBase>();////////////////
+        UIButtonBase targetSlot = newSlot.GetComponent<UIButtonBase>();
        
         ResourceManager.Inst.LoadSprite(itemData.IconPath, (loadedSprite) =>
         {
@@ -128,7 +141,7 @@ public class UpgradeShopUI : UIBase
     public void SetPlayerBulletSlot() 
     {
         _playerBulletSlot.ChangeNameText(_currentBulletData.Name);
-        _playerBulletSlot.ChangeDescriptionText(_currentBulletData.Description);
+        _playerBulletSlot.ChangeDescriptionText($"공격력 : {_currentBulletData.Damage}\n총알 속도 : {_currentBulletData.MoveSpeed}\n발사속도 : {_currentBulletData.FireSpeed}");
         ResourceManager.Inst.LoadSprite(_currentBulletData.IconPath, (loadedSprite) =>
         {
             if (_playerBulletSlot == null || _playerBulletSlot.gameObject == null)
@@ -145,20 +158,50 @@ public class UpgradeShopUI : UIBase
     public void SetUpgradeBulletSlot() 
     {
        string nextBulletId = _currentBulletData.NextBulletId;
-        var nextBulletData = DataManager.Inst.GetBulletData(nextBulletId);
-        _upgradeBulletSlot.ChangeNameText(nextBulletData.Name);
-        _upgradeBulletSlot.ChangeDescriptionText(nextBulletData.Description);
-        ResourceManager.Inst.LoadSprite(nextBulletData.IconPath, (loadedSprite) =>
+        if (!(string.IsNullOrEmpty(nextBulletId)))
         {
-            if (_upgradeBulletSlot == null || _upgradeBulletSlot.gameObject == null)
+            var nextBulletData = DataManager.Inst.GetBulletData(nextBulletId);
+            _upgradeBulletSlot.ChangeNameText(nextBulletData.Name);
+            _upgradeBulletSlot.ChangeDescriptionText($"공격력 : {nextBulletData.Damage}\n총알 속도 : {nextBulletData.MoveSpeed}\n발사속도 : {nextBulletData.FireSpeed}");
+            ResourceManager.Inst.LoadSprite(nextBulletData.IconPath, (loadedSprite) =>
             {
-                return;
-            }
-            if (_upgradeBulletSlot.Image_Base == null) return;
-            if (loadedSprite != null)
-            {
-                _upgradeBulletSlot.Image_Base.sprite = loadedSprite;
-            }
-        });
+                if (_upgradeBulletSlot == null || _upgradeBulletSlot.gameObject == null)
+                {
+                    return;
+                }
+                if (_upgradeBulletSlot.Image_Base == null) return;
+                if (loadedSprite != null)
+                {
+                    _upgradeBulletSlot.Image_Base.sprite = loadedSprite;
+                }
+            });
+        }
+        else 
+        {
+            _upgradeBulletSlot.ChangeDescriptionText("더 이상 강화할 수 없습니다.");
+        }
+    }
+    public void RefreshUI() 
+    {
+        if (Player.Inst != null)
+        {
+            _playerBulletId = Player.Inst._bulletId;
+            _currentBulletData = DataManager.Inst.GetBulletData(_playerBulletId);
+            _currentUpgradeTableData = DataManager.Inst.GetBulletUpgradeTableData(_currentBulletData.UpgradeIngredientTableId);
+
+            DrawUpgradeIngredientSlot(_currentUpgradeTableData, _ingredientLayoutGroupParent);
+            SetUpgradeBulletSlot();
+
+            DrawPlayerInventory(GameManager.Inst._inventoryDic, _playerInvenLayoutGroupParent);
+            SetPlayerBulletSlot();
+        }
+    }
+    public void OnClick_UpgradeButton() 
+    {
+        GameManager.Inst.UpgradeBullet();
+    }
+    public void OnClick_ExitButton() 
+    {
+        UIManager.Inst.CloseUpgradeShopUI();
     }
 }

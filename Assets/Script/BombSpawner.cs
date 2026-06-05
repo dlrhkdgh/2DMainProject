@@ -8,15 +8,19 @@ public class BombSpawner : MonoBehaviour
 {
     [SerializeField] private int _poolSize = 10;
 
+    string _bombEffectAddressKey = "Prefab/BombEffect";
     private BombData _bombData;
     private string _bombAddressKey;
     private string _bombId = "bomb_normal_01";
     private float _lastSpawnTime = -99f;
-    private float _coolTime = 5f;
-    private bool _isOnCoolTime = false;
+    private float _coolTime = 5.0f;
+    //private bool _isOnCoolTime = false;
 
     private List<BombBase> _bombPool = new List<BombBase>();
+    private List<BombEffect> _bombEffectPool = new List<BombEffect>();
     private int _currentPivot = 0;
+    private int _currentPivot2 = 0;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
     {
@@ -33,6 +37,13 @@ public class BombSpawner : MonoBehaviour
             if (bomb != null && bomb.gameObject.activeSelf)
             {
                 bomb.gameObject.SetActive(false);
+            }
+        }
+        foreach (var effect in _bombEffectPool)
+        {
+            if (effect != null && effect.gameObject.activeSelf)
+            {
+                effect.gameObject.SetActive(false);
             }
         }
     }
@@ -88,11 +99,57 @@ public class BombSpawner : MonoBehaviour
             return false;
         }
     }
+    private async UniTaskVoid AsyncBombEffectPool()
+    {
+        if (_bombEffectPool.Count == 0)
+        {
+            for (int i = 0; i < _poolSize; i++)
+            {
+                GameObject bombEffectResource = await ResourceManager.Inst.InstantiateAsync(_bombEffectAddressKey, transform);//리소스매니저에게 어드레서블을 주고 오브젝트를 받아옴
+
+                if (bombEffectResource != null)
+                {
+                    BombEffect effect = bombEffectResource.GetComponent<BombEffect>();
+                    effect.gameObject.SetActive(false);
+                    _bombEffectPool.Add(effect);
+                }
+            }
+        }
+    }
+    public void SpawnBombEffect(Vector3 spawnPosition)
+    {
+        if (_bombEffectPool.Count == 0) return ;
+
+        BombEffect effectToSpawn = null;
+
+        for (int i = 0; i < _bombEffectPool.Count; i++)
+        {
+            int checkIndex = (_currentPivot2 + i) % _bombEffectPool.Count;
+            if (!_bombEffectPool[checkIndex].gameObject.activeSelf)
+            {
+                effectToSpawn = _bombEffectPool[checkIndex];
+                _currentPivot2 = (checkIndex + 1) % _bombEffectPool.Count;
+                break;
+            }
+        }
+        if (effectToSpawn != null)
+        {
+            effectToSpawn.transform.position = spawnPosition;
+            effectToSpawn.gameObject.SetActive(true);
+            return;
+        }
+        else
+        {
+            Debug.LogWarning("폭탄이펙트 풀이 가득 찼습니다!");
+            return;
+        }
+    }
     public void InitBombSpawner()
     {
         _bombData = DataManager.Inst.GetBombData(_bombId);
         _bombAddressKey = _bombData.PrefabPath;
         AsyncBombPool().Forget();
+        AsyncBombEffectPool().Forget();
     }
     public void ClearAndReleaseSpawner()
     {
@@ -106,5 +163,15 @@ public class BombSpawner : MonoBehaviour
         }
         _bombPool.Clear();
         _currentPivot = 0;
+        for (int i = 0; i < _bombEffectPool.Count; i++)
+        {
+
+            if (_bombEffectPool[i] != null)
+            {
+                Addressables.ReleaseInstance(_bombEffectPool[i].gameObject);
+            }
+        }
+        _bombEffectPool.Clear();
+        _currentPivot2 = 0;
     }
 }

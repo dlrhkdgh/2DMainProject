@@ -20,6 +20,8 @@ public enum UIType
     ResultUI,
     LevelUpRewardUI,
     ShopUI,
+    UpgradeShopUI,
+    LoadingUI,
     EarnItemPopUp,
     TownInventoryPopUp,
     ExitGamePopUp,
@@ -30,6 +32,7 @@ public class UIManager : MonoBehaviour
 {
     [SerializeField] private Transform uiCanvasTransform;
     [SerializeField] private Transform popUpUiCanvasTransform;
+    [SerializeField] private Transform VeryFrontUiCanvasTransform;
     private Dictionary<UIType, UIBase> _createdUIDic = new Dictionary<UIType, UIBase>();
     public static UIManager Inst { get; private set; }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -142,7 +145,7 @@ public class UIManager : MonoBehaviour
         }
 
     }
-    public void CreatUI(UITypeRoot uiTypRoot, UIType uiType)
+    public void CreatUI(UITypeRoot uiTypeRoot, UIType uiType)
     {
 
         if (_createdUIDic.ContainsKey(uiType) == false)
@@ -155,9 +158,9 @@ public class UIManager : MonoBehaviour
                 Debug.LogError($"[UI 로드 실패] Resources/{path} 경로에 프리팹이 존재하지 않습니다.");
                 return;
             }
+            Transform root = GetRootTransform(uiTypeRoot);
 
-
-            newUIObj = Instantiate(loadedObj, popUpUiCanvasTransform);
+            newUIObj = Instantiate(loadedObj, root);
             if (newUIObj != null)
             {
                 var uiBase = newUIObj.GetComponent<UIBase>();
@@ -174,6 +177,23 @@ public class UIManager : MonoBehaviour
             }
         }
 
+    }
+    private Transform GetRootTransform(UITypeRoot uiTypeRoot)
+    {
+        Transform root = null;
+        switch (uiTypeRoot)
+        {
+            case UITypeRoot.MainUI:
+                root = uiCanvasTransform.transform;
+                break;
+            case UITypeRoot.PopupUI:
+                root = popUpUiCanvasTransform.transform;
+                break;
+            case UITypeRoot.VeryFrontUI:
+                root = VeryFrontUiCanvasTransform.transform;
+                break;
+        }
+        return root;
     }
     public T GetUI<T>(UIType uiType) where T : UIBase
     {
@@ -267,5 +287,21 @@ public class UIManager : MonoBehaviour
     public void CloseShopItemDescriptionPopUp()
     {
         CloseCreatedUI(UIType.ShopItemDescriptionPopUp);
+    }
+    public void OpenUpgradeShopUI()
+    {
+        OpenCreatedUI(UIType.UpgradeShopUI);
+    }
+    public void CloseUpgradeShopUI()
+    {
+        CloseCreatedUI(UIType.UpgradeShopUI);
+    }
+    public void OpenLoadingUI()
+    {
+        OpenCreatedUI(UITypeRoot.VeryFrontUI, UIType.LoadingUI);
+    }
+    public void CloseLoadingUI()
+    {
+        CloseCreatedUI(UIType.LoadingUI);
     }
 }

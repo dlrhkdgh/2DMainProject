@@ -202,7 +202,7 @@ public class Player : MonoBehaviour
 
     private async UniTaskVoid AutoFireBulletAsync(CancellationToken token)
     {
-
+        FireBulletPerSec = DataManager.Inst.GetBulletData(_bulletId).FireSpeed;
         //int delayMilliseconds = Mathf.RoundToInt((1f / (float)FireBulletPerSec) * 1000f);
         try
         {

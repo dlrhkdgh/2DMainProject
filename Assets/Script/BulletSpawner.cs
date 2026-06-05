@@ -10,7 +10,6 @@ public class BulletSpawner : MonoBehaviour
     
     private BulletData _bulletData;
     private string _bulletAddressKey;
-    private string _bulletId = "bullet_normalbullet_01";
 
     private List<Bullet> _bulletPool = new List<Bullet>();
     private int _currentPivot = 0;
@@ -99,7 +98,7 @@ public class BulletSpawner : MonoBehaviour
         }
     }
     public void InitBulletSpawner() {
-        _bulletData = DataManager.Inst.GetBulletData(_bulletId);
+        _bulletData = DataManager.Inst.GetBulletData(Player.Inst._bulletId);
         _bulletAddressKey = _bulletData.PrefabPath;
         AsyncBulletPool().Forget();
     }
