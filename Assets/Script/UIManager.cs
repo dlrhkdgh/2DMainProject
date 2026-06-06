@@ -22,6 +22,7 @@ public enum UIType
     ShopUI,
     UpgradeShopUI,
     LoadingUI,
+    WantedBoardUI,
     EarnItemPopUp,
     TownInventoryPopUp,
     ExitGamePopUp,
@@ -303,5 +304,14 @@ public class UIManager : MonoBehaviour
     public void CloseLoadingUI()
     {
         CloseCreatedUI(UIType.LoadingUI);
+    }
+    
+    public void OpenWantedBoardUI()
+    {
+        OpenCreatedUI(UIType.WantedBoardUI);
+    }
+    public void CloseWantedBoardUI()
+    {
+        CloseCreatedUI(UIType.WantedBoardUI);
     }
 }

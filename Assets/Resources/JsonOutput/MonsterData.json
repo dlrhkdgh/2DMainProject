@@ -8,6 +8,7 @@
     "MoveSpeed": 3,
     "PrefabPath": "Prefab/Monster",
     "IconPath": "Monster/Cactus[Catus3_0]",
+    "SilhouetteIconPath": "Sprite/Silhouette[Silhouette_3]",
     "DropTableId": "droptable_cactuslime_01",
     "MonsterExp": 30
   },
@@ -20,6 +21,7 @@
     "MoveSpeed": 2,
     "PrefabPath": "Prefab/Monster_2",
     "IconPath": "Monster/Cowbot[cowbombie_0]",
+    "SilhouetteIconPath": "Sprite/Silhouette[Silhouette_2]",
     "DropTableId": "droptable_cowbombie_01",
     "MonsterExp": 50
   },
@@ -32,6 +34,7 @@
     "MoveSpeed": 3,
     "PrefabPath": "Prefab/Monster_3",
     "IconPath": "Monster/Skeleton[skeleton_0]",
+    "SilhouetteIconPath": "Sprite/Silhouette[Silhouette_0]",
     "DropTableId": "droptable_maxikeleton_01",
     "MonsterExp": 60
   },
@@ -44,6 +47,7 @@
     "MoveSpeed": 5,
     "PrefabPath": "Prefab/Monster_4",
     "IconPath": "Monster/Eagle[eagle_0]",
+    "SilhouetteIconPath": "Sprite/Silhouette[Silhouette_1]",
     "DropTableId": "droptable_deserteagle_01",
     "MonsterExp": 70
   }

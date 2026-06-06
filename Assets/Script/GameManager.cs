@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Inst { get; private set; }
     public int Gold { get; set; } = 5000;
     public Dictionary<string, int> _inventoryDic = new Dictionary<string, int>();
+    public List<string> _monsterDic = new List<string>();
     public Action<Dictionary<string, int>, Transform> OnItemSell;
     public Action<Dictionary<string, ShopItemData>, Transform> OnItemBuy;
     public Action OnBulletUpgrade;

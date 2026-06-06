@@ -51,6 +51,7 @@ public class MonsterData : GameDataBase
     public float MoveSpeed;
     public string PrefabPath;
     public string IconPath;
+    public string SilhouetteIconPath;
     public string DropTableId;
     public int MonsterExp;
 }

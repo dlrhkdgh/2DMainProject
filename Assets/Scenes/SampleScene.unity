@@ -43603,6 +43603,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   _townprefab: {fileID: 4579215309090238455, guid: 613a8d67413016f40a4f3ba4c2120035, type: 3}
+  _monsterDic: []
   _playerSkillId: bomb_normal_01
 --- !u!1 &1375718433
 GameObject:

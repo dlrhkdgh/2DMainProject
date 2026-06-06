@@ -152,7 +152,10 @@ public class Monster : MonoBehaviour
         }
         // 애니메이션 시간만큼 대기
         yield return new WaitForSeconds(animLength);
-        
+        if (!(GameManager.Inst._monsterDic.Contains(_defaultData.Id))) 
+        {
+            GameManager.Inst._monsterDic.Add(_defaultData.Id);
+        }
         gameObject.SetActive(false);
     }
     
