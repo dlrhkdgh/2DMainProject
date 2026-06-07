@@ -42,5 +42,16 @@
     "Item2DropPercent": 1,
     "DropItemId3": null,
     "Item3DropPercent": null
+  },
+  {
+    "Id": "droptable_boss_01",
+    "CoinMinAMount": 100,
+    "CoinMaxAMount": 1000,
+    "DropItemId1": "item_boss_branch_01",
+    "Item1DropPercent": 100,
+    "DropItemId2": "item_boss_essence_01",
+    "Item2DropPercent": 50,
+    "DropItemId3": null,
+    "Item3DropPercent": null
   }
 ]

@@ -20,6 +20,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0b74cae9049a9af4c8e5bd06b4cf6e6f
+    m_Address: item/bossdrop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 0e0b56da81b80fd4894740d7296a8cb6
     m_Address: Prefab/UI/EarnItemSlot1
     m_ReadOnly: 0
@@ -27,6 +32,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 1002086e2bfc9b74db86733363cd4dcb
     m_Address: Reward/Icon3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 104534f46ce5e3845a42b29439cbd135
+    m_Address: Sprite/bosssilhouette
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -52,6 +62,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 2e3ad6c177dadc8428817976cea89c1e
     m_Address: Prefab/Coin
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3ad282079e5127a4d97866288820716d
+    m_Address: Prefab/Bullet_Boss
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -105,8 +120,18 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9c3f4d463eeed6043b60014f000ecd7e
+    m_Address: Prefab/Monster_Boss
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a155f8baafa606c4b936984566c5fede
     m_Address: Monster/Skeleton
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a25bb5b6c1fb9fc43b0a3d2b7b9fb12e
+    m_Address: Sprite/boss
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

@@ -196,7 +196,7 @@ public class Monster : MonoBehaviour
         {
             CurrentHp = Mathf.RoundToInt(CurrentHp * 5.0f);       
             MoveSpeed = _defaultData.MoveSpeed * speedMultiplier * 1.2f;
-            transform.localScale = new Vector3(3.5f, 3.5f, 1f);
+            transform.localScale = new Vector3(2f, 2f, 1f);
             _sprite.color = Color.red;   
         }
         else

@@ -26,7 +26,7 @@
   {
     "Id": "item_potion_02",
     "Name": "자석 포션",
-    "Description": "주변 아이템을 끌어당기는 물약",
+    "Description": "주변 아이템을 끌어당기는 물약.",
     "EItemType": "4",
     "MaxStackCount": 99,
     "SellingPrice": 10,
@@ -38,7 +38,7 @@
   {
     "Id": "item_potion_03",
     "Name": "공속 포션",
-    "Description": "순간적으로 공격속도를 올리는 포션",
+    "Description": "순간적으로 공격속도를 올리는 물약.",
     "EItemType": "5",
     "MaxStackCount": 99,
     "SellingPrice": 10,
@@ -140,6 +140,42 @@
     "SellingPrice": 50,
     "PrefabPath": null,
     "IconPath": "Item/eagle[eagledropp_2]",
+    "Grade": null,
+    "IsUseable": false
+  },
+  {
+    "Id": "item_boss_branch_01",
+    "Name": "나뭇가지",
+    "Description": "잘 부러진다.",
+    "EItemType": "1",
+    "MaxStackCount": 999,
+    "SellingPrice": 20,
+    "PrefabPath": null,
+    "IconPath": "item/bossdrop[bossdrop__0]",
+    "Grade": null,
+    "IsUseable": false
+  },
+  {
+    "Id": "item_boss_essence_01",
+    "Name": "정수",
+    "Description": "이상한 기운이 감돈다.",
+    "EItemType": "1",
+    "MaxStackCount": 999,
+    "SellingPrice": 300,
+    "PrefabPath": null,
+    "IconPath": "item/bossdrop[bossdrop__1]",
+    "Grade": null,
+    "IsUseable": false
+  },
+  {
+    "Id": "item_coin_02",
+    "Name": "동전주머니",
+    "Description": "큰 돈이다.",
+    "EItemType": "2",
+    "MaxStackCount": 9999999,
+    "SellingPrice": 1000,
+    "PrefabPath": null,
+    "IconPath": "Item/Coin[cion-_8]",
     "Grade": null,
     "IsUseable": false
   }

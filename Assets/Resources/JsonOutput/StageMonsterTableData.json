@@ -10,5 +10,11 @@
     "MonsterId1": "monster_maxikeleton_01",
     "MonsterId2": "monster_deserteagle_01",
     "MonsterId3": null
+  },
+  {
+    "Id": "spawn_monster_stage_3",
+    "MonsterId1": "monster_cowbombie_01",
+    "MonsterId2": "monster_deserteagle_01",
+    "MonsterId3": null
   }
 ]

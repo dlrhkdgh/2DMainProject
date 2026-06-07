@@ -28,6 +28,7 @@ public enum UIType
     ExitGamePopUp,
     YesOrNoPopUp,
     ShopItemDescriptionPopUp,
+    ExitPopUp,
 }
 public class UIManager : MonoBehaviour
 {
@@ -313,5 +314,13 @@ public class UIManager : MonoBehaviour
     public void CloseWantedBoardUI()
     {
         CloseCreatedUI(UIType.WantedBoardUI);
+    }
+    public void OpenExitPopUp()
+    {
+        OpenCreatedUI(UITypeRoot.PopupUI, UIType.ExitPopUp);
+    }
+    public void CloseExitPopUp()
+    {
+        CloseCreatedUI(UIType.ExitPopUp);
     }
 }

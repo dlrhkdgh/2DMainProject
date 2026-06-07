@@ -50,5 +50,18 @@
     "SilhouetteIconPath": "Sprite/Silhouette[Silhouette_1]",
     "DropTableId": "droptable_deserteagle_01",
     "MonsterExp": 70
+  },
+  {
+    "Id": "monster_boss_01",
+    "Name": "텀부리",
+    "Description": "살아움직이는 회전초",
+    "MaxHp": 10000,
+    "AttackDamage": 50,
+    "MoveSpeed": 0,
+    "PrefabPath": "Prefab/Monster_Boss",
+    "IconPath": "Sprite/boss[boss_0]",
+    "SilhouetteIconPath": "Sprite/bosssilhouette[bosssilhouette_1]",
+    "DropTableId": "droptable_boss_01",
+    "MonsterExp": 1000
   }
 ]

@@ -67,12 +67,11 @@ public class MonsterSpawner : MonoBehaviour
                 }
             }
         }
-        _isSpawning = true;
-        AutoSpawnMonsterAsync(_spawnCts.Token).Forget();
+       
     }
     private async UniTaskVoid AutoSpawnMonsterAsync(CancellationToken token)
     {
-
+        _isSpawning = true;
         try
         {
             while (true)
@@ -124,7 +123,7 @@ public class MonsterSpawner : MonoBehaviour
             float hpMultiplier = 1.0f + (passedMinutes * _hpGrowthScale);
             float speedMultiplier = 1.0f + (passedMinutes * _speedGrowthScale);
 
-            float currentEliteChance = 0.03f + (passedMinutes * 0.02f);
+            float currentEliteChance = 0.02f + (passedMinutes * 0.01f);
             bool isElite = Random.value < currentEliteChance;
 
             monsterToSpawn.InitMonster(_monsterdata, hpMultiplier, speedMultiplier, isElite);
@@ -173,8 +172,17 @@ public class MonsterSpawner : MonoBehaviour
         Debug.Log($"<color=green>[성공] 패스 받아옴 성공: {_monsterAddressKey}</color>");
         CleanUpCts();
         _spawnCts = new CancellationTokenSource();
-        AsyncMonsterPool().Forget();
+       
 
+    }
+    public void StartSpawn() 
+    {
+        AsyncMonsterPool().Forget();
+        AutoSpawnMonsterAsync(_spawnCts.Token).Forget();
+    }
+    public void OnlySetSpawn()
+    {
+        AsyncMonsterPool().Forget();
     }
     public void ClearAndReleaseSpawner()
     {
@@ -190,5 +198,24 @@ public class MonsterSpawner : MonoBehaviour
         _monsterPool.Clear();
         _currentPivot = 0;
         _isSpawning = false;
+    }
+    public void ResumeSpawn()
+    {
+        if (_isSpawning) return; // 이미 돌고 있다면 무시
+
+        _isSpawning = true;
+
+        // 토큰 소스 안전하게 초기화 후 다시 루프 가동
+        CleanUpCts();
+        _spawnCts = new CancellationTokenSource();
+
+        AutoSpawnMonsterAsync(_spawnCts.Token).Forget();
+        Debug.Log($" [{gameObject.name}] 몬스터 스폰이 재개되었습니다.");
+    }
+    public void StopSpawn()
+    {
+        _isSpawning = false;
+        CleanUpCts(); // 루프를 도는 UniTask.Delay 토큰을 취소하여 즉시 스폰을 멈춥니다.
+        Debug.Log($" [{gameObject.name}] 몬스터 스폰이 일시 중지되었습니다.");
     }
 }

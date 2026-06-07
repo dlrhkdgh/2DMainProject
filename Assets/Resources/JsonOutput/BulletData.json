@@ -37,5 +37,18 @@
     "IconPath": "bullet/bullet[bullets_2]",
     "UpgradeIngredientTableId": null,
     "NextBulletId": null
+  },
+  {
+    "Id": "bullet_boss_01",
+    "Name": "보스 총알",
+    "Description": "보스용",
+    "MoveSpeed": 10,
+    "DestroyTime": 5,
+    "Damage": 30,
+    "FireSpeed": 10,
+    "PrefabPath": "Prefab/Bullet_Boss",
+    "IconPath": "bullet/bullet[bullets_21]",
+    "UpgradeIngredientTableId": null,
+    "NextBulletId": null
   }
 ]

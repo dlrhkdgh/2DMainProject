@@ -6,7 +6,7 @@ using UnityEngine.AddressableAssets;
 public class BulletSpawner : MonoBehaviour
 {
     //public static BulletManager Inst { get; private set; }
-    [SerializeField] private int _poolSize = 100;
+    [SerializeField] private int _poolSize = 300;
     
     private BulletData _bulletData;
     private string _bulletAddressKey;
@@ -99,6 +99,12 @@ public class BulletSpawner : MonoBehaviour
     }
     public void InitBulletSpawner() {
         _bulletData = DataManager.Inst.GetBulletData(Player.Inst._bulletId);
+        _bulletAddressKey = _bulletData.PrefabPath;
+        AsyncBulletPool().Forget();
+    }
+    public void InitBulletSpawner(bool isBoss)
+    {
+        _bulletData = DataManager.Inst.GetBulletData("bullet_boss_01");
         _bulletAddressKey = _bulletData.PrefabPath;
         AsyncBulletPool().Forget();
     }

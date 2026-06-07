@@ -50440,6 +50440,7 @@ MonoBehaviour:
   _finalRewardList: []
   _maxExp: 300
   _isClear: 0
+  _currentStageNum: 0
 --- !u!4 &1457841520
 Transform:
   m_ObjectHideFlags: 0
